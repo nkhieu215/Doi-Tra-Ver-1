@@ -259,6 +259,12 @@ public class FullServices {
     //☺ lấy danh sách tất cả các đơn bảo hành ở trạng thái chờ phân tích , đang phân tích
     public List<DonBaoHanh> getDonBaoHanhByTrangThai() {
         List<DonBaoHanh> donBaoHanhList = this.donBaoHanhRepository.getDonBaoHanhByTrangThais();
+        for (DonBaoHanh donBaoHanh : donBaoHanhList) {
+            Integer slPhanTich = 0;
+            List<Long> list = this.chiTietSanPhamTiepNhanRepository.getListOfId(donBaoHanh.getId());
+            slPhanTich = this.phanLoaiChiTietTiepNhanRepository.getSum(list.get(0), list.get(list.size() - 1));
+            donBaoHanh.setSlPhanTich(slPhanTich);
+        }
         return donBaoHanhList;
     }
 
@@ -395,10 +401,52 @@ public class FullServices {
         return list;
     }
 
+    public List<DonBaoHanhResponse> ExportListDonBaoHanh(DateTimeSearchDTO request) {
+        List<DonBaoHanhResponse> donBaoHanhResponses =
+            this.donBaoHanhRepository.ExportListDonBaoHanh(request.getStartDate() + "T00:00:00", request.getEndDate() + "T23:59:59");
+        return donBaoHanhResponses;
+    }
+
+    // ExportListChiTietDonBaoHanh
+    public List<SanPhamResponse> ExportListChiTietDonBaoHanh(DateTimeSearchDTO request) {
+        List<SanPhamResponse> sanPhamResponses =
+            this.donBaoHanhRepository.ExportListChiTietDonBaoHanh(request.getStartDate() + "T00:00:00", request.getEndDate() + "T23:59:59");
+        return sanPhamResponses;
+    }
+
+    //ExportPhanLoaiChiTietDonBaoHanh
+    public List<PhanLoaiChiTietDonBaoHanhResponse> ExportPhanLoaiChiTietDonBaoHanh(DateTimeSearchDTO request) {
+        List<PhanLoaiChiTietDonBaoHanhResponse> phanLoaiChiTietDonBaoHanhResponses =
+            this.phanLoaiChiTietTiepNhanRepository.ExportPhanLoaiChiTietDonBaoHanh(
+                    request.getStartDate() + "T00:00:00",
+                    request.getEndDate() + "T23:59:59"
+                );
+        return phanLoaiChiTietDonBaoHanhResponses;
+    }
+
     // * --------------------- San pham -----------------
     //☺ lay danh sach san pham
     public List<SanPhamResponse> getListSanPham() {
         List<SanPhamResponse> list = this.sanPhamRepository.getListSanPham();
         return list;
+    }
+
+    //Tinh toan tong loi linh dong loi ky thuat
+    public Response caculateErrors(Long id) {
+        Response response = new Response(0, 0);
+        Integer loiKyThuat = 0;
+        Integer loiLinhDong = 0;
+        List<PhanTichSanPham> phanTichSanPhamList = this.phanTichSanPhamRepository.findAllByPhanLoaiChiTietTiepNhanId(id);
+        for (PhanTichSanPham phanTichSanPham : phanTichSanPhamList) {
+            PhanTichLoi phanTichLoi = this.phanTichLoiRepository.findByPhanTichSanPhamId(phanTichSanPham.getId());
+            if (phanTichLoi.getGhiChu().equals("Lỗi kỹ thuật")) {
+                loiKyThuat++;
+            } else if (phanTichLoi.getGhiChu().equals("Lỗi linh động")) {
+                loiLinhDong++;
+            }
+        }
+        response.setLoiKyThuat(loiKyThuat);
+        response.setLoiLinhDong(loiLinhDong);
+        return response;
     }
 }

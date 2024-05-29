@@ -2,19 +2,24 @@ package com.mycompany.myapp.domain;
 
 public interface DonBaoHanhResponse {
     Long getId();
-    String getMaTiepNhan();
-    String getNgayTiepNhan();
-    String getTrangThai();
-    String getNhanVienGiaoHang();
+    String getMaTiepNhan(); // ****
+    String getNgayTiepNhan(); // ****
+    String getTrangThai(); // ****
+    String getNhanVienGiaoHang(); // ****
     String getNgaykhkb();
-    String getNguoiTaoDon();
+    String getNguoiTaoDon(); // ****
     Integer getSlTiepNhan();
     Integer getSlDaPhanTich();
     String getGhiChu();
-    String getNgayTraBienBan();
-    String getTenKhachHang();
+    String getNgayTraBienBan(); // ****
+    String getTenKhachHang(); // ****
     Integer getSlDaPhanLoai();
     Integer getSlSanPham();
     Integer getTienDo();
     String getDiaChi();
+    String getMaKhachHang(); // ****
+    String getNhomKhachHang(); // ****
+    String getTinhThanh(); // ****
+    String getNgayTaoDon(); // ****
+    String getTongTiepNhan(); // ****
 }

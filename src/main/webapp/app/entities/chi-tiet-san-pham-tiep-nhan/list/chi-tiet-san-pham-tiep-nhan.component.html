@@ -7,15 +7,33 @@
     <form id="dateForm">
       <div style="width: 20rem" class="search-inp">
         <label class="form-label">Ngày bắt đầu</label>
-        <input class="form-control" type="date" id="startDate" (change)="changeDate()" style="width: 15rem" />
+        <input
+          class="form-control"
+          type="date"
+          id="startDate"
+          [(ngModel)]="startDates"
+          [ngModelOptions]="{ standalone: true }"
+          (change)="changeDate()"
+          style="width: 15rem"
+        />
       </div>
       <div style="width: 20rem" class="search-inp">
         <label class="form-label">Ngày kết thúc</label>
-        <input class="form-control" type="date" id="endDate" (change)="changeDate()" style="width: 15rem" />
+        <input
+          class="form-control"
+          type="date"
+          id="endDate"
+          [(ngModel)]="endDates"
+          [ngModelOptions]="{ standalone: true }"
+          (change)="changeDate()"
+          style="width: 15rem"
+        />
       </div>
-      <input type="submit" (click)="changeDate()" />
+      <!-- <input type="submit" (click)="changeDate()" /> -->
+      <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="changeDate()">Apply</button>
     </form>
     <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="exportToExcel()">Export Excel</button>
+    <!-- <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="getDonBaoHanhInfo()">Test api</button> -->
   </div>
   <angular-slickgrid
     gridId="tong-hop"

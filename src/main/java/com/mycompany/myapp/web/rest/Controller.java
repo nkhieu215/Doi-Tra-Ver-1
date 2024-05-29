@@ -238,10 +238,38 @@ public class Controller {
         return list;
     }
 
+    @PostMapping("thong-tin-don-bao-hanh")
+    public List<DonBaoHanhResponse> ExportListDonBaoHanh(@RequestBody DateTimeSearchDTO request) {
+        List<DonBaoHanhResponse> donBaoHanhResponses = this.fullServices.ExportListDonBaoHanh(request);
+        return donBaoHanhResponses;
+    }
+
+    //ExportListChiTietDonBaoHanh
+    @PostMapping("san-pham-don-bao-hanh2")
+    public List<SanPhamResponse> ExportListChiTietDonBaoHanh(@RequestBody DateTimeSearchDTO request) {
+        List<SanPhamResponse> sanPhamResponses = this.fullServices.ExportListChiTietDonBaoHanh(request);
+        return sanPhamResponses;
+    }
+
+    //ExportPhanLoaiChiTietDonBaoHanh
+    @PostMapping("chi-tiet-phan-loai-san-pham")
+    public List<PhanLoaiChiTietDonBaoHanhResponse> ExportPhanLoaiChiTietDonBaoHanh(@RequestBody DateTimeSearchDTO request) {
+        List<PhanLoaiChiTietDonBaoHanhResponse> phanLoaiChiTietDonBaoHanhResponses =
+            this.fullServices.ExportPhanLoaiChiTietDonBaoHanh(request);
+        return phanLoaiChiTietDonBaoHanhResponses;
+    }
+
     // * ---------------- san pham ---------------
     @GetMapping("san-phams/list")
     public List<SanPhamResponse> getListSanPham() {
         List<SanPhamResponse> list = this.fullServices.getListSanPham();
         return list;
+    }
+
+    //Tinh toan tong loi linh dong loi ky thuat
+    @GetMapping("tinh-toan-so-luong-loi/{id}")
+    public Response caculateErrors(@PathVariable Long id) {
+        Response response = this.fullServices.caculateErrors(id);
+        return response;
     }
 }

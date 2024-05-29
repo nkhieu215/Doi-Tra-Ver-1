@@ -190,7 +190,6 @@ export class DonBaoHanhComponent implements OnInit {
   savePhanLoai: any;
   selectedValue = '';
 
-
   constructor(
     protected rowDetailViewComponent: RowDetailViewComponent,
     protected donBaoHanhService: DonBaoHanhService,
@@ -770,7 +769,7 @@ export class DonBaoHanhComponent implements OnInit {
     this.countItem = 0;
     var list1: any[] = [];
     this.resultChiTietSanPhamTiepNhans = [];
-    this.keySession = `TiepNhan ${id.toString()}`;
+    // this.keySession = `TiepNhan ${id.toString()}`;
     // const result = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
     // // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
     // if (result === null) {
@@ -831,16 +830,14 @@ export class DonBaoHanhComponent implements OnInit {
             list1.push(item); // list đã có dữ liệu
             this.resultChiTietSanPhamTiepNhans.push(item);
           }
-          setTimeout(() => {
-            //Cập nhật tiến độ
-            for (let i1 = 0; i1 < this.resultChiTietSanPhamTiepNhans.length; i1++) {
-              if (this.resultChiTietSanPhamTiepNhans[i1].tinhTrangBaoHanh === true) {
-                this.countItem++;
-                this.tienDo = Number(((this.countItem / this.resultChiTietSanPhamTiepNhans.length) * 100).toFixed(2));
-              }
+          //Cập nhật tiến độ
+          for (let i1 = 0; i1 < this.resultChiTietSanPhamTiepNhans.length; i1++) {
+            if (this.resultChiTietSanPhamTiepNhans[i1].tinhTrangBaoHanh === true) {
+              this.countItem++;
+              this.tienDo = Number(((this.countItem / this.resultChiTietSanPhamTiepNhans.length) * 100).toFixed(2));
             }
-            this.isLoading = false;
-          }, 100);
+          }
+          this.isLoading = false;
           // sessionStorage.setItem(`TiepNhan ${id.toString()}`, JSON.stringify(list));
         });
       });
@@ -1833,8 +1830,8 @@ export class DonBaoHanhComponent implements OnInit {
     // the Angular Grid Instance exposes both Slick Grid & DataView objects
     this.gridObj = angularGrid.slickGrid;
     // setInterval(()=>{
-      this.dataViewObj = angularGrid.dataView;
-      console.log('onGridMenuColumnsChanged11111', this.angularGrid);
+    this.dataViewObj = angularGrid.dataView;
+    console.log('onGridMenuColumnsChanged11111', this.angularGrid);
     // },1000)
   }
   onMenuShow(e: any): void {
@@ -1843,7 +1840,7 @@ export class DonBaoHanhComponent implements OnInit {
   onColumnsChanged(e: any): void {
     console.log('onGridMenuColumnsChanged', e);
   }
-  handleOnBeforePaginationChange(e: any):boolean {
+  handleOnBeforePaginationChange(e: any): boolean {
     // e.preventDefault();
     // return false;
     return true;
@@ -1851,7 +1848,7 @@ export class DonBaoHanhComponent implements OnInit {
 
   onSelectChanged(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
-    this.selectedValue = selectElement.value
-    console.log('select', this.selectedValue)
+    this.selectedValue = selectElement.value;
+    console.log('select', this.selectedValue);
   }
 }

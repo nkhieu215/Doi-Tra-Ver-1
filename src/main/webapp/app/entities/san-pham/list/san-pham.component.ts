@@ -112,9 +112,7 @@ export class SanPhamComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get<any[]>('api/san-phams/list').subscribe((res: any) => {
-      setTimeout(() => {
-        this.sanPhams = res.sort((a: any, b: any) => a.id - b.id);
-      }, 1000);
+      this.sanPhams = res.sort((a: any, b: any) => a.id - b.id);
     });
 
     this.columnDefinitions = [];

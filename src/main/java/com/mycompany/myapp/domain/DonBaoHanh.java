@@ -65,6 +65,17 @@ public class DonBaoHanh implements Serializable {
     @Column(name = "trang_thai_in")
     private String trangThaiIn;
 
+    @Column(name = "sl_phan_tich")
+    private Integer slPhanTich;
+
+    public Integer getSlPhanTich() {
+        return slPhanTich;
+    }
+
+    public void setSlPhanTich(Integer slPhanTich) {
+        this.slPhanTich = slPhanTich;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {

@@ -15,7 +15,6 @@
     <div class="justify-content-center jimu-primary-loading"></div>
   </div>
 </div>
-
 <!---------------------------------------------------------- popup chi tiết sản phẩm phân tích --------------------------------------------------->
 <div class="table-responsive popup-background" role="dialog" *ngIf="popupPTMTN === true">
   <div class="popup-container" style="width: 92vw; max-width: 100%; overflow: auto">
@@ -637,6 +636,8 @@
 <div class="table-responsive popup-background" role="dialog" *ngIf="popupSelectButton === true">
   <div class="popup-container-btn">
     <div class="popup-header-btn">
+      <!-- <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="testapi()" >Apply</button> -->
+
       <h2>Chọn kiểu biên bản in</h2>
       <span class="close-btn" (click)="closePopupBtn()" style="float: right">&times;</span>
     </div>
@@ -1064,7 +1065,9 @@
                 <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
                 <div class="col" style="text-align: center">
                   <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                  <a [href]="selectedValue" style="display:block; margin-top:6rem; text-decoration: none; color:black;">{{selectedValue}}</a>
+                  <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
+                    selectedValue
+                  }}</a>
                 </div>
               </div>
             </footer>
@@ -1169,27 +1172,29 @@
             <hr />
             <hr />
           </div>
-        </div>
-        <footer>
-          <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
-            <div class="col" style="text-align: center"><strong>TỔNG GIÁM ĐỐC/UQ</strong></div>
-            <div class="col" style="text-align: center; margin-right: -2rem"><strong>TRƯỞNG BỘ PHẬN</strong></div>
-            <div class="col" style="text-align: center">
-              <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
-              <!-- <select class="nhanvien" style="text-align:center; margin-top: 5rem;"></select> -->
-              <a [href]="selectedValue" style="display:block; margin-top:6rem; text-decoration: none; color:black;">{{selectedValue}}</a>
+          <footer>
+            <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
+              <div class="col" style="text-align: center"><strong>TỔNG GIÁM ĐỐC/UQ</strong></div>
+              <div class="col" style="text-align: center; margin-right: -2rem"><strong>TRƯỞNG BỘ PHẬN</strong></div>
+              <div class="col" style="text-align: center">
+                <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
+                <!-- <select class="nhanvien" style="text-align:center; margin-top: 5rem;"></select> -->
+                <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
+                  selectedValue
+                }}</a>
+              </div>
             </div>
-          </div>
-        </footer>
+          </footer>
+        </div>
+        <select style="float: right; margin-right: 7em" (change)="onSelectChanged($event)">
+          <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
+          <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
+          <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
+          <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
+          <option value="Lê Huy Sang">Lê Huy Sang</option>
+          <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
+        </select>
       </div>
-      <select style="float: right; margin-right: 7em" (change)="onSelectChanged($event)">
-        <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
-        <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
-        <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
-        <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
-        <option value="Lê Huy Sang">Lê Huy Sang</option>
-        <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
-      </select>
     </div>
   </div>
 
@@ -1286,21 +1291,22 @@
                   <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
                   <!-- <select class="nhanvien" style="text-align:center; margin-top: 5rem;"></select>
                  -->
-                 <a [href]="selectedValue" style="display:block; margin-top:6rem; text-decoration: none; color:black;">{{selectedValue}}</a>
-
+                  <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
+                    selectedValue
+                  }}</a>
                 </div>
               </div>
             </footer>
           </div>
-          <select style="float: right; margin-right: 7em" (change)="onSelectChanged($event)">
-            <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
-            <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
-            <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
-            <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
-            <option value="Lê Huy Sang">Lê Huy Sang</option>
-            <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
-          </select>
         </div>
+        <select style="float: right; margin-right: 7em" (change)="onSelectChanged($event)">
+          <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
+          <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
+          <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
+          <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
+          <option value="Lê Huy Sang">Lê Huy Sang</option>
+          <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
+        </select>
       </div>
     </div>
   </div>

@@ -15,6 +15,9 @@ import org.springframework.stereotype.Repository;
 public interface ChiTietSanPhamTiepNhanRepository extends JpaRepository<ChiTietSanPhamTiepNhan, Long> {
     List<ChiTietSanPhamTiepNhan> findAllByDonBaoHanhId(Long id);
 
+    @Query(value = "select " + "ct.id from `chi_tiet_san_pham_tiep_nhan` as ct where don_bao_hanh_id =?1 ;", nativeQuery = true)
+    List<Long> getListOfId(Long id);
+
     void deleteByDonBaoHanhId(Long id);
 
     @Query(
@@ -30,9 +33,9 @@ public interface ChiTietSanPhamTiepNhanRepository extends JpaRepository<ChiTietS
         "a.san_pham_id as sanPhamId," +
         "a.so_luong_khach_hang as soLuongKhachGiao," +
         "a.don_bao_hanh_id as donBaoHanhId,\n" +
-        "b.name as tenSanPham, " +
+        "b.name as tenSanPham," +
         "b.ten_chung_loai as tenChungLoai, \n" +
-        "c.name as tenNhomSanPham,\n" +
+        "c.name as phanLoaiSP,\n" +
         "d.ten_nganh as tenNganh,\n" +
         "e.ma_tiep_nhan as maTiepNhan," +
         "e.ngay_tiep_nhan as ngayTiepNhan," +
@@ -45,14 +48,17 @@ public interface ChiTietSanPhamTiepNhanRepository extends JpaRepository<ChiTietS
         "dstt.ten_tinh_trang_phan_loai as tenTinhTrangPhanLoai,\n" +
         "ptsp.the_loai_phan_tich as theLoaiPhanTich," +
         "ptsp.nam_san_xuat as namSanXuat,\n " +
-        "ptsp.ten_nhan_vien_phan_tich as tenNhanVienPhanTich," +
+        "ptsp.ten_nhan_vien_phan_tich as nhanVienPhanTich," +
         "ptsp.lot_number as lotNumber," +
         "ptsp.detail as serial,\n" +
         "ptl.ngay_phan_tich as ngayPhanTich," +
         "ptl.so_luong as soLuongTheoTungLoi,\n" +
         "loi.ten_loi as tenLoi, loi.id as loiId, " +
         "loi.chi_chu as tenNhomLoi, " +
-        "ptsp.id as phanTichSanPhamId " +
+        "ptsp.id as phanTichSanPhamId," +
+        "plcttn.id as idPhanLoai," +
+        "ptl.id as id, " +
+        "ptsp.ten_nhan_vien_phan_tich as tenNhanVienPhanTich," +
         "FROM `chi_tiet_san_pham_tiep_nhan` as a inner join baohanh2.san_pham as b on a.san_pham_id = b.id\n" +
         "                                               inner join baohanh2.nhom_san_pham as c on b.nhom_san_pham_id = c.id \n" +
         "                                               inner join baohanh2.nganh as d on b.nganh_id = d.id\n" +

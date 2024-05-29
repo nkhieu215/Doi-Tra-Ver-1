@@ -9,6 +9,7 @@ import { AngularGridInstance, Column, ExternalResource, FieldType, Filters, Form
 import { ExcelExportService } from '@slickgrid-universal/excel-export';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import * as XLSX from 'xlsx';
+import { start } from 'repl';
 
 @Component({
   selector: 'jhi-chi-tiet-san-pham-tiep-nhan',
@@ -18,6 +19,9 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   tongHopUrl = this.applicationConfigService.getEndpointFor('api/tong-hop');
   searchDateUrl = this.applicationConfigService.getEndpointFor('api/search-date');
   tongHopCaculateUrl = this.applicationConfigService.getEndpointFor('api/tong-hop-caculate');
+  tongHopDBHUrl = this.applicationConfigService.getEndpointFor('api/thong-tin-don-bao-hanh');
+  sanPhamDBHUrl = this.applicationConfigService.getEndpointFor('api/san-pham-don-bao-hanh2');
+  phanLoaiSanPhamUrl = this.applicationConfigService.getEndpointFor('api/chi-tiet-phan-loai-san-pham');
   chiTietSanPhamTiepNhans?: IChiTietSanPhamTiepNhan[];
   popupViewCTL = false;
   isLoading = false;
@@ -35,8 +39,11 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   chiTietSanPhamTiepNhanExport: IChiTietSanPhamTiepNhan[] = [];
   excelExportService: ExcelExportService;
 
-  // startDate: Date
+  //bien chua thong tin ngay mac dinh
+  dateTimeSearchKey: { startDate: string; endDate: string } = { startDate: '', endDate: '' };
   fileName = 'bao-cao-doi-tra';
+  fileNameCT = 'thong-tin-phan-tich-don-bao-hanh';
+
   dataSearch: {
     maTiepNhan: string;
     nhanVienGiaoHang: string;
@@ -59,27 +66,43 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     tenNhomSanPham: '',
   };
   data: {
-    donBaoHanhId?: number;
     maTiepNhan?: string;
-    namSanXuat?: Date;
-    ngayTiepNhan?: Date;
-    ngayPhanTich?: Date;
-    nhanVienGiaoHang?: string;
+    maKhachHang?: string;
     tenKhachHang?: string;
     nhomKhachHang?: string;
     tinhThanh?: string;
+    ngayTaoDon?: string;
+    tongTiepNhan?: string;
+    ngayTiepNhan?: Date;
+    ngayTraBienBan?: Date;
+    nguoiTaoDon?: string;
+    nhanVienGiaoHang?: string;
+    trangThai?: string;
+  }[] = [];
+
+  dataSP: {
+    donBaoHanhId?: number;
+    maTiepNhan?: string;
+    idSPTN?: number;
     tenSanPham?: string;
     tenNganh?: string;
     tenChungLoai?: string;
     tenNhomSanPham?: string;
-    soLuongKhachGiao?: number;
+    nhomSPTheoCongSuat?: string;
+    phanLoaiSP: string;
     slTiepNhan?: number;
-    tenNhomLoi?: string;
-    soLuongTheoTungLoi?: number;
     trangThai?: string;
-    tongSoLuong?:number;
   }[] = [];
 
+  dataCT: {
+    idSPTN?: number;
+    donBaoHanhId?: number;
+    maTiepNhan?: string;
+    phanLoaiSP?: string;
+    soLuongPL?: number;
+  }[] = [];
+  startDates = '';
+  endDates = '';
   dataCTL: ITongHop[] = [];
 
   constructor(
@@ -93,7 +116,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
 
   loadAll(): void {
     this.isLoading = true;
-
+    // console.log("checkdate:",this.dateTimeSearchKey)
     this.chiTietSanPhamTiepNhanService.query().subscribe({
       next: (res: HttpResponse<IChiTietSanPhamTiepNhan[]>) => {
         this.isLoading = false;
@@ -104,8 +127,25 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       },
     });
   }
-
+  startDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${year}-${month}-01`;
+  }
+  endDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+  }
   ngOnInit(): void {
+    const today = new Date();
+    this.dateTimeSearchKey.startDate = this.startDate(today);
+    this.dateTimeSearchKey.endDate = this.endDate(today);
+    this.startDates = this.startDate(today);
+    this.endDates = this.endDate(today);
+    console.log('date time', this.dateTimeSearchKey);
     this.loadAll();
     this.dataShow();
     this.getTongHopUrl();
@@ -728,6 +768,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     });
     setTimeout(() => {
       console.log('startDate:', dateTimeSearchKey);
+      this.dateTimeSearchKey = dateTimeSearchKey;
       this.http.post<any>(this.tongHopUrl, dateTimeSearchKey).subscribe(res => {
         console.log('check ressult search:', res);
         this.chiTietSanPhamTiepNhanCTLGoc = res;
@@ -750,61 +791,87 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const sortedData = this.data.map(item => ({
-      donBaoHanhId: item.donBaoHanhId,
-      maTiepNhan: item.maTiepNhan,
-      namSanXuat: item.namSanXuat,
-      ngayTiepNhan: item.ngayTiepNhan,
-      ngayPhanTich: item.ngayPhanTich,
-      nhanVienGiaoHang: item.nhanVienGiaoHang,
-      tenKhachHang: item.tenKhachHang,
-      nhomKhachHang: item.nhomKhachHang,
-      tinhThanh: item.tinhThanh,
-      tenSanPham: item.tenSanPham,
-      tenNganh: item.tenNganh,
-      tenChungLoai: item.tenChungLoai,
-      tenNhomSanPham: item.tenNhomSanPham,
-      soLuongKhachGiao: item.soLuongKhachGiao,
-      slTiepNhan: item.slTiepNhan,
-      tenNhomLoi: item.tenNhomLoi,
-      soLuongTheoTungLoi: item.soLuongTheoTungLoi,
-      trangThai: item.trangThai,
-      tongSoLuong: item.tongSoLuong,
-    }));
+    this.getDonBaoHanhInfo();
+    this.getChiTietDonBaoHanhInfo();
+    this.getPhanLoaiChiTietDonBaoHanhInfo();
+    console.log(this.data, this.dataCT, this.dataSP);
+    setTimeout(() => {
+      const donBaoHanh = this.data.map(item => ({
+        maTiepNhan: item.maTiepNhan,
+        maKhachHang: item.maKhachHang,
+        tenKhachHang: item.tenKhachHang,
+        nhomKhachHang: item.nhomKhachHang,
+        tinhThanh: item.tinhThanh,
+        ngayTaoDon: item.ngayTaoDon,
+        tongTiepNhan: item.tongTiepNhan,
+        ngayTiepNhan: item.ngayTiepNhan,
+        ngayTraBienBan: item.ngayTraBienBan,
+        nguoiTaoDon: item.nguoiTaoDon,
+        nhanVienGiaoHang: item.nhanVienGiaoHang,
+        trangThai: item.trangThai,
+      }));
 
-    const sortedDataCTL = this.dataCTL.map((itemCTL: ITongHop) => ({
-      donBaoHanhId: itemCTL.donBaoHanhId,
-      maTiepNhan: itemCTL.maTiepNhan,
-      namSanXuat: itemCTL.namSanXuat,
-      ngayTiepNhan: itemCTL.ngayTiepNhan,
-      ngayPhanTich: itemCTL.ngayPhanTich,
-      nhanVienGiaoHang: itemCTL.nhanVienGiaoHang,
-      tenKhachHang: itemCTL.tenKhachHang,
-      nhomKhachHang: itemCTL.nhomKhachHang,
-      tinhThanh: itemCTL.tinhThanh,
-      tenSanPham: itemCTL.tenSanPham,
-      tenNganh: itemCTL.tenNganh,
-      tenChungLoai: itemCTL.tenChungLoai,
-      tenNhomSanPham: itemCTL.tenNhomSanPham,
-      // soLuongKhachGiao: itemCTL.soLuongKhachGiao,
-      slTiepNhan: itemCTL.slTiepNhan,
-      // tenTinhTrangPhanLoai: itemCTL.tenTinhTrangPhanLoai,
-      lotNumber: itemCTL.lotNumber,
-      serial: itemCTL.serial,
-      tenNhomLoi: itemCTL.tenNhomLoi,
-      tenLoi: itemCTL.tenLoi,
-      soLuongTheoTungLoi: itemCTL.soLuongTheoTungLoi,
-      trangThai: itemCTL.trangThai,
-    }));
-    console.log('dataCTL', this.dataCTL);
-    // const data = document.getElementById("table-data");
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(sortedData);
-    const wsCTL: XLSX.WorkSheet = XLSX.utils.json_to_sheet(sortedDataCTL);
-    // create workbook
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'bao-cao-tong-hop');
-    XLSX.utils.book_append_sheet(wb, wsCTL, 'bao-cao-chi-tiet');
-    XLSX.writeFile(wb, `${this.fileName}.xlsx`);
+      const SPdonBaoHanh = this.dataSP.map(item => ({
+        donBaoHanhId: item.donBaoHanhId,
+        maTiepNhan: item.maTiepNhan,
+        idSPTN: item.idSPTN,
+        tenSanPham: item.tenSanPham,
+        tenNganh: item.tenNganh,
+        tenChungLoai: item.tenChungLoai,
+        tenNhomSanPham: item.tenNhomSanPham,
+        nhomSPTheoCongSuat: item.nhomSPTheoCongSuat,
+        phanLoaiSP: item.phanLoaiSP,
+        slTiepNhan: item.slTiepNhan,
+        trangThai: item.trangThai,
+      }));
+
+      const phanLoaiSP = this.dataCT.map(item => ({
+        donBaoHanhId: item.donBaoHanhId,
+        maTiepNhan: item.maTiepNhan,
+        idSPTN: item.idSPTN,
+        phanLoaiSP: item.phanLoaiSP,
+        soLuong: item.soLuongPL,
+      }));
+
+      const chiTietPhanLoaiSanPham = this.dataCTL.map((itemCTL: ITongHop) => ({
+        donBaoHanhId: itemCTL.donBaoHanhId,
+        maTiepNhan: itemCTL.maTiepNhan,
+        namSanXuat: itemCTL.namSanXuat,
+        ngayTiepNhan: itemCTL.ngayTiepNhan,
+        ngayPhanTich: itemCTL.ngayPhanTich,
+        idSP: itemCTL.sanPhamId,
+        idSPTN: itemCTL.idSPTN,
+        // idPL: itemCTL.idPL,
+        tenSanPham: itemCTL.tenSanPham,
+        lotNumber: itemCTL.lotNumber,
+        serial: itemCTL.serial,
+        tenNhomLoi: itemCTL.tenNhomLoi,
+        tenLoi: itemCTL.tenLoi,
+        soLuongTheoTungLoi: itemCTL.soLuongTheoTungLoi,
+        trangThai: itemCTL.trangThai,
+        thoiGianPhanTich: itemCTL.ngayPhanTich,
+        nguoiPhanTich: itemCTL.tenNhanVienPhanTich,
+        id: itemCTL.id,
+      }));
+      console.log('dataCTL', this.dataCTL);
+      // const data = document.getElementById("table-data");
+      const wsDBH: XLSX.WorkSheet = XLSX.utils.json_to_sheet(donBaoHanh);
+      const wsSPDBH: XLSX.WorkSheet = XLSX.utils.json_to_sheet(SPdonBaoHanh);
+      const wsCTPLSP: XLSX.WorkSheet = XLSX.utils.json_to_sheet(phanLoaiSP);
+      const wsPTCTSP: XLSX.WorkSheet = XLSX.utils.json_to_sheet(chiTietPhanLoaiSanPham);
+
+      // create workbook
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      const wbPT: XLSX.WorkBook = XLSX.utils.book_new();
+
+      XLSX.utils.book_append_sheet(wb, wsDBH, 'don-bao-hanh');
+      XLSX.utils.book_append_sheet(wb, wsSPDBH, 'san-pham-don-bao-hanh');
+      XLSX.utils.book_append_sheet(wbPT, wsCTPLSP, 'chi-tiet-phan-loai-san-pham');
+      XLSX.utils.book_append_sheet(wbPT, wsPTCTSP, 'phan-tich-chi-tiet-san-pham');
+
+      XLSX.writeFile(wb, `${this.fileName}.xlsx`);
+      XLSX.writeFile(wbPT, `${this.fileNameCT}.xlsx`);
+    }, 3000);
   }
 
   openPopupViewCTL(): void {
@@ -943,6 +1010,21 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     this.gridObj = angularGrid.slickGrid;
     this.dataViewObj = angularGrid.dataView;
   }
+  getDonBaoHanhInfo(): void {
+    this.http.post<any>(this.tongHopDBHUrl, this.dateTimeSearchKey).subscribe((res: any) => {
+      this.data = res;
+    });
+  }
+  getChiTietDonBaoHanhInfo(): void {
+    this.http.post<any>(this.sanPhamDBHUrl, this.dateTimeSearchKey).subscribe((res: any) => {
+      this.dataSP = res;
+    });
+  }
+  getPhanLoaiChiTietDonBaoHanhInfo(): void {
+    this.http.post<any>(this.phanLoaiSanPhamUrl, this.dateTimeSearchKey).subscribe((res: any) => {
+      this.dataCT = res;
+    });
+  }
 }
 
 export interface ITongHop {
@@ -952,7 +1034,7 @@ export interface ITongHop {
   maTiepNhan: string;
   namSanXuat: Date;
   ngayTiepNhan: Date;
-  ngayPhanTich: Date;
+  ngayPhanTich: string;
   nhanVienGiaoHang: string;
   tenKhachHang: string;
   nhomKhachHang: string;
@@ -974,4 +1056,8 @@ export interface ITongHop {
   tenNhomLoi: string;
   phanTichSanPhamId: number;
   tenTinhTrangPhanLoai: string;
+  sanPhamId: number;
+  idSPTN: number;
+  idPhanLoai: number;
+  tenNhanVienPhanTich: string;
 }
