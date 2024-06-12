@@ -8,7 +8,7 @@ import javax.persistence.SqlResultSetMapping;
 
 public interface TongHopResponse {
     Long getChiTietId();
-    Long getSanPhamId();
+    Long getIdSPTN();
     Long getDonBaoHanhId(); // *1
     String getTenSanPham(); // *1
     String getTenChungLoai(); // *1

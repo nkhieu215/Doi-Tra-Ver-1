@@ -370,8 +370,8 @@ export class SanPhamComponent implements OnInit {
         syncGridSelection: true,
       },
       pagination: {
-        pageSizes: [20, 50, this.sanPhams.length],
-        pageSize: 10,
+        pageSizes: [10, 20, 50, this.sanPhams.length],
+        pageSize: this.sanPhams.length,
       },
       columnPicker: {
         hideForceFitButton: true,

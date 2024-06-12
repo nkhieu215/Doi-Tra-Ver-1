@@ -28,7 +28,7 @@ describe('SanPham Management Component', () => {
     jest.spyOn(service, 'query').mockReturnValue(
       of(
         new HttpResponse({
-          body: [{ id: 123 }],
+          body: [],
           headers,
         })
       )

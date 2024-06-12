@@ -11,9 +11,9 @@ import { DonBaoHanhUpdateComponent } from './update/don-bao-hanh-update.componen
 import { DonBaoHanhDeleteDialogComponent } from './delete/don-bao-hanh-delete-dialog.component';
 import { DonBaoHanhRoutingModule } from './route/don-bao-hanh-routing.module';
 import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
-
+import { QRCodeModule } from 'angularx-qrcode';
 @NgModule({
-  imports: [SharedModule, DonBaoHanhRoutingModule, AngularSlickgridModule, NgxPaginationModule, NgxPrintModule],
+  imports: [SharedModule, DonBaoHanhRoutingModule, AngularSlickgridModule, NgxPaginationModule, NgxPrintModule, QRCodeModule],
   declarations: [
     DonBaoHanhComponent,
     DonBaoHanhDetailComponent,

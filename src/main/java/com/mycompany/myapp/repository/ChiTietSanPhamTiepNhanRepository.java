@@ -30,7 +30,8 @@ public interface ChiTietSanPhamTiepNhanRepository extends JpaRepository<ChiTietS
     @Query(
         value = "SELECT " +
         "a.id as chiTietId, " +
-        "a.san_pham_id as sanPhamId," +
+        "a.id as idSP, " +
+        "a.san_pham_id as idSPTN," +
         "a.so_luong_khach_hang as soLuongKhachGiao," +
         "a.don_bao_hanh_id as donBaoHanhId,\n" +
         "b.name as tenSanPham," +
@@ -58,7 +59,7 @@ public interface ChiTietSanPhamTiepNhanRepository extends JpaRepository<ChiTietS
         "ptsp.id as phanTichSanPhamId," +
         "plcttn.id as idPhanLoai," +
         "ptl.id as id, " +
-        "ptsp.ten_nhan_vien_phan_tich as tenNhanVienPhanTich," +
+        "ptsp.ten_nhan_vien_phan_tich as tenNhanVienPhanTich " +
         "FROM `chi_tiet_san_pham_tiep_nhan` as a inner join baohanh2.san_pham as b on a.san_pham_id = b.id\n" +
         "                                               inner join baohanh2.nhom_san_pham as c on b.nhom_san_pham_id = c.id \n" +
         "                                               inner join baohanh2.nganh as d on b.nganh_id = d.id\n" +

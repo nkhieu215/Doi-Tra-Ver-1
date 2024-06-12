@@ -81,6 +81,7 @@ public interface DonBaoHanhRepository extends JpaRepository<DonBaoHanh, Long> {
         " chitiet.sl_tiep_nhan as slTiepNhan ,\n" +
         " sp.name as tenSanPham,\n" +
         " sp.ten_chung_loai as tenChungLoai,\n" +
+        "sp.nhom_sp_theo_cong_suat as nhomSPTheoCongSuat, " +
         " nsp.name as phanLoaiSP,\n" +
         " nganh.ten_nganh as tenNganh,\n" +
         " dbh.trang_thai as trangThai\n" +

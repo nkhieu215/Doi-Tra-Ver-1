@@ -6,6 +6,9 @@ import { of } from 'rxjs';
 import { KhoService } from '../service/kho.service';
 
 import { KhoComponent } from './kho.component';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
+import { SessionStorageService } from 'ngx-webstorage';
+import { Router } from '@angular/router';
 
 describe('Kho Management Component', () => {
   let comp: KhoComponent;
@@ -16,6 +19,7 @@ describe('Kho Management Component', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [KhoComponent],
+      providers: [NavbarComponent, SessionStorageService, Router],
     })
       .overrideTemplate(KhoComponent, '')
       .compileComponents();

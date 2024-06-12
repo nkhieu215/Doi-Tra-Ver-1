@@ -6,6 +6,11 @@ const {
 const environment = require('./webpack/environment');
 
 module.exports = {
+  packages: {
+    'angular-slickgrid': {
+      ignorableDeepImportMatchers: [/assign-deep/, /slickgrid\//, /flatpickr/, /dequal/, /jquery-ui\//],
+    },
+  },
   transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$|dayjs/esm)'],
   resolver: 'jest-preset-angular/build/resolvers/ng-jest-resolver.js',
   globals: {

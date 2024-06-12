@@ -6,6 +6,9 @@ import { of } from 'rxjs';
 import { KhachHangService } from '../service/khach-hang.service';
 
 import { KhachHangComponent } from './khach-hang.component';
+import { SessionStorageService } from 'ngx-webstorage';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
+import { Router } from '@angular/router';
 
 describe('KhachHang Management Component', () => {
   let comp: KhachHangComponent;
@@ -16,6 +19,7 @@ describe('KhachHang Management Component', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [KhachHangComponent],
+      providers: [SessionStorageService, NavbarComponent, Router],
     })
       .overrideTemplate(KhachHangComponent, '')
       .compileComponents();

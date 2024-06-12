@@ -6,6 +6,9 @@ import { of } from 'rxjs';
 import { NhomLoiService } from '../service/nhom-loi.service';
 
 import { NhomLoiComponent } from './nhom-loi.component';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
+import { SessionStorageService } from 'ngx-webstorage';
+import { Router } from '@angular/router';
 
 describe('NhomLoi Management Component', () => {
   let comp: NhomLoiComponent;
@@ -16,6 +19,7 @@ describe('NhomLoi Management Component', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [NhomLoiComponent],
+      providers: [NavbarComponent, SessionStorageService, Router],
     })
       .overrideTemplate(NhomLoiComponent, '')
       .compileComponents();

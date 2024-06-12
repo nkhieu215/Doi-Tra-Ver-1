@@ -228,6 +228,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         this.donBaoHanhs[i].tienDo = (this.donBaoHanhs[i].slDaPhanTich / this.donBaoHanhs[i].slPhanTich) * 100;
       }
     });
+    // setTimeout(()=>{
     this.columnDefinitions = [];
     this.columnDefinitions1 = [
       {
@@ -276,16 +277,16 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.donBaoHanh = args.dataContext;
           // khởi tạo giá trị để lưu vào trong session
           sessionStorage.setItem('DonBaoHanh', JSON.stringify(args.dataContext));
-          // console.log('don bao hanh: ', this.donBaoHanh);
+          console.log('don bao hanh: ', this.donBaoHanh);
           this.showData(args.dataContext.id);
-          setTimeout(() => {
-            // console.log('chi tiet san pham phan tich: ', this.listOfChiTietSanPhamPhanTich);
-            //Loại bỏ sản phẩm có số lượng tiếp nhận = 0
-            this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTich.filter(item => item.slTiepNhan !== 0);
-            for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
-              this.updateTienDoSanPhamPhanTich(this.listOfChiTietSanPhamPhanTich[i].id, i);
-            }
-          }, 3000);
+          // setTimeout(() => {
+          //   // console.log('chi tiet san pham phan tich: ', this.listOfChiTietSanPhamPhanTich);
+          //   //Loại bỏ sản phẩm có số lượng tiếp nhận = 0
+          //   this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTich.filter(item => item.slTiepNhan !== 0);
+          //   for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
+          //     this.updateTienDoSanPhamPhanTich(this.listOfChiTietSanPhamPhanTich[i].id, i);
+          //   }
+          // }, 3000);
         },
       },
 
@@ -456,13 +457,15 @@ export class PhanTichSanPhamComponent implements OnInit {
         },
       },
     ];
+    console.log('danh sách kho: ', this.danhSachKho);
+    // },3000)
     this.gridOptions1 = {
       enableAutoResize: true,
       enableSorting: true,
       enableFiltering: true,
       enablePagination: true,
       enableAutoSizeColumns: true,
-      asyncEditorLoadDelay: 1000,
+      // asyncEditorLoadDelay: 1000,
       // enableColumnPicker: true,
       // enableRowDetailView: true,
       // rowDetailView: {
@@ -487,7 +490,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       // },
       pagination: {
         pageSizes: [30, 50, 100],
-        pageSize: 30,
+        pageSize: this.donBaoHanhs.length,
       },
       // columnPicker: {
       //   hideForceFitButton: true,
@@ -500,9 +503,9 @@ export class PhanTichSanPhamComponent implements OnInit {
       enableCellNavigation: true,
       gridHeight: 620,
       gridWidth: '100%',
-      autoHeight: true,
-      autoFitColumnsOnFirstLoad: true,
-      asyncEditorLoading: true,
+      // autoHeight: true,
+      // autoFitColumnsOnFirstLoad: true,
+      // asyncEditorLoading: true,
       forceFitColumns: true,
       frozenColumn: 3,
     };
@@ -513,7 +516,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.account = account;
     });
-    this.loadAll();
+    // this.loadAll();
   }
   //lấy danh sách biên bản
   getDanhSachBienBan(): void {
@@ -590,50 +593,53 @@ export class PhanTichSanPhamComponent implements OnInit {
               }
             }
           }
-          setTimeout(() => {
-            this.donBaoHanh.slCanPhanTich = 0;
-            this.resultOfSanPhamTheoKho = [{ key: '', value: [] }];
-            this.resultOfSanPhamTheoKhoTL = [{ key: '', value: [] }];
-            let check = false;
-            for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
-              this.donBaoHanh.slCanPhanTich =
-                Number(this.donBaoHanh.slCanPhanTich) + Number(this.listOfChiTietSanPhamPhanTich[i].slTiepNhan);
-              for (let j = 0; j < this.danhSachSanPhams!.length; j++) {
-                //check sản phẩm trong DB xem có chưa
-                if (this.listOfChiTietSanPhamPhanTich[i].sanPham.id === this.danhSachSanPhams![j].id) {
-                  //check danh sách kho khởi tạo
-                  for (let k = 0; k < this.resultOfSanPhamTheoKho.length; k++) {
-                    const item1 = this.listOfChiTietSanPhamPhanTich[i];
-                    const item2 = this.listOfChiTietSanPhamPhanTich[i];
-                    if (this.resultOfSanPhamTheoKho[k].key === this.danhSachSanPhams![j].kho!.tenKho) {
-                      this.resultOfSanPhamTheoKho[k].value.push(item1);
-                      this.resultOfSanPhamTheoKhoTL[k].value.push(item2);
-                      check = true;
-                    }
+          // setTimeout(() => {
+          this.donBaoHanh.slCanPhanTich = 0;
+          this.resultOfSanPhamTheoKho = [{ key: '', value: [] }];
+          this.resultOfSanPhamTheoKhoTL = [{ key: '', value: [] }];
+          let check = false;
+          for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
+            this.donBaoHanh.slCanPhanTich = Number(this.donBaoHanh.slCanPhanTich) + Number(this.listOfChiTietSanPhamPhanTich[i].slTiepNhan);
+            for (let j = 0; j < this.danhSachSanPhams!.length; j++) {
+              //check sản phẩm trong DB xem có chưa
+              if (this.listOfChiTietSanPhamPhanTich[i].sanPham.id === this.danhSachSanPhams![j].id) {
+                //check danh sách kho khởi tạo
+                for (let k = 0; k < this.resultOfSanPhamTheoKho.length; k++) {
+                  const item1 = this.listOfChiTietSanPhamPhanTich[i];
+                  const item2 = this.listOfChiTietSanPhamPhanTich[i];
+                  if (this.resultOfSanPhamTheoKho[k].key === this.danhSachSanPhams![j].kho!.tenKho) {
+                    this.resultOfSanPhamTheoKho[k].value.push(item1);
+                    this.resultOfSanPhamTheoKhoTL[k].value.push(item2);
+                    check = true;
                   }
-
-                  if (check === false) {
-                    const item: { key: string; value: any[] } = {
-                      key: this.danhSachSanPhams![j].kho?.tenKho as string,
-                      value: [this.listOfChiTietSanPhamPhanTich[i]],
-                    };
-                    const itemTL: { key: string; value: any[] } = {
-                      key: this.danhSachSanPhams![j].kho?.tenKho as string,
-                      value: [this.listOfChiTietSanPhamPhanTich[i]],
-                    };
-                    this.resultOfSanPhamTheoKho.push(item);
-                    this.resultOfSanPhamTheoKhoTL.push(itemTL);
-                  }
-                  check = false;
-                  break;
                 }
+
+                if (check === false) {
+                  const item: { key: string; value: any[] } = {
+                    key: this.danhSachSanPhams![j].kho?.tenKho as string,
+                    value: [this.listOfChiTietSanPhamPhanTich[i]],
+                  };
+                  const itemTL: { key: string; value: any[] } = {
+                    key: this.danhSachSanPhams![j].kho?.tenKho as string,
+                    value: [this.listOfChiTietSanPhamPhanTich[i]],
+                  };
+                  this.resultOfSanPhamTheoKho.push(item);
+                  this.resultOfSanPhamTheoKhoTL.push(itemTL);
+                }
+                check = false;
+                break;
               }
             }
-            this.resultOfSanPhamTheoKho = this.resultOfSanPhamTheoKho.filter(item => item.key !== '');
-            this.resultOfSanPhamTheoKhoTL = this.resultOfSanPhamTheoKhoTL.filter(item => item.key !== '');
-            this.updateDanhSachBienBanTheoKho();
-            console.log('Danh sách phân tách sản phẩm theo kho: ', this.resultOfSanPhamTheoKho);
-          }, 1000);
+          }
+          this.resultOfSanPhamTheoKho = this.resultOfSanPhamTheoKho.filter(item => item.key !== '');
+          this.resultOfSanPhamTheoKhoTL = this.resultOfSanPhamTheoKhoTL.filter(item => item.key !== '');
+          this.updateDanhSachBienBanTheoKho();
+          console.log('Danh sách phân tách sản phẩm theo kho: ', this.resultOfSanPhamTheoKho);
+          this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTich.filter(item => item.slTiepNhan !== 0);
+          for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
+            this.updateTienDoSanPhamPhanTich(this.listOfChiTietSanPhamPhanTich[i].id, i);
+          }
+          // }, 1000);
 
           // sessionStorage.setItem(`PhanTich ${id as number}`, JSON.stringify(list));
         });
@@ -705,7 +711,9 @@ export class PhanTichSanPhamComponent implements OnInit {
     //Lọc sản phẩm có sl Tiếp nhận rỗng và check = false
     for (let i = 0; i < this.resultOfSanPhamTheoKho.length; i++) {
       //lọc danh sách từng kho
-      this.resultOfSanPhamTheoKho[i].value = this.resultOfSanPhamTheoKho[i].value.filter(item => item.slTiepNhan !== 0);
+      this.resultOfSanPhamTheoKho[i].value = this.resultOfSanPhamTheoKho[i].value.filter(
+        item => item.slTiepNhan !== 0 && item.tinhTrang === 'Đổi mới'
+      );
     }
     for (let i = 0; i < this.resultOfSanPhamTheoKhoTL.length; i++) {
       //lọc danh sách từng kho
@@ -1025,7 +1033,16 @@ export class PhanTichSanPhamComponent implements OnInit {
     }, 500);
   }
 
-  openPopupInBBTL(index: any): void {
+  openPopupInBBTL(index: any, tenKho: any): void {
+    let maKho = '00';
+    if (tenKho === 'Kho1') {
+      maKho = '01';
+    } else if (tenKho === 'Kho2') {
+      maKho = '02';
+    } else if (tenKho === 'Kho3') {
+      maKho = '03';
+    }
+    console.log('ma kho:', maKho);
     this.maBienBan = '';
     this.loaiBienBan = 'Thanh lý';
     //cập nhật mã kho
@@ -1042,8 +1059,12 @@ export class PhanTichSanPhamComponent implements OnInit {
     });
     //Lấy thông tin biên bản kiểm nghiệm theo đơn bảo hành
     this.http.get<any>(`api/danh-sach-bien-ban/kiem-nghiem/${this.donBaoHanh.id as number}`).subscribe(res => {
-      this.bienBanKiemNghiem = res;
-      // console.log('Biên bản kiểm nghiệm', this.bienBanTiepNhan);
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].maKho === maKho) {
+          this.bienBanKiemNghiem = res[i];
+        }
+      }
+      console.log('Biên bản kiểm nghiệm', res);
     });
     setTimeout(() => {
       if (this.bienBanKiemNghiem === null || this.bienBanTiepNhan === null) {

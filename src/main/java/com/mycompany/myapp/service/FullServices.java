@@ -302,8 +302,8 @@ public class FullServices {
     }
 
     //☺ lấy biên bản kiểm nghiệm theo đơn bảo hành
-    public MaBienBan getBienBanKiemNghiemByDonBaoHanhId(Long id) {
-        MaBienBan maBienBan = this.maBienBanRepository.getBienBanKiemNghiemByDonBaoHanhId(id);
+    public List<MaBienBan> getBienBanKiemNghiemByDonBaoHanhId(Long id) {
+        List<MaBienBan> maBienBan = this.maBienBanRepository.getBienBanKiemNghiemByDonBaoHanhId(id);
         return maBienBan;
     }
 

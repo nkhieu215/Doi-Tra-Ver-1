@@ -44,6 +44,9 @@ public class SanPham implements Serializable {
     @Column(name = "phan_loai")
     private String phanLoai;
 
+    @Column(name = "nhom_sp_theo_cong_suat")
+    private String nhomSPTheoCongSuat;
+
     @OneToMany(mappedBy = "sanPham")
     @JsonIgnoreProperties(value = { "sanPham", "donBaoHanh", "phanLoaiChiTietTiepNhans" }, allowSetters = true)
     private Set<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhans = new HashSet<>();
@@ -69,6 +72,14 @@ public class SanPham implements Serializable {
     public SanPham id(Long id) {
         this.setId(id);
         return this;
+    }
+
+    public String getNhomSPTheoCongSuat() {
+        return nhomSPTheoCongSuat;
+    }
+
+    public void setNhomSPTheoCongSuat(String nhomSPTheoCongSuat) {
+        this.nhomSPTheoCongSuat = nhomSPTheoCongSuat;
     }
 
     public void setId(Long id) {
@@ -257,19 +268,40 @@ public class SanPham implements Serializable {
 
     @Override
     public String toString() {
-        return "SanPham{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", sapCode='" + sapCode + '\'' +
-            ", rdCode='" + rdCode + '\'' +
-            ", tenChungLoai='" + tenChungLoai + '\'' +
-            ", donVi='" + donVi + '\'' +
-            ", toSanXuat='" + toSanXuat + '\'' +
-            ", phanLoai='" + phanLoai + '\'' +
-            ", chiTietSanPhamTiepNhans=" + chiTietSanPhamTiepNhans +
-            ", nhomSanPham=" + nhomSanPham +
-            ", kho=" + kho +
-            ", nganh=" + nganh +
-            '}';
+        return (
+            "SanPham{" +
+            "id=" +
+            id +
+            ", name='" +
+            name +
+            '\'' +
+            ", sapCode='" +
+            sapCode +
+            '\'' +
+            ", rdCode='" +
+            rdCode +
+            '\'' +
+            ", tenChungLoai='" +
+            tenChungLoai +
+            '\'' +
+            ", donVi='" +
+            donVi +
+            '\'' +
+            ", toSanXuat='" +
+            toSanXuat +
+            '\'' +
+            ", phanLoai='" +
+            phanLoai +
+            '\'' +
+            ", chiTietSanPhamTiepNhans=" +
+            chiTietSanPhamTiepNhans +
+            ", nhomSanPham=" +
+            nhomSanPham +
+            ", kho=" +
+            kho +
+            ", nganh=" +
+            nganh +
+            '}'
+        );
     }
 }

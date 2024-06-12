@@ -29,7 +29,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 import { NgxPrintModule } from 'ngx-print';
 import Sortable from 'sortablejs';
-
+import { QRCodeModule } from 'angularx-qrcode';
 @NgModule({
   imports: [
     BrowserModule,
@@ -42,8 +42,10 @@ import Sortable from 'sortablejs';
     NgxPaginationModule,
     Ng2SearchPipeModule,
     AngularSlickgridModule.forRoot(),
+    AngularSlickgridModule,
     NgxPrintModule,
     NgxPaginationModule,
+    QRCodeModule,
     // Sortable
   ],
   providers: [

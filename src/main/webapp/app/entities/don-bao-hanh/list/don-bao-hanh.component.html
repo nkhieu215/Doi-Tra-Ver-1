@@ -603,22 +603,37 @@
                   style="margin-top: -30px; margin-left: 30px"
                 />
               </div>
-              <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
+              <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
           </header>
           <div align="center">
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 1: Lưu tổ phục vụ đổi sản phẩm</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 80px; font-size: 14px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
-
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
-          <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
+          <div style="display: flex; justify-content: space-between">
+            <div>
+              <p>
+                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
+                  donBaoHanh.maTiepNhan.substr(7, 2)
+                }}
+                Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
+              </p>
+              <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
+              <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
+              <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ... tháng ... năm 20...</div>
+            </div>
+            <div>
+              <div align="right" style="margin-right: 92px">
+                <qrcode [qrdata]="donBaoHanh.maTiepNhan" [width]="10" [errorCorrectionLevel]="'M'" [elementType]="'img'"></qrcode>
+              </div>
+              <br />
+              <div align="right" style="margin-right: 94px; font-size: 14px; margin-top: -30px">{{ donBaoHanh.maTiepNhan }}</div>
+            </div>
+          </div>
           <div>
-            <table id="table" class="table-TN" style="border-spacing: 0px">
+            <table id="table" class="table-TN" style="min-width: 98vw; border-spacing: 0px">
               <thead>
                 <tr>
                   <th style="width: 1rem; border: 0.5px solid black">STT</th>
@@ -661,8 +676,9 @@
               <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
               <div class="col" style="text-align: center">
                 <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                <a [href]="selectedValue"
-                    style="display:block; margin-top:6rem; text-decoration: none; color:black;">{{selectedValue}}</a>
+                <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
+                  selectedValue
+                }}</a>
               </div>
             </div>
           </footer>
@@ -716,15 +732,30 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 2: Khách hàng</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 80px; font-size: 14px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
-
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
-          <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
+          <div style="display: flex; justify-content: space-between">
+            <div>
+              <p>
+                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
+                  donBaoHanh.maTiepNhan.substr(7, 2)
+                }}
+                Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
+              </p>
+              <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
+              <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
+              <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ... tháng ... năm 20...</div>
+            </div>
+            <div>
+              <div align="right" style="margin-right: 92px">
+                <qrcode [qrdata]="donBaoHanh.maTiepNhan" [width]="10" [errorCorrectionLevel]="'M'" [elementType]="'img'"></qrcode>
+              </div>
+              <br />
+              <div align="right" style="margin-right: 94px; font-size: 14px; margin-top: -30px">{{ donBaoHanh.maTiepNhan }}</div>
+            </div>
+          </div>
           <div>
-            <table id="table" class="table-TN" style="border-spacing: 0px">
+            <table id="table" class="table-TN" style="min-width: 98vw; border-spacing: 0px">
               <thead>
                 <tr>
                   <th style="width: 1rem; border: 0.5px solid black">STT</th>
@@ -767,8 +798,9 @@
               <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
               <div class="col" style="text-align: center">
                 <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                <a [href]="selectedValue"
-                    style="display:block; margin-top:6rem; text-decoration: none; color:black;">{{selectedValue}}</a>
+                <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
+                  selectedValue
+                }}</a>
               </div>
             </div>
           </footer>
@@ -822,15 +854,30 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 3: P. KHTT</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 80px; font-size: 14px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
-
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
-          <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
+          <div style="display: flex; justify-content: space-between">
+            <div>
+              <p>
+                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
+                  donBaoHanh.maTiepNhan.substr(7, 2)
+                }}
+                Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
+              </p>
+              <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
+              <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
+              <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ... tháng ... năm 20...</div>
+            </div>
+            <div>
+              <div align="right" style="margin-right: 92px">
+                <qrcode [qrdata]="donBaoHanh.maTiepNhan" [width]="10" [errorCorrectionLevel]="'M'" [elementType]="'img'"></qrcode>
+              </div>
+              <br />
+              <div align="right" style="margin-right: 94px; font-size: 14px; margin-top: -30px">{{ donBaoHanh.maTiepNhan }}</div>
+            </div>
+          </div>
           <div>
-            <table id="table" class="table-TN" style="border-spacing: 0px">
+            <table id="table" class="table-TN" style="min-width: 98vw; border-spacing: 0px">
               <thead>
                 <tr>
                   <th style="width: 1rem; border: 0.5px solid black">STT</th>
@@ -873,8 +920,9 @@
               <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
               <div class="col" style="text-align: center">
                 <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                <a [href]="selectedValue"
-                    style="display:block; margin-top:6rem; text-decoration: none; color:black;">{{selectedValue}}</a>
+                <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
+                  selectedValue
+                }}</a>
               </div>
             </div>
           </footer>
@@ -928,15 +976,30 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 4: Phòng BH1</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 80px; font-size: 14px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
-
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
-          <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
+          <div style="display: flex; justify-content: space-between">
+            <div>
+              <p>
+                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
+                  donBaoHanh.maTiepNhan.substr(7, 2)
+                }}
+                Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
+              </p>
+              <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
+              <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
+              <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ... tháng ... năm 20...</div>
+            </div>
+            <div>
+              <div align="right" style="margin-right: 92px">
+                <qrcode [qrdata]="donBaoHanh.maTiepNhan" [width]="10" [errorCorrectionLevel]="'M'" [elementType]="'img'"></qrcode>
+              </div>
+              <br />
+              <div align="right" style="margin-right: 94px; font-size: 14px; margin-top: -30px">{{ donBaoHanh.maTiepNhan }}</div>
+            </div>
+          </div>
           <div>
-            <table id="table" class="table-TN" style="border-spacing: 0px">
+            <table id="table" class="table-TN" style="min-width: 98vw; border-spacing: 0px">
               <thead>
                 <tr>
                   <th style="width: 1rem; border: 0.5px solid black">STT</th>
@@ -979,8 +1042,9 @@
               <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
               <div class="col" style="text-align: center">
                 <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                <a [href]="selectedValue"
-                    style="display:block; margin-top:6rem; text-decoration: none; color:black;">{{selectedValue}}</a>
+                <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
+                  selectedValue
+                }}</a>
               </div>
             </div>
           </footer>

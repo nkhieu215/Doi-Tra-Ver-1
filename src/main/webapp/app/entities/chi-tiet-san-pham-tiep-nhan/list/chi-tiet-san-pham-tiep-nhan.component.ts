@@ -726,7 +726,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       }
       this.dataCTL = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
       this.chiTietSanPhamTiepNhanCTL = this.chiTietSanPhamTiepNhanCTLGoc;
-      console.log('tong Hop', res);
+      console.log('tong Hop', this.dataCTL);
     });
     this.http.get<any>(this.tongHopCaculateUrl).subscribe(resTongHop => {
       this.chiTietSanPhamTiepNhanGoc = resTongHop.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
@@ -839,7 +839,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         namSanXuat: itemCTL.namSanXuat,
         ngayTiepNhan: itemCTL.ngayTiepNhan,
         ngayPhanTich: itemCTL.ngayPhanTich,
-        idSP: itemCTL.sanPhamId,
+        idSP: itemCTL.idSP,
         idSPTN: itemCTL.idSPTN,
         // idPL: itemCTL.idPL,
         tenSanPham: itemCTL.tenSanPham,
@@ -1029,7 +1029,6 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
 
 export interface ITongHop {
   id: number;
-  chiTietId: number;
   donBaoHanhId: number;
   maTiepNhan: string;
   namSanXuat: Date;
@@ -1056,7 +1055,7 @@ export interface ITongHop {
   tenNhomLoi: string;
   phanTichSanPhamId: number;
   tenTinhTrangPhanLoai: string;
-  sanPhamId: number;
+  idSP: number;
   idSPTN: number;
   idPhanLoai: number;
   tenNhanVienPhanTich: string;

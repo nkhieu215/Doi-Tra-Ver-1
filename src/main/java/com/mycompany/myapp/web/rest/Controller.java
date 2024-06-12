@@ -186,8 +186,8 @@ public class Controller {
 
     //☺ lấy biên bản kiểm nghiệm theo đơn bảo hành
     @GetMapping("danh-sach-bien-ban/kiem-nghiem/{id}")
-    public MaBienBan getBienBanKiemNghiemByDonBaoHanhId(@PathVariable Long id) {
-        MaBienBan maBienBan = this.fullServices.getBienBanKiemNghiemByDonBaoHanhId(id);
+    public List<MaBienBan> getBienBanKiemNghiemByDonBaoHanhId(@PathVariable Long id) {
+        List<MaBienBan> maBienBan = this.fullServices.getBienBanKiemNghiemByDonBaoHanhId(id);
         return maBienBan;
     }
 

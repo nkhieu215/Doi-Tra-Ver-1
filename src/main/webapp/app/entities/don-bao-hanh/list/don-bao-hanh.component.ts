@@ -458,7 +458,7 @@ export class DonBaoHanhComponent implements OnInit {
         formatter: Formatters.progressBar,
         minWidth: 150,
         maxWidth: 150,
-        alwaysRenderColumn: true,
+        // alwaysRenderColumn: true,
         onCellChange: (e: SlickEventData, args: OnEventArgs) => console.log('tesssst: ', args),
         type: FieldType.string,
         filter: {
@@ -629,7 +629,7 @@ export class DonBaoHanhComponent implements OnInit {
       // },
       pagination: {
         pageSizes: [30, 50, 100],
-        pageSize: 30,
+        pageSize: this.donBaoHanhs.length,
       },
       // columnPicker: {
       //   hideForceFitButton: true,
@@ -642,7 +642,7 @@ export class DonBaoHanhComponent implements OnInit {
       enableCellNavigation: true,
       gridHeight: 620,
       gridWidth: '100%',
-      autoHeight: true,
+      // autoHeight: true,
       autoFitColumnsOnFirstLoad: true,
       asyncEditorLoading: true,
       forceFitColumns: false,

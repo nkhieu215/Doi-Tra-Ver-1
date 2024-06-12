@@ -42,7 +42,6 @@ describe('SanPham routing resolve service', () => {
   describe('resolve', () => {
     it('should return ISanPham returned by find', () => {
       // GIVEN
-      service.find = jest.fn(id => of(new HttpResponse({ body: { id } })));
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN

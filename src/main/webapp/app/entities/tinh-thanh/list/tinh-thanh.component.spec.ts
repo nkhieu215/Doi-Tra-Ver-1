@@ -6,6 +6,9 @@ import { of } from 'rxjs';
 import { TinhThanhService } from '../service/tinh-thanh.service';
 
 import { TinhThanhComponent } from './tinh-thanh.component';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
+import { SessionStorageService } from 'ngx-webstorage';
+import { Router } from '@angular/router';
 
 describe('TinhThanh Management Component', () => {
   let comp: TinhThanhComponent;
@@ -16,6 +19,7 @@ describe('TinhThanh Management Component', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [TinhThanhComponent],
+      providers: [NavbarComponent, SessionStorageService, Router],
     })
       .overrideTemplate(TinhThanhComponent, '')
       .compileComponents();

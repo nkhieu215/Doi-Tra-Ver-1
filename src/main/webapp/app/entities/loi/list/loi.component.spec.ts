@@ -6,6 +6,9 @@ import { of } from 'rxjs';
 import { LoiService } from '../service/loi.service';
 
 import { LoiComponent } from './loi.component';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
+import { SessionStorageService } from 'ngx-webstorage';
+import { Router } from '@angular/router';
 
 describe('Loi Management Component', () => {
   let comp: LoiComponent;
@@ -16,6 +19,7 @@ describe('Loi Management Component', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [LoiComponent],
+      providers: [NavbarComponent, SessionStorageService, Router],
     })
       .overrideTemplate(LoiComponent, '')
       .compileComponents();

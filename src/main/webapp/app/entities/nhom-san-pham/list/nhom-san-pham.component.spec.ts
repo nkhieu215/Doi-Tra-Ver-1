@@ -6,6 +6,9 @@ import { of } from 'rxjs';
 import { NhomSanPhamService } from '../service/nhom-san-pham.service';
 
 import { NhomSanPhamComponent } from './nhom-san-pham.component';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
+import { SessionStorageService } from 'ngx-webstorage';
+import { Router } from '@angular/router';
 
 describe('NhomSanPham Management Component', () => {
   let comp: NhomSanPhamComponent;
@@ -16,6 +19,7 @@ describe('NhomSanPham Management Component', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [NhomSanPhamComponent],
+      providers: [SessionStorageService, NavbarComponent, Router],
     })
       .overrideTemplate(NhomSanPhamComponent, '')
       .compileComponents();

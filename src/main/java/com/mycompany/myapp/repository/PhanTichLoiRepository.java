@@ -69,6 +69,8 @@ public interface PhanTichLoiRepository extends JpaRepository<PhanTichLoi, Long> 
     @Query(
         value = "SELECT \n" +
         "\tptLoi.id as loiId,\n" +
+        "\tchiTietSP.id as idSPTN,\n" +
+        "\tsanPham.id as idSP,\n" +
         "    phanTichSP.the_loai_phan_tich as theLoaiPhanTich,\n" +
         "    phanTichSP.detail as serial,\n" +
         "    phanTichSP.lot_number as lotNumber,\n" +

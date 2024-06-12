@@ -6,6 +6,9 @@ import { of } from 'rxjs';
 import { NganhService } from '../service/nganh.service';
 
 import { NganhComponent } from './nganh.component';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
+import { SessionStorageService } from 'ngx-webstorage';
+import { Router } from '@angular/router';
 
 describe('Nganh Management Component', () => {
   let comp: NganhComponent;
@@ -16,6 +19,7 @@ describe('Nganh Management Component', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [NganhComponent],
+      providers: [SessionStorageService, NavbarComponent, Router],
     })
       .overrideTemplate(NganhComponent, '')
       .compileComponents();

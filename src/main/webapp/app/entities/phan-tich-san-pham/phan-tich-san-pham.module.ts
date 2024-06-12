@@ -11,9 +11,10 @@ import { PhanTichSanPhamUpdateComponent } from './update/phan-tich-san-pham-upda
 import { PhanTichSanPhamDeleteDialogComponent } from './delete/phan-tich-san-pham-delete-dialog.component';
 import { PhanTichSanPhamRoutingModule } from './route/phan-tich-san-pham-routing.module';
 import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
-  imports: [SharedModule, PhanTichSanPhamRoutingModule, AngularSlickgridModule, NgxPrintModule],
+  imports: [SharedModule, PhanTichSanPhamRoutingModule, AngularSlickgridModule, NgxPrintModule, QRCodeModule],
   declarations: [
     PhanTichSanPhamComponent,
     PhanTichSanPhamDetailComponent,
