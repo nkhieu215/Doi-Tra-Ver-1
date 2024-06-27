@@ -22,6 +22,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   tongHopDBHUrl = this.applicationConfigService.getEndpointFor('api/thong-tin-don-bao-hanh');
   sanPhamDBHUrl = this.applicationConfigService.getEndpointFor('api/san-pham-don-bao-hanh2');
   phanLoaiSanPhamUrl = this.applicationConfigService.getEndpointFor('api/chi-tiet-phan-loai-san-pham');
+  tongHopNewUrl = this.applicationConfigService.getEndpointFor('api/tong-hop-new');
   chiTietSanPhamTiepNhans?: IChiTietSanPhamTiepNhan[];
   popupViewCTL = false;
   isLoading = false;
@@ -146,6 +147,10 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     this.startDates = this.startDate(today);
     this.endDates = this.endDate(today);
     console.log('date time', this.dateTimeSearchKey);
+    this.http.post<any>(this.tongHopNewUrl, this.dateTimeSearchKey).subscribe(res => {
+      console.log('check kết quả tổng hợp mới', res);
+      console.log('check time', this.dateTimeSearchKey);
+    });
     this.loadAll();
     this.dataShow();
     this.getTongHopUrl();

@@ -77,6 +77,13 @@ public class Controller {
         return request;
     }
 
+    //☺ Thêm mới đơn bảo hành theo quy tắc mới ( cập nhật thì bật lên )
+    @PostMapping("don-bao-hanh/them-moi-new")
+    public DonBaoHanh postDonBaoHanhNew(@RequestBody DonBaoHanh request) {
+        this.fullServices.postDonBaoHanhNew(request);
+        return request;
+    }
+
     //☺ Thêm mới chi Tiết đơn bảo hành
     @PostMapping("don-bao-hanh/them-moi-chi-tiet")
     public List<ChiTietSanPhamTiepNhan> postChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> request) {
@@ -257,6 +264,12 @@ public class Controller {
         List<PhanLoaiChiTietDonBaoHanhResponse> phanLoaiChiTietDonBaoHanhResponses =
             this.fullServices.ExportPhanLoaiChiTietDonBaoHanh(request);
         return phanLoaiChiTietDonBaoHanhResponses;
+    }
+
+    @PostMapping("tong-hop-new")
+    public List<TongHopNewResponse> tongHopNew(@RequestBody DateTimeSearchDTO dto) {
+        List<TongHopNewResponse> tongHopNewResponses = this.fullServices.tongHopNew(dto);
+        return tongHopNewResponses;
     }
 
     // * ---------------- san pham ---------------

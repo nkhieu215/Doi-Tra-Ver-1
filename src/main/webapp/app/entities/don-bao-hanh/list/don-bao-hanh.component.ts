@@ -54,6 +54,7 @@ export class DonBaoHanhComponent implements OnInit {
   updateDonBaoHanhUrl = this.applicationConfigService.getEndpointFor('api/update-don-bao-hanh');
   updateDonBaoHanhPhanLoaiUrl = this.applicationConfigService.getEndpointFor('api/update-don-bao-hanh-phan-loai');
   postDonBaoHanhUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanh/them-moi');
+  postDonBaoHanhNewUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanh/them-moi-new');
   postChiTietDonBaoHanhUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanh/them-moi-chi-tiet');
   postPhanLoaiChiTietTiepNhanUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanh/them-moi-phan-loai');
   putPhanLoaiChiTietTiepNhanUrl = this.applicationConfigService.getEndpointFor(
@@ -961,8 +962,8 @@ export class DonBaoHanhComponent implements OnInit {
       //tạo mã tiếp nhận theo thời gian thực
       this.donBaoHanh.maTiepNhan = this.taoMaTiepNhan();
       // thêm mới đơn bảo hành
-      this.http.post<any>(this.postDonBaoHanhUrl, this.donBaoHanh).subscribe(res => {
-        // console.log('donbao hanh:', res);
+      console.log('donbao hanh:', this.donBaoHanh);
+      this.http.post<any>(this.postDonBaoHanhNewUrl, this.donBaoHanh).subscribe(res => {
         //thêm mới chi tiết sản phẩm tiếp nhận tách ra từ từ danh sách import
         for (let i = 0; i < this.themMoiDonBaoHanh.length; i++) {
           const item: IChiTietSanPhamTiepNhan = {
@@ -1072,27 +1073,7 @@ export class DonBaoHanhComponent implements OnInit {
     } else {
       this.month = getMonth.toString();
     }
-    if (date.getDate() < 10) {
-      this.date = `0${date.getDate()}`;
-    } else {
-      this.date = date.getDate().toString();
-    }
-    if (date.getHours() < 10) {
-      this.hours = `0${date.getHours()}`;
-    } else {
-      this.hours = date.getHours().toString();
-    }
-    if (date.getMinutes() < 10) {
-      this.minutes = `0${date.getMinutes()}`;
-    } else {
-      this.minutes = date.getMinutes().toString();
-    }
-    if (date.getSeconds() < 10) {
-      this.seconds = `0${date.getSeconds()}`;
-    } else {
-      this.seconds = date.getSeconds().toString();
-    }
-    const maTiepNhan = `DBH${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
+    const maTiepNhan = `DBH${this.year}${this.month}`;
     // console.log('tao moi ma tiep nhan:', maTiepNhan);
     return maTiepNhan;
   }

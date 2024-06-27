@@ -94,4 +94,7 @@ public interface DonBaoHanhRepository extends JpaRepository<DonBaoHanh, Long> {
         nativeQuery = true
     )
     List<SanPhamResponse> ExportListChiTietDonBaoHanh(String startDate, String endDate);
+
+    @Query(value = "SELECT max(don_bao_hanh_id) FROM `don_bao_hanh` ;", nativeQuery = true)
+    public Integer selectMaxId();
 }

@@ -1,6 +1,5 @@
 # ===================================================================
-# Spring Boot configuration for the "dev" profile.
-#
+# Spring Boot configuration for the "dev" profile.#
 # This configuration overrides the application.yml file.
 #
 # More information on profiles: https://www.jhipster.tech/profiles/
@@ -32,9 +31,12 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mariadb://localhost:3307/baohanh2?useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mariadb://192.168.68.77:3307/baohanh2?useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: Rangdong@123
+    #    url: jdbc:mariadb://localhost:3308/baohanh2?useLegacyDatetimeCode=false&serverTimezone=UTC
+    #    username: root
+    #    password: Ncbhtnvdt1
     hikari:
       poolName: Hikari
       auto-commit: false

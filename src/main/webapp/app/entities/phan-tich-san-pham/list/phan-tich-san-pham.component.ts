@@ -634,7 +634,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.resultOfSanPhamTheoKho = this.resultOfSanPhamTheoKho.filter(item => item.key !== '');
           this.resultOfSanPhamTheoKhoTL = this.resultOfSanPhamTheoKhoTL.filter(item => item.key !== '');
           this.updateDanhSachBienBanTheoKho();
-          console.log('Danh sách phân tách sản phẩm theo kho: ', this.resultOfSanPhamTheoKho);
+          console.log('Danh sách phân tách sản phẩm theo kho: ', this.listOfChiTietSanPhamPhanTich);
           this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTich.filter(item => item.slTiepNhan !== 0);
           for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
             this.updateTienDoSanPhamPhanTich(this.listOfChiTietSanPhamPhanTich[i].id, i);
@@ -1367,7 +1367,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         this.donBaoHanhs[i].tienDo = this.donBaoHanh.tienDo;
       }
     }
-    // window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
+    // Lọc danh sách
     this.listOfPhanTichSanPhamByPLCTTN = this.listOfPhanTichSanPhamByPLCTTN.filter(item => item.tenSanPham !== '');
     // console.log(this.listOfPhanTichSanPhamByPLCTTN);
     if (this.donBaoHanh.tienDo > 0) {
@@ -1394,11 +1394,12 @@ export class PhanTichSanPhamComponent implements OnInit {
         }
         //cập nhật DB phân tích lỗi
         this.listOfKhaiBaoLoi = this.listOfKhaiBaoLoi.filter((item: any) => item.soLuong !== 0);
-        this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
-          this.openPopupNoti('Cập nhật thành công');
-          this.closePopup();
-          this.listOfKhaiBaoLoi = [];
-        });
+        console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
+        // this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
+        //   this.openPopupNoti('Cập nhật thành công');
+        //   this.closePopup();
+        //   this.listOfKhaiBaoLoi = [];
+        // });
       }, 200);
     });
     console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);

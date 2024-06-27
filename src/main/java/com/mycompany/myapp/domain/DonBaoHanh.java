@@ -54,6 +54,10 @@ public class DonBaoHanh implements Serializable {
     @Column(name = "ngay_tra_bien_ban")
     private ZonedDateTime ngayTraBienBan;
 
+    //☺( cập nhật thì bật lên )
+    @Column(name = "don_bao_hanh_id")
+    private Integer donBaoHanhId;
+
     @OneToMany(mappedBy = "donBaoHanh")
     @JsonIgnoreProperties(value = { "sanPham", "donBaoHanh", "phanLoaiChiTietTiepNhans" }, allowSetters = true)
     private Set<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhans = new HashSet<>();
@@ -70,6 +74,15 @@ public class DonBaoHanh implements Serializable {
 
     public Integer getSlPhanTich() {
         return slPhanTich;
+    }
+
+    //☺( cập nhật thì bật lên )
+    public Integer getDonBaoHanhId() {
+        return donBaoHanhId;
+    }
+
+    public void setDonBaoHanhId(Integer donBaoHanhId) {
+        this.donBaoHanhId = donBaoHanhId;
     }
 
     public void setSlPhanTich(Integer slPhanTich) {

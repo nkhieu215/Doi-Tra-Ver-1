@@ -166,6 +166,26 @@ public class FullServices {
         return request;
     }
 
+    //☺ Thêm mới đơn bảo hành theo quy tắc mới ( cập nhật thì bật lên )
+    public DonBaoHanh postDonBaoHanhNew(DonBaoHanh donBaoHanh) {
+        Integer max = this.donBaoHanhRepository.selectMaxId() + 1;
+        donBaoHanh.setDonBaoHanhId(max);
+        if (max < 1000) {
+            donBaoHanh.setMaTiepNhan(donBaoHanh.getMaTiepNhan() + "-000" + max.toString());
+            this.donBaoHanhRepository.save(donBaoHanh);
+        } else if (1000 < max && max < 10000) {
+            donBaoHanh.setMaTiepNhan(donBaoHanh.getMaTiepNhan() + "-00" + max.toString());
+            this.donBaoHanhRepository.save(donBaoHanh);
+        } else if (10000 < max && max < 100000) {
+            donBaoHanh.setMaTiepNhan(donBaoHanh.getMaTiepNhan() + "-0" + max.toString());
+            this.donBaoHanhRepository.save(donBaoHanh);
+        } else if (100000 < max) {
+            donBaoHanh.setMaTiepNhan(donBaoHanh.getMaTiepNhan() + "-" + max.toString());
+            this.donBaoHanhRepository.save(donBaoHanh);
+        }
+        return donBaoHanh;
+    }
+
     //☺ thêm mới chi tiết sản phẩm tiếp nhận
     public List<ChiTietSanPhamTiepNhan> postChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList) {
         List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList = new ArrayList<>();
@@ -407,14 +427,14 @@ public class FullServices {
         return donBaoHanhResponses;
     }
 
-    // ExportListChiTietDonBaoHanh
+    //☺ ExportListChiTietDonBaoHanh
     public List<SanPhamResponse> ExportListChiTietDonBaoHanh(DateTimeSearchDTO request) {
         List<SanPhamResponse> sanPhamResponses =
             this.donBaoHanhRepository.ExportListChiTietDonBaoHanh(request.getStartDate() + "T00:00:00", request.getEndDate() + "T23:59:59");
         return sanPhamResponses;
     }
 
-    //ExportPhanLoaiChiTietDonBaoHanh
+    //☺ExportPhanLoaiChiTietDonBaoHanh
     public List<PhanLoaiChiTietDonBaoHanhResponse> ExportPhanLoaiChiTietDonBaoHanh(DateTimeSearchDTO request) {
         List<PhanLoaiChiTietDonBaoHanhResponse> phanLoaiChiTietDonBaoHanhResponses =
             this.phanLoaiChiTietTiepNhanRepository.ExportPhanLoaiChiTietDonBaoHanh(
@@ -422,6 +442,13 @@ public class FullServices {
                     request.getEndDate() + "T23:59:59"
                 );
         return phanLoaiChiTietDonBaoHanhResponses;
+    }
+
+    //☺ Xuất file excel format mới
+    public List<TongHopNewResponse> tongHopNew(DateTimeSearchDTO request) {
+        List<TongHopNewResponse> sanPhamResponses =
+            this.phanTichLoiRepository.tongHopNew(request.getStartDate() + "T00:00:00", request.getEndDate() + "T23:59:59");
+        return sanPhamResponses;
     }
 
     // * --------------------- San pham -----------------

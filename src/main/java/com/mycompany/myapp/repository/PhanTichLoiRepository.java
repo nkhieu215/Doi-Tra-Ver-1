@@ -1,6 +1,7 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.PhanTichLoi;
+import com.mycompany.myapp.domain.TongHopNewResponse;
 import com.mycompany.myapp.domain.TongHopResponse;
 import java.util.List;
 import org.springframework.data.jpa.repository.*;
@@ -119,4 +120,83 @@ public interface PhanTichLoiRepository extends JpaRepository<PhanTichLoi, Long> 
         nativeQuery = true
     )
     List<TongHopResponse> tongHop(String startDate, String endDate);
+
+    @Query(
+        value = "SELECT \n" +
+        "sp.id as spId,\n" +
+        "sp.name as tenSanPham,\n" +
+        "nganh.ten_nganh as nganh,\n" +
+        "sp.ten_chung_loai as sanpham,\n" +
+        "nsp.name as nhomSanPham ,\n" +
+        "cl.ten_chung_loai as chungLoai,\n" +
+        "sp.nhom_sp_theo_cong_suat as nhomSanPhamTheoCongSuat,\n" +
+        "(select sum(plctsp1.so_luong) FROM baohanh2.phan_loai_chi_tiet_tiep_nhan as plctsp1 \n" +
+        "inner join baohanh2.chi_tiet_san_pham_tiep_nhan as ctsptn on ctsptn.id = plctsp1.chi_tiet_san_pham_tiep_nhan_id\n" +
+        "inner join baohanh2.san_pham as sp1 on sp1.id = ctsptn.san_pham_id\n" +
+        "inner join baohanh2.don_bao_hanh as dbh on dbh.id = ctsptn.don_bao_hanh_id\n" +
+        "where sp.id = sp1.id and plctsp1.danh_sach_tinh_trang_id = 1 \n" +
+        "and dbh.ngay_tiep_nhan between ?1 and ?2) as tongDoiTra ,\n" + //?
+        "sum(case when ptsp.phan_loai_chi_tiet_tiep_nhan_id and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as tongLoi,\n" +
+        "sum(case when loi.chi_chu ='Lỗi kỹ thuật' and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as tongLoiKyThuat,\n" +
+        "sum(case when loi.chi_chu ='Lỗi linh động' and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as tongLoiLinhDong,\n" +
+        "sum(case when ptl.loi_id =1 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi1,\n" +
+        "sum(case when ptl.loi_id =2 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi2,\n" +
+        "sum(case when ptl.loi_id =3 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi3,\n" +
+        "sum(case when ptl.loi_id =4 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi4,\n" +
+        "sum(case when ptl.loi_id =5 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi5,\n" +
+        "sum(case when ptl.loi_id =6 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi6,\n" +
+        "sum(case when ptl.loi_id =7 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi7,\n" +
+        "sum(case when ptl.loi_id =8 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi8,\n" +
+        "sum(case when ptl.loi_id =9 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi9,\n" +
+        "sum(case when ptl.loi_id =10 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi10,\n" +
+        "sum(case when ptl.loi_id =11 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi11,\n" +
+        "sum(case when ptl.loi_id =12 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi12,\n" +
+        "sum(case when ptl.loi_id =13 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi13,\n" +
+        "sum(case when ptl.loi_id =14 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi14,\n" +
+        "sum(case when ptl.loi_id =15 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi15,\n" +
+        "sum(case when ptl.loi_id =16 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi16,\n" +
+        "sum(case when ptl.loi_id =17 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi17,\n" +
+        "sum(case when ptl.loi_id =18 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi18,\n" +
+        "sum(case when ptl.loi_id =19 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi19,\n" +
+        "sum(case when ptl.loi_id =20 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi20,\n" +
+        "sum(case when ptl.loi_id =21 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi21,\n" +
+        "sum(case when ptl.loi_id =22 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi22,\n" +
+        "sum(case when ptl.loi_id =23 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi23,\n" +
+        "sum(case when ptl.loi_id =24 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi24,\n" +
+        "sum(case when ptl.loi_id =25 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi25,\n" +
+        "sum(case when ptl.loi_id =26 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi26,\n" +
+        "sum(case when ptl.loi_id =27 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi27,\n" +
+        "sum(case when ptl.loi_id =28 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi28,\n" +
+        "sum(case when ptl.loi_id =29 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi29,\n" +
+        "sum(case when ptl.loi_id =30 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi30,\n" +
+        "sum(case when ptl.loi_id =31 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi31,\n" +
+        "sum(case when ptl.loi_id =32 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi32,\n" +
+        "sum(case when ptl.loi_id =33 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi33,\n" +
+        "sum(case when ptl.loi_id =34 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi34,\n" +
+        "sum(case when ptl.loi_id =35 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi35,\n" +
+        "sum(case when ptl.loi_id =36 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi36,\n" +
+        "sum(case when ptl.loi_id =37 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi37,\n" +
+        "sum(case when ptl.loi_id =38 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi38,\n" +
+        "sum(case when ptl.loi_id =39 and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as loi39\n" +
+        "FROM `phan_tich_loi` as ptl  \n" +
+        "inner join baohanh2.loi on loi.id = ptl.loi_id\n" +
+        "inner join baohanh2.phan_tich_san_pham as ptsp on ptl.phan_tich_san_pham_id = ptsp.id\n" +
+        "inner join baohanh2.phan_loai_chi_tiet_tiep_nhan as plctsp on plctsp.id = ptsp.phan_loai_chi_tiet_tiep_nhan_id\n" +
+        "inner join baohanh2.chi_tiet_san_pham_tiep_nhan as ctsptn on ctsptn.id = plctsp.chi_tiet_san_pham_tiep_nhan_id\n" +
+        "inner join baohanh2.san_pham as sp on sp.id = ctsptn.san_pham_id\n" +
+        "inner join baohanh2.nganh on nganh.id = sp.nganh_id\n" +
+        "inner join baohanh2.nhom_san_pham as nsp on nsp.id = sp.nhom_san_pham_id\n" +
+        "inner join baohanh2.chung_loai as cl on cl.id = nsp.chung_loai_id \n" +
+        "inner join baohanh2.don_bao_hanh as dbh on dbh.id = ctsptn.don_bao_hanh_id\n" +
+        "where dbh.ngay_tiep_nhan between ?1 and ?2\n" + //?
+        "group by sp.id order by \n" +
+        "case\n" +
+        "when nganh.id = 2 then 1\n" +
+        "when nganh.id = 3 then 2\n" +
+        "when nganh.id = 4 then 3\n" +
+        "when nganh.id = 1 then 4\n" +
+        "end asc;",
+        nativeQuery = true
+    )
+    public List<TongHopNewResponse> tongHopNew(String startDate, String endDate);
 }
