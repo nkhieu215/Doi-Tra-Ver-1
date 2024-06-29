@@ -4,6 +4,7 @@ public interface TongHopNewResponse {
     Integer getSpId();
     String getTenSanPham();
     String getNganh();
+    String getSanPham();
     String getNhomSanPham();
     String getChungLoai();
     String getNhomSanPhamTheoCongSuat();
