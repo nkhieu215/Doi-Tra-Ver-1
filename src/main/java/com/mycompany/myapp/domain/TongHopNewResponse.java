@@ -12,6 +12,14 @@ public interface TongHopNewResponse {
     Integer getTongLoi();
     Integer getTongLoiKyThuat();
     Integer getTongLoiLinhDong();
+    Integer getSoLuongXuatKho();
+    Integer getTiLeDoiTraLoiKyThuat();
+    Integer getTiLeDoiTraLoiLinhDong();
+
+    Integer getTiLeDoiTra();
+
+    Integer getTiLePPMDoiTra();
+
     Integer getLoi1();
     Integer getLoi2();
     Integer getLoi3();

@@ -134,7 +134,7 @@ public interface PhanTichLoiRepository extends JpaRepository<PhanTichLoi, Long> 
         "inner join baohanh2.chi_tiet_san_pham_tiep_nhan as ctsptn on ctsptn.id = plctsp1.chi_tiet_san_pham_tiep_nhan_id\n" +
         "inner join baohanh2.san_pham as sp1 on sp1.id = ctsptn.san_pham_id\n" +
         "inner join baohanh2.don_bao_hanh as dbh on dbh.id = ctsptn.don_bao_hanh_id\n" +
-        "where sp.id = sp1.id and plctsp1.danh_sach_tinh_trang_id = 1 \n" +
+        "where sp.id = sp1.id and plctsp1.danh_sach_tinh_trang_id = 1 and plctsp1.so_luong > 0 \n" +
         "and dbh.ngay_tiep_nhan between ?1 and ?2) as tongDoiTra ,\n" + //?
         "sum(case when ptsp.phan_loai_chi_tiet_tiep_nhan_id and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as tongLoi,\n" +
         "sum(case when loi.chi_chu ='Lỗi kỹ thuật' and plctsp.danh_sach_tinh_trang_id = 1 then ptl.so_luong end) as tongLoiKyThuat,\n" +
