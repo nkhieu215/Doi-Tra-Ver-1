@@ -465,11 +465,13 @@ public class FullServices {
         Integer loiLinhDong = 0;
         List<PhanTichSanPham> phanTichSanPhamList = this.phanTichSanPhamRepository.findAllByPhanLoaiChiTietTiepNhanId(id);
         for (PhanTichSanPham phanTichSanPham : phanTichSanPhamList) {
-            PhanTichLoi phanTichLoi = this.phanTichLoiRepository.findByPhanTichSanPhamId(phanTichSanPham.getId());
-            if (phanTichLoi.getGhiChu().equals("Lỗi kỹ thuật")) {
-                loiKyThuat++;
-            } else if (phanTichLoi.getGhiChu().equals("Lỗi linh động")) {
-                loiLinhDong++;
+            List<PhanTichLoi> phanTichLois = this.phanTichLoiRepository.findAllByPhanTichSanPhamId(phanTichSanPham.getId());
+            for (PhanTichLoi phanTichLoi : phanTichLois) {
+                if (phanTichLoi.getGhiChu().equals("Lỗi kỹ thuật") && phanTichLoi.getSoLuong() != null) {
+                    loiKyThuat++;
+                } else if (phanTichLoi.getGhiChu().equals("Lỗi linh động") && phanTichLoi.getSoLuong() != null) {
+                    loiLinhDong++;
+                }
             }
         }
         response.setLoiKyThuat(loiKyThuat);
