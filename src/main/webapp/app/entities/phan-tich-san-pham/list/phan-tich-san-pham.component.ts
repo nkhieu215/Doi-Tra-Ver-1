@@ -133,6 +133,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   popupInBBTL = false;
   idBBTN = 0;
   popupSelectButton = false;
+
+  popupInBBTNtest = false;
   // biến chứa index của danh sách sản phẩm cần phân tích
   indexOfPhanTichSanPham = 0;
   // Biến chứa vị trí index của phần tử cần khai báo lỗi
@@ -1688,5 +1690,13 @@ export class PhanTichSanPhamComponent implements OnInit {
   onSelectChanged(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedValue = selectElement.value;
+  }
+
+  openPopupInBBTnTest(): void {
+    this.popupInBBTNtest = true;
+  }
+
+  closePopupInBBTnTest(): void {
+    this.popupInBBTNtest = false;
   }
 }
