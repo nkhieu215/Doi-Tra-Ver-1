@@ -1044,7 +1044,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     } else if (tenKho === 'Kho3') {
       maKho = '03';
     }
-    console.log('ma kho:', maKho);
+    // console.log('ma kho:', maKho);
     this.maBienBan = '';
     this.loaiBienBan = 'Thanh lý';
     //cập nhật mã kho
@@ -1066,7 +1066,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.bienBanKiemNghiem = res[i];
         }
       }
-      console.log('Biên bản kiểm nghiệm', res);
+      // console.log('Biên bản kiểm nghiệm', res);
     });
     setTimeout(() => {
       if (this.bienBanKiemNghiem === null || this.bienBanTiepNhan === null) {
@@ -1396,7 +1396,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         }
         //cập nhật DB phân tích lỗi
         this.listOfKhaiBaoLoi = this.listOfKhaiBaoLoi.filter((item: any) => item.soLuong !== 0);
-        console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
+        // console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
         // this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
         //   this.openPopupNoti('Cập nhật thành công');
         //   this.closePopup();
@@ -1404,7 +1404,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         // });
       }, 200);
     });
-    console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
+    // console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
     // cập nhật phân tích lỗi
     // cập nhật số lượng đã phân tích ở đơn bảo hành
   }

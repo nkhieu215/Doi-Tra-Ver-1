@@ -678,7 +678,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         minWidth: 10,
       },
     ];
-    console.log('header', this.conlumDefinitionCTL);
+    // console.log('header', this.conlumDefinitionCTL);
     this.gridOptions = {
       enableAutoResize: true,
       enableSorting: true,
@@ -796,7 +796,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       }
       this.data = resTongHop.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
       this.chiTietSanPhamTiepNhan = this.chiTietSanPhamTiepNhanGoc;
-      console.log('caculate', resTongHop);
+      // console.log('caculate', resTongHop);
     });
   }
 
@@ -831,7 +831,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       console.log('startDate:', dateTimeSearchKey);
       this.dateTimeSearchKey = dateTimeSearchKey;
       this.http.post<any>(this.tongHopUrl, dateTimeSearchKey).subscribe(res => {
-        console.log('check ressult search:', res);
+        // console.log('check ressult search:', res);
         this.chiTietSanPhamTiepNhanCTLGoc = res;
         for (let i = 0; i < this.chiTietSanPhamTiepNhanCTLGoc.length; ++i) {
           this.chiTietSanPhamTiepNhanCTLGoc[i].id = i + 1;
@@ -855,7 +855,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     this.getDonBaoHanhInfo();
     this.getChiTietDonBaoHanhInfo();
     this.getPhanLoaiChiTietDonBaoHanhInfo();
-    console.log(this.data, this.dataCT, this.dataSP);
+    // console.log(this.data, this.dataCT, this.dataSP);
     setTimeout(() => {
       const donBaoHanh = this.data.map(item => ({
         maTiepNhan: item.maTiepNhan,
@@ -914,7 +914,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         nguoiPhanTich: itemCTL.tenNhanVienPhanTich,
         id: itemCTL.id,
       }));
-      console.log('dataCTL', this.dataCTL);
+      // console.log('dataCTL', this.dataCTL);
       // const data = document.getElementById("table-data");
       const wsDBH: XLSX.WorkSheet = XLSX.utils.json_to_sheet(donBaoHanh);
       const wsSPDBH: XLSX.WorkSheet = XLSX.utils.json_to_sheet(SPdonBaoHanh);
@@ -1021,7 +1021,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       }
     }
     this.handleSearchCTL();
-    console.log('header search body', this.dataSearch);
+    // console.log('header search body', this.dataSearch);
     // this.handleSearchCTL();
   }
   //Filter trong danh sách chi tiết
@@ -1050,7 +1050,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         item.tenChungLoai.toLowerCase().includes(this.dataSearch.tenChungLoai) &&
         item.tenNhomSanPham.toLowerCase().includes(this.dataSearch.tenNhomSanPham)
     );
-    console.log('result', this.chiTietSanPhamTiepNhanCTL);
+    // console.log('result', this.chiTietSanPhamTiepNhanCTL);
     this.dataCTL = this.chiTietSanPhamTiepNhanCTLGoc.filter(
       item =>
         item.maTiepNhan.toLowerCase().includes(this.dataSearch.maTiepNhan) &&
@@ -1090,7 +1090,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   getExportExcel(): void {
     this.dataExcel = [];
     this.http.post<any>(this.tongHopNewUrl, this.dateTimeSearchKey).subscribe(res => {
-      console.log('check kết quả tổng hợp mới', res);
+      // console.log('check kết quả tổng hợp mới', res);
       const item = {
         tenSanPham: '',
         nganh: '',
@@ -1263,7 +1263,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         }
         this.dataExcel = [item, ...this.dataExcel];
         this.exportExcel();
-        console.log('res data tong hop', this.dataExcel);
+        // console.log('res data tong hop', this.dataExcel);
       }, 1000);
     });
   }

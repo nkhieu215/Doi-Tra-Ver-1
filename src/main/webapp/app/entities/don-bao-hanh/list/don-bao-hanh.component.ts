@@ -962,7 +962,7 @@ export class DonBaoHanhComponent implements OnInit {
       //tạo mã tiếp nhận theo thời gian thực
       this.donBaoHanh.maTiepNhan = this.taoMaTiepNhan();
       // thêm mới đơn bảo hành
-      console.log('donbao hanh:', this.donBaoHanh);
+      // console.log('donbao hanh:', this.donBaoHanh);
       this.http.post<any>(this.postDonBaoHanhNewUrl, this.donBaoHanh).subscribe(res => {
         //thêm mới chi tiết sản phẩm tiếp nhận tách ra từ từ danh sách import
         for (let i = 0; i < this.themMoiDonBaoHanh.length; i++) {
@@ -1812,7 +1812,7 @@ export class DonBaoHanhComponent implements OnInit {
     this.gridObj = angularGrid.slickGrid;
     // setInterval(()=>{
     this.dataViewObj = angularGrid.dataView;
-    console.log('onGridMenuColumnsChanged11111', this.angularGrid);
+    // console.log('onGridMenuColumnsChanged11111', this.angularGrid);
     // },1000)
   }
   onMenuShow(e: any): void {
@@ -1830,6 +1830,6 @@ export class DonBaoHanhComponent implements OnInit {
   onSelectChanged(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedValue = selectElement.value;
-    console.log('select', this.selectedValue);
+    // console.log('select', this.selectedValue);
   }
 }
