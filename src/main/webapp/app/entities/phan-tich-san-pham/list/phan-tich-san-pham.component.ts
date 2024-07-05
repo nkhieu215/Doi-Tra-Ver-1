@@ -1382,7 +1382,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     }
     this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
       this.listOfPhanTichSanPhamByPLCTTN = res;
-      // console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
+      console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
       setTimeout(() => {
         //cập nhật danh sách phân tích lỗi
         for (let i = 0; i < this.listOfKhaiBaoLoi.length; i++) {
@@ -1395,11 +1395,11 @@ export class PhanTichSanPhamComponent implements OnInit {
         //cập nhật DB phân tích lỗi
         this.listOfKhaiBaoLoi = this.listOfKhaiBaoLoi.filter((item: any) => item.soLuong !== 0);
         // console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
-        // this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
-        //   this.openPopupNoti('Cập nhật thành công');
-        //   this.closePopup();
-        //   this.listOfKhaiBaoLoi = [];
-        // });
+        this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
+          this.openPopupNoti('Cập nhật thành công');
+          this.closePopup();
+          this.listOfKhaiBaoLoi = [];
+        });
       }, 200);
     });
     // console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
@@ -1446,7 +1446,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       this.catchChangeOfListKhaiBaoLoi.push(khaiBaoLoi);
     }
     // console.log('danh sách khai báo lỗi: ', this.listOfPhanTichSanPhamByPLCTTN);
-    // console.log('index before: ', this.indexOfChiTietPhanTichSanPham);
+    console.log('index before: ', this.indexOfChiTietPhanTichSanPham);
   }
 
   // hàm xử lý check all
