@@ -5,8 +5,6 @@ import { IPhanLoaiChiTietTiepNhan } from './../../phan-loai-chi-tiet-tiep-nhan/p
 import { ApplicationConfigService } from './../../../core/config/application-config.service';
 import { ISanPham } from './../../san-pham/san-pham.model';
 import { FormBuilder } from '@angular/forms';
-import { ButtonPrintComponent } from './button-print.component';
-import { RowDetailPreloadComponent } from './rowdetail-preload.component';
 import { IKhachHang } from './../../khach-hang/khach-hang.model';
 import { KhachHangService } from './../../khach-hang/service/khach-hang.service';
 import {
@@ -191,6 +189,8 @@ export class DonBaoHanhComponent implements OnInit {
   savePhanLoai: any;
   selectedValue = '';
 
+  popupInBBTNtest = false;
+
   constructor(
     protected rowDetailViewComponent: RowDetailViewComponent,
     protected donBaoHanhService: DonBaoHanhService,
@@ -283,7 +283,7 @@ export class DonBaoHanhComponent implements OnInit {
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.idDonBaoHanh = args.dataContext.id;
           this.donBaoHanh = args.dataContext;
-          this.openPopupBBTN(args.dataContext.id);
+          this.openPopupInBBTNTest(args.dataContext.id);
           // console.log('id? ', args.dataContext.id);
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
@@ -1344,6 +1344,59 @@ export class DonBaoHanhComponent implements OnInit {
     this.getChiTietPhanLoais(id);
   }
 
+  openPopupInBBTNTest(id: number): void {
+    this.maBienBan = '';
+    this.popupInBBTNtest = true;
+    this.navBarComponent.toggleSidebar2();
+    this.loaiBienBan = 'Tiếp nhận';
+    for (let i = 0; i < this.danhSachBienBan.length; i++) {
+      if (this.loaiBienBan === this.danhSachBienBan[i].loaiBienBan && this.idDonBaoHanh === this.danhSachBienBan[i].donBaoHanh.id) {
+        this.maBienBan = this.danhSachBienBan[i].maBienBan;
+        //lưu thông tin thêm mới biên bản
+        this.themMoiBienBan = this.danhSachBienBan[i];
+        // console.log('Cap nhat thong tin bien ban:', this.themMoiBienBan);
+      }
+    }
+    if (this.maBienBan === '') {
+      const date = new Date();
+      this.year = date.getFullYear().toString().slice(-2);
+      const getMonth = date.getMonth() + 1;
+      if (getMonth < 10) {
+        this.month = `0${getMonth}`;
+      } else {
+        this.month = getMonth.toString();
+      }
+      if (date.getDate() < 10) {
+        this.date = `0${date.getDate()}`;
+      } else {
+        this.date = date.getDate().toString();
+      }
+      if (date.getHours() < 10) {
+        this.hours = `0${date.getHours()}`;
+      } else {
+        this.hours = date.getHours().toString();
+      }
+      if (date.getMinutes() < 10) {
+        this.minutes = `0${date.getMinutes()}`;
+      } else {
+        this.minutes = date.getMinutes().toString();
+      }
+      if (date.getSeconds() < 10) {
+        this.seconds = `0${date.getSeconds()}`;
+      } else {
+        this.seconds = date.getSeconds().toString();
+      }
+      this.maBienBan = `TN${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
+      this.themMoiBienBan = { id: null, maBienBan: this.maBienBan, loaiBienBan: this.loaiBienBan, soLanIn: 0, donBaoHanh: this.donBaoHanh };
+      // console.log('them moi bien ban:', this.themMoiBienBan);
+    }
+    // lấy dữ liệu từ sessision
+    this.getChiTietPhanLoais(id);
+  }
+
+  closePopupInBBTNTest(): void {
+    this.popupInBBTNtest = false;
+  }
   openPopupInBBTN1(): void {
     this.maBienBan = '';
     this.loaiBienBan = 'Tiếp nhận';
@@ -1554,8 +1607,9 @@ export class DonBaoHanhComponent implements OnInit {
   xacNhanInBienBan(): void {
     this.themMoiBienBan.soLanIn++;
     this.http.post<any>(this.postMaBienBanUrl, this.themMoiBienBan).subscribe(res => {
-      // console.log('thành công:', res);
+      console.log('thành công:', res);
       // window.location.reload();
+      this.getDanhSachBienBan();
       this.popupInBBTN1 = false;
       this.popupInBBTN2 = false;
       this.popupInBBTN3 = false;

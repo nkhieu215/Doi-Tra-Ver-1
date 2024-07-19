@@ -86,6 +86,21 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Ngành' },
         loadChildren: () => import('./nganh/nganh.module').then(m => m.NganhModule),
       },
+      {
+        path: 'san-pham-xuat-kho',
+        data: { pageTitle: 'Sản phẩm xuất kho' },
+        loadChildren: () => import('./san-pham-xuat-kho/san-phan-xuat-kho.module').then(m => m.SanPhamXuatKhoModule),
+      },
+      {
+        path: 'bao-cao-san-pham-xuat-kho',
+        data: { pageTitle: 'Báo cáo sản phẩm xuất kho' },
+        loadChildren: () => import('./bao-cao-san-pham-xuat-kho/bao-cao-san-pham-xuat-kho.module').then(m => m.BaoCaoSanPhamXuatKhoModule),
+      },
+      {
+        path: 'gia-thanh-cong-xuong',
+        data: { pageTitle: 'Giá thành công xưởng' },
+        loadChildren: () => import('./gia-thanh-cong-xuong/gia-thanh-cong-xuong.module').then(m => m.GiaThanhCongXuongModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

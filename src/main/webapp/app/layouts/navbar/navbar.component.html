@@ -63,6 +63,48 @@
           </a>
         </li>
 
+        <li class="nav-item">
+          <a
+            class="dropdown-item"
+            routerLink="san-pham-xuat-kho"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+            title="Sản phẩm xuất kho"
+          >
+            <fa-icon icon="add" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Sản phẩm xuất kho</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="dropdown-item"
+            routerLink="bao-cao-san-pham-xuat-kho"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+            title="Báo cáo sản phẩm xuất kho"
+          >
+            <fa-icon icon="add" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Báo cáo sản phẩm xuất kho</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="dropdown-item"
+            routerLink="gia-thanh-cong-xuong"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+            title="Giá thành công xưởng"
+          >
+            <fa-icon icon="add" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Giá thành công xưởng</span>
+          </a>
+        </li>
+
         <li
           ngbDropdown
           class="nav-item dropdown pointer"

@@ -800,6 +800,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.navBarComponent.toggleSidebar2();
 
     this.popupSelectButton = true;
+    console.log('popup chọn');
   }
 
   openPopupPTMTN(): void {
@@ -959,6 +960,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     }
   }
   openPopupInBBKN(index: any): void {
+    console.log('biên bản kiểm nghiệm');
     this.maBienBan = '';
     this.loaiBienBan = 'Kiểm nghiệm';
     this.caculateErrors(index);
@@ -1153,7 +1155,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   xacNhanInBienBan(): void {
     this.themMoiBienBan.soLanIn++;
     this.http.post<any>(this.postMaBienBanUrl, this.themMoiBienBan).subscribe(res => {
-      // console.log('thành công:', res);
+      console.log('thành công:', res);
+      this.getDanhSachBienBan();
       // window.location.reload();
       this.popupInBBTL = false;
       this.popupInBBTN = false;
@@ -1345,6 +1348,18 @@ export class PhanTichSanPhamComponent implements OnInit {
         if (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo === 100) {
           this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].check = true;
           // this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo,this.indexOfPhanTichSanPham);
+          this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
+            this.listOfPhanTichSanPhamByPLCTTN = res;
+            console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
+          });
+
+          this.listOfKhaiBaoLoi = this.listOfKhaiBaoLoi.filter((item: any) => item.soLuong !== 0);
+          console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
+          this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
+            this.openPopupNoti('Cập nhật thành công');
+            this.closePopup();
+            this.listOfKhaiBaoLoi = [];
+          });
         }
         // cập nhật tiến độ chung của đơn bảo hành
         this.donBaoHanh.slDaPhanTich! += 1;
@@ -1355,9 +1370,10 @@ export class PhanTichSanPhamComponent implements OnInit {
             this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
           }
         }, 100);
-        // console.log('check thông tin phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
-        // console.log('Check thông tin danh sách update khai báo lỗi: ', this.listOfKhaiBaoLoi);
-        // console.log('index after: ', this.indexOfChiTietPhanTichSanPham);
+        console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
+        console.log('check thông tin phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
+        console.log('Check thông tin danh sách update khai báo lỗi: ', this.listOfKhaiBaoLoi);
+        console.log('index after: ', this.indexOfChiTietPhanTichSanPham);
       }
     }
   }
@@ -1371,20 +1387,20 @@ export class PhanTichSanPhamComponent implements OnInit {
     }
     // Lọc danh sách
     this.listOfPhanTichSanPhamByPLCTTN = this.listOfPhanTichSanPhamByPLCTTN.filter(item => item.tenSanPham !== '');
-    // console.log(this.listOfPhanTichSanPhamByPLCTTN);
+    console.log(this.listOfPhanTichSanPhamByPLCTTN);
     if (this.donBaoHanh.tienDo > 0) {
-      // console.log('Đang phân tích');
+      console.log('Đang phân tích');
       this.donBaoHanh.trangThai = 'Đang phân tích';
       this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
     }
     if (this.donBaoHanh.tienDo === 100) {
-      // console.log('Hoàn thành phân tích');
+      console.log('Hoàn thành phân tích');
       this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
       this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
     }
     this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
       this.listOfPhanTichSanPhamByPLCTTN = res;
-      // console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
+      console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
       setTimeout(() => {
         //cập nhật danh sách phân tích lỗi
         for (let i = 0; i < this.listOfKhaiBaoLoi.length; i++) {
@@ -1396,15 +1412,15 @@ export class PhanTichSanPhamComponent implements OnInit {
         }
         //cập nhật DB phân tích lỗi
         this.listOfKhaiBaoLoi = this.listOfKhaiBaoLoi.filter((item: any) => item.soLuong !== 0);
-        // console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
-        // this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
-        //   this.openPopupNoti('Cập nhật thành công');
-        //   this.closePopup();
-        //   this.listOfKhaiBaoLoi = [];
-        // });
+        console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
+        this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
+          this.openPopupNoti('Cập nhật thành công');
+          this.closePopup();
+          this.listOfKhaiBaoLoi = [];
+        });
       }, 200);
     });
-    // console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
+    console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
     // cập nhật phân tích lỗi
     // cập nhật số lượng đã phân tích ở đơn bảo hành
   }
