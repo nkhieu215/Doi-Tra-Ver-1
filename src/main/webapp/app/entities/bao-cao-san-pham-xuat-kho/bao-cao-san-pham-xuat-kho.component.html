@@ -53,8 +53,10 @@
     <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem">Xuất báo cáo</button>
   </div>
   <angular-slickgrid
+    gridId="bao-cao-san-pham-xuat-kho"
     [columnDefinitions]="columnDefinitions"
     [gridOptions]="gridOptions"
+    [dataset]="chiTietXuatKho"
     (onBeforeSearchChange)="onSearchChange($event)"
     (onAngularGridCreated)="angularGridReady($event)"
   ></angular-slickgrid>

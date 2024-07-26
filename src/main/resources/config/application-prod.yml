@@ -50,6 +50,7 @@ spring:
   jpa:
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
+    enabled: false
     contexts: prod
   thymeleaf:
     cache: true

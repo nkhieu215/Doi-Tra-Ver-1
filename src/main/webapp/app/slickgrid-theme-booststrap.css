@@ -4443,3 +4443,62 @@ input[type="range"] {
 .dot-spinner__dot:nth-child(8)::before {
   animation-delay: calc(var(--uib-speed) * -0.125);
 }
+
+.group-button-view {
+  border-top: none;
+  display: flex;
+}
+
+.btn-custom {
+  width: 8rem;
+}
+
+.form-header-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.form-header-btn > button {
+  padding: 10px 20px;
+  height: 42px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.form-header {
+  max-width: auto;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.form-header-container {
+  margin-bottom: 15px;
+}
+
+.form-header-container > label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-header-container > select,
+input[type='text'] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-header-container > select,
+input[type='text']:focus {
+  border-color: #66afe9;
+  outline: none;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}

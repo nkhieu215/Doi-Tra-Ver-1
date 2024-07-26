@@ -1666,7 +1666,7 @@ export class DonBaoHanhComponent implements OnInit {
       //lưu kết quả vào
       // console.log(this.ExcelData);
       // console.log('kq', this.themMoiDonBaoHanh);
-      // console.log(`kq tiep nhan:`, this.donBaoHanh);
+      // console.log(`kq tiep nhan:`, event);
     }, 1000);
   }
 

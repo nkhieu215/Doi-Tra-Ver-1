@@ -1,6 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AngularGridInstance, Column, FieldType, Filters, Formatters, GridOption } from 'angular-slickgrid';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
 
 @Component({
   selector: 'jhi-bao-cao-san-pham-xuat-kho',
@@ -8,6 +11,8 @@ import { AngularGridInstance, Column, FieldType, Filters, Formatters, GridOption
   styleUrls: ['./bao-cao-san-pham-xuat-kho.component.scss'],
 })
 export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
+  chiTietXuatKhoUrl = this.applicationConfigService.getEndpointFor('api/chi-tiet-xuat-khos');
+  tongHopUrl = this.applicationConfigService.getEndpointFor('api/tong-hop');
   startDates = '';
   endDates = '';
   dateTimeSearchKey: { startDate: string; endDate: string } = { startDate: '', endDate: '' };
@@ -16,8 +21,23 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
   angularGrid!: AngularGridInstance;
   gridObj: any;
   dataViewObj: any;
+  isLoading = false;
   isModalOpenConfirmLost = false;
-  constructor(protected activatedRoute: ActivatedRoute) {}
+  chiTietXuatKho: any[] = [];
+  constructor(
+    protected activatedRoute: ActivatedRoute,
+    protected modalService: NgbModal,
+    protected applicationConfigService: ApplicationConfigService,
+    protected http: HttpClient
+  ) {}
+
+  loadAll(): void {
+    this.isLoading = true;
+    this.http.get<any>(this.chiTietXuatKhoUrl).subscribe(res => {
+      this.chiTietXuatKho = res;
+      console.log(res);
+    });
+  }
 
   startDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
@@ -40,6 +60,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
     this.endDates = this.endDate(today);
     console.log('date time', this.dateTimeSearchKey);
     console.log('check time', this.dateTimeSearchKey);
+
+    this.loadAll();
+    this.dataShow();
   }
 
   dataShow(): void {

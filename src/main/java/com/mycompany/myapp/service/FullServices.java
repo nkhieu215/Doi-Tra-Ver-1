@@ -2,6 +2,7 @@ package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.domain.*;
 import com.mycompany.myapp.repository.*;
+import com.mycompany.myapp.service.dto.ChiTietXuatKhoDTO;
 import com.mycompany.myapp.service.dto.DateTimeSearchDTO;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,6 +43,12 @@ public class FullServices {
     @Autowired
     private final PhanTichLoiRepository phanTichLoiRepository;
 
+    @Autowired
+    private final DanhSachXuatKhoRepository danhSachXuatKhoRepository;
+
+    @Autowired
+    private final ChiTietXuatKhoRepository chiTietXuatKhoRepository;
+
     public FullServices(
         DonBaoHanhRepository donBaoHanhRepository,
         PhanTichSanPhamRepository phanTichSanPhamRepository,
@@ -50,7 +57,9 @@ public class FullServices {
         PhanLoaiChiTietTiepNhanRepository phanLoaiChiTietTiepNhanRepository,
         SanPhamRepository sanPhamRepository,
         MaBienBanRepository maBienBanRepository,
-        PhanTichLoiRepository phanTichLoiRepository
+        PhanTichLoiRepository phanTichLoiRepository,
+        DanhSachXuatKhoRepository danhSachXuatKhoRepository,
+        ChiTietXuatKhoRepository chiTietXuatKhoRepository
     ) {
         this.donBaoHanhRepository = donBaoHanhRepository;
         this.phanTichSanPhamRepository = phanTichSanPhamRepository;
@@ -60,6 +69,8 @@ public class FullServices {
         this.sanPhamRepository = sanPhamRepository;
         this.maBienBanRepository = maBienBanRepository;
         this.phanTichLoiRepository = phanTichLoiRepository;
+        this.danhSachXuatKhoRepository = danhSachXuatKhoRepository;
+        this.chiTietXuatKhoRepository = chiTietXuatKhoRepository;
     }
 
     // * ============================ Template Tiếp nhận =================================
@@ -477,5 +488,56 @@ public class FullServices {
         response.setLoiKyThuat(loiKyThuat);
         response.setLoiLinhDong(loiLinhDong);
         return response;
+    }
+
+    // * ------------------------------------- danh sách xuất kho --------------------------------------
+    //☺ get all data
+    public List<DanhSachXuatKho> getDataDsXuatKho() {
+        List<DanhSachXuatKho> list = this.danhSachXuatKhoRepository.findAll();
+        return list;
+    }
+
+    //☺ insert data danh sách xuất kho
+    public void insertDsXuatKho(DanhSachXuatKho request) {
+        this.danhSachXuatKhoRepository.save(request);
+    }
+
+    //☺ update data danh sách xuất kho
+    public void updateDsXuatKho(DanhSachXuatKho request) {
+        DanhSachXuatKho response = this.danhSachXuatKhoRepository.findById(request.getId()).orElse(null);
+        if (response == null) {
+            System.out.println("Không tìm thấy dữ liệu");
+        } else {
+            response.setTimeUpdate(request.getTimeUpdate());
+            response.setUser(request.getUser());
+            response.setNumberOfUpdate(request.getNumberOfUpdate());
+            this.danhSachXuatKhoRepository.save(response);
+        }
+    }
+
+    // * ------------------- Chi tiet xuat kho --------------------------------
+    //☺ view data chi tiet xuat kho
+    public List<ChiTietXuatKhoResponse> getAllDataChiTietXuatKho(Long id) {
+        List<ChiTietXuatKhoResponse> list = this.chiTietXuatKhoRepository.getAll(id);
+        return list;
+    }
+
+    // ☺ insert/ update
+    public void updateChiTietXuatKho(ChiTietXuatKhoDTO request) {
+        if (request.getType().equals("insert")) {
+            for (ChiTietXuatKho chiTietXuatKho : request.getChiTietXuatKho()) {
+                this.chiTietXuatKhoRepository.save(chiTietXuatKho);
+            }
+        } else if (request.getType().equals("update")) {
+            this.chiTietXuatKhoRepository.deleteByDanhSachXuatKhoId(request.getId());
+            DanhSachXuatKho response = this.danhSachXuatKhoRepository.findById(request.getId()).orElse(null);
+            response.setUser(request.getUser());
+            response.setTimeUpdate(request.getTimeUpdate());
+            response.setNumberOfUpdate(request.getNumberOfUpdate());
+            this.danhSachXuatKhoRepository.save(response);
+            for (ChiTietXuatKho chiTietXuatKho : request.getChiTietXuatKho()) {
+                this.chiTietXuatKhoRepository.save(chiTietXuatKho);
+            }
+        }
     }
 }

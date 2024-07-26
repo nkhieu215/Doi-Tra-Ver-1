@@ -2,6 +2,7 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.*;
 import com.mycompany.myapp.service.FullServices;
+import com.mycompany.myapp.service.dto.ChiTietXuatKhoDTO;
 import com.mycompany.myapp.service.dto.DateTimeSearchDTO;
 import java.time.LocalDate;
 import java.util.List;
@@ -284,5 +285,39 @@ public class Controller {
     public Response caculateErrors(@PathVariable Long id) {
         Response response = this.fullServices.caculateErrors(id);
         return response;
+    }
+
+    // * ------------------------------------- danh sách xuất kho --------------------------------------
+    //☺ get all data
+    @GetMapping("danh-sach-nhap-khos")
+    public List<DanhSachXuatKho> getDataDsXuatKho() {
+        List<DanhSachXuatKho> list = this.fullServices.getDataDsXuatKho();
+        return list;
+    }
+
+    //☺ insert data danh sách xuất kho
+    @PostMapping("danh-sach-nhap-khos")
+    public void insertDsXuatKho(@RequestBody DanhSachXuatKho request) {
+        this.fullServices.insertDsXuatKho(request);
+    }
+
+    //☺ update data danh sách xuất kho
+    @PutMapping("danh-sach-nhap-khos")
+    public void updateDsXuatKho(@RequestBody DanhSachXuatKho request) {
+        this.fullServices.updateDsXuatKho(request);
+    }
+
+    // * ------------------- Chi tiet xuat kho --------------------------------
+    //☺ view data chi tiet xuat kho
+    @GetMapping("chi-tiet-xuat-khos/{id}")
+    public List<ChiTietXuatKhoResponse> getAllDataChiTietXuatKho(@PathVariable Long id) {
+        List<ChiTietXuatKhoResponse> list = this.fullServices.getAllDataChiTietXuatKho(id);
+        return list;
+    }
+
+    // ☺ insert/ update
+    @PostMapping("chi-tiet-xuat-khos")
+    public void updateChiTietXuatKho(@RequestBody ChiTietXuatKhoDTO request) {
+        this.fullServices.updateChiTietXuatKho(request);
     }
 }
