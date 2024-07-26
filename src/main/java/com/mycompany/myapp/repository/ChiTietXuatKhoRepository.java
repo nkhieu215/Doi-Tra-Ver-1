@@ -29,7 +29,7 @@ public interface ChiTietXuatKhoRepository extends JpaRepository<ChiTietXuatKho, 
         "left join baohanh2.nganh as nganh on nganh.id = sp.nganh_id\n" +
         "left join baohanh2.nhom_san_pham as nsp on nsp.id = sp.nhom_san_pham_id\n" +
         "left join baohanh2.chung_loai as cl on cl.id = nsp.chung_loai_id" +
-        " where danh_sach_xuat_kho_id = ?1 ;",
+        " where danh_sach_xuat_kho_id = ?1 group by a.ten_khach_hang;",
         nativeQuery = true
     )
     List<ChiTietXuatKhoResponse> getAll(Long id);
