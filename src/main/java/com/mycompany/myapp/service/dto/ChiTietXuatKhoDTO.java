@@ -10,14 +10,44 @@ public class ChiTietXuatKhoDTO {
     private Integer numberOfUpdate;
     private String timeUpdate;
     private String user;
+    private String month;
+    private String year;
     private List<ChiTietXuatKho> chiTietXuatKho;
 
-    public ChiTietXuatKhoDTO(String type, Long id, Integer numberOfUpdate, String timeUpdate, List<ChiTietXuatKho> chiTietXuatKho) {
+    public ChiTietXuatKhoDTO(
+        String type,
+        Long id,
+        Integer numberOfUpdate,
+        String timeUpdate,
+        String user,
+        String month,
+        String year,
+        List<ChiTietXuatKho> chiTietXuatKho
+    ) {
         this.type = type;
         this.id = id;
         this.numberOfUpdate = numberOfUpdate;
         this.timeUpdate = timeUpdate;
+        this.user = user;
+        this.month = month;
+        this.year = year;
         this.chiTietXuatKho = chiTietXuatKho;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public ChiTietXuatKhoDTO() {}
