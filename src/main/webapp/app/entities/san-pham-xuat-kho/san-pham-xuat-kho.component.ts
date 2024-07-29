@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { faArrowRotateForward } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRotateForward, faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AngularGridInstance, Column, CompoundInputPasswordFilter, Filters, Formatter, GridOption, OnEventArgs } from 'angular-slickgrid';
+import { AngularGridInstance, Column, FieldType, Filters, Formatter, GridOption, OnEventArgs } from 'angular-slickgrid';
+import { AccountService } from 'app/core/auth/account.service';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import * as XLSX from 'xlsx';
 @Component({
@@ -16,7 +18,9 @@ export class SanPhamXuatKhoComponent implements OnInit {
   chiTietXuatKhoUrl = this.applicationConfigService.getEndpointFor('api/chi-tiet-xuat-khos');
   title = 'Thống kê danh sách các lần xuất kho';
 
+  faUpload = faUpload;
   faArrowRotateForward = faArrowRotateForward;
+  faDownload = faDownload;
 
   predicate!: string;
   ascending!: boolean;
@@ -43,44 +47,71 @@ export class SanPhamXuatKhoComponent implements OnInit {
 
   listOfXuatKho: {
     type: string;
-    id: number;
+    id: number | null;
+    month: number | undefined;
+    year: number | undefined;
     numberOfUpdate: number;
     timeUpdate: string;
     user: '';
-    listOfSanPhamXuatkho: any;
+    chiTietXuatKho: any;
   } = {
     type: '',
-    id: 0,
+    id: null,
+    month: 0,
+    year: 0,
     numberOfUpdate: 0,
     timeUpdate: '',
     user: '',
-    listOfSanPhamXuatkho: [],
+    chiTietXuatKho: [],
   };
 
   dataExcel: {
-    id: number;
-    month: number;
-    year: number;
-    idSanPham: number;
-    tenSanPham: string;
-    nganh: string;
-    sanPham: string;
-    nhomSanPham: string;
-    chungLoai: string;
-    nhomSanPhamTheoCongSuat: string;
-    maKhachHang: string;
+    idSanPham: string;
+    idKhachHang: string;
     tenKhachHang: string;
-    quantity: number;
-    quantityAvailable: number;
-    quantityNotAvailable: number;
+    quantity: string;
+    quantityAvailable: string;
+    quantityNotAvailable: string;
   }[] = [];
+
+  dataExcelData: {
+    idSanPham: string;
+    idKhachHang: string;
+    tenKhachHang: string;
+    quantity: string;
+    quantityAvailable: string;
+    quantityNotAvailable: string;
+  }[] = [];
+
+  public time = Date.now();
+  currentDate: Date = new Date();
+  currentYear: number = new Date().getFullYear();
+  currentMonth: number = new Date().getMonth();
+
+  account: any;
+  yearForm: FormGroup;
+
+  // @Input() month: number | undefined
+  // @Input() year: number | undefined
+  month!: number;
+  year!: number;
 
   constructor(
     protected activatedRoute: ActivatedRoute,
     protected modalService: NgbModal,
     protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService
-  ) {}
+    protected applicationConfigService: ApplicationConfigService,
+    protected accountService: AccountService,
+    protected fb: FormBuilder
+  ) {
+    this.yearForm = this.fb.group({
+      year: [this.currentYear, [Validators.required, Validators.pattern(/^\d{4}$/)]],
+    });
+  }
+
+  get yearControl() {
+    return this.yearForm.get('year');
+  }
 
   loadAll(): void {
     this.isLoading = true;
@@ -103,28 +134,36 @@ export class SanPhamXuatKhoComponent implements OnInit {
         };
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      this.account = account;
+      // console.log('acc', this.account);
+    });
     this.http.get<any>(this.danhSachXuatKhoUrl).subscribe(res => {
       this.danhSachXuatKho = res;
       console.log(res);
     });
+    if (!this.month) {
+      const currentMonth = new Date().getMonth() + 1;
+      this.month = currentMonth;
+    }
+    this.year = new Date().getFullYear();
+
     this.columnDefinitions = [
       {
         id: 'id',
         name: 'STT',
         field: 'id',
         minWidth: 20,
-        filter: {
-          placeholder: 'search',
-          model: Filters.compoundInputText,
-        },
       },
       {
         id: 'month',
         name: 'Tháng',
         field: 'month',
+        sortable: true,
+        filterable: true,
         minWidth: 100,
         filter: {
-          placeholder: 'search',
+          placeholder: 'Tìm kiếm',
           model: Filters.compoundInputText,
         },
       },
@@ -132,9 +171,13 @@ export class SanPhamXuatKhoComponent implements OnInit {
         id: 'year',
         name: 'Năm',
         field: 'year',
+        sortable: true,
+        filterable: true,
         minWidth: 100,
+        type: FieldType.string,
+
         filter: {
-          placeholder: 'search',
+          placeholder: 'Tìm kiếm',
           model: Filters.compoundInputText,
         },
       },
@@ -142,9 +185,13 @@ export class SanPhamXuatKhoComponent implements OnInit {
         id: 'user',
         name: 'Người cập nhật',
         field: 'user',
+        sortable: true,
+        filterable: true,
         minWidth: 150,
+        type: FieldType.string,
+
         filter: {
-          placeholder: 'search',
+          placeholder: 'Tìm kiếm',
           model: Filters.compoundInputText,
         },
       },
@@ -152,9 +199,13 @@ export class SanPhamXuatKhoComponent implements OnInit {
         id: 'timeCreate',
         name: 'Thời gian tạo file',
         field: 'timeCreate',
+        sortable: true,
+        filterable: true,
         minWidth: 60,
+        type: FieldType.string,
+
         filter: {
-          placeholder: 'search',
+          placeholder: 'Tìm kiếm',
           model: Filters.compoundInputText,
         },
       },
@@ -162,9 +213,13 @@ export class SanPhamXuatKhoComponent implements OnInit {
         id: 'timeUpdate',
         name: 'Thời gian cập nhật',
         field: 'timeUpdate',
+        sortable: true,
+        filterable: true,
         minWidth: 120,
+        type: FieldType.string,
+
         filter: {
-          placeholder: 'search',
+          placeholder: 'Tìm kiếm',
           model: Filters.compoundInputText,
         },
       },
@@ -181,8 +236,6 @@ export class SanPhamXuatKhoComponent implements OnInit {
           this.openPopupChiTiet();
           this.showData(args.dataContext.id);
           this.danhSachXuatKhoChiTiet = args.dataContext;
-          this.angularGrid?.gridService.highlightRow(args.row, 1500);
-          this.angularGrid?.gridService.setSelectedRow(args.row);
           console.log('check', this.danhSachXuatKhoChiTiet);
         },
       },
@@ -214,6 +267,14 @@ export class SanPhamXuatKhoComponent implements OnInit {
     };
   }
 
+  formatDate(date: Date): any {
+    const pad = (n: number) => (n < 10 ? `0${n}` : n);
+    const dateResultFormat = `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(
+      date.getMinutes()
+    )}:${pad(date.getSeconds())}`;
+    return dateResultFormat;
+  }
+
   openPopupThemMoi(): void {
     this.popupThemMoi = true;
   }
@@ -232,6 +293,7 @@ export class SanPhamXuatKhoComponent implements OnInit {
 
   openPopupEdit(): void {
     this.popupEdit = true;
+    this.listOfXuatKho.numberOfUpdate = this.danhSachXuatKhoChiTiet.numberOfUpdate;
   }
 
   closePopupEdit(): void {
@@ -256,7 +318,6 @@ export class SanPhamXuatKhoComponent implements OnInit {
 
   angularGridReady(angularGrid: any): void {
     this.angularGrid = angularGrid;
-    // the Angular Grid Instance exposes both Slick Grid & DataView objects
     this.gridObj = angularGrid.slickGrid;
     // setInterval(()=>{
     this.dataViewObj = angularGrid.dataView;
@@ -274,7 +335,7 @@ export class SanPhamXuatKhoComponent implements OnInit {
     // this.listOfChiTietDanhSachXuatKho = [];
     this.http.get<any>(`${this.chiTietXuatKhoUrl}/${id as number}`).subscribe(res => {
       this.chiTietXuatKho = res;
-      console.log('chi tiet', this.chiTietXuatKho);
+      console.log('chi tiet 1', this.chiTietXuatKho);
     });
   }
 
@@ -287,23 +348,50 @@ export class SanPhamXuatKhoComponent implements OnInit {
       const workBook = XLSX.read(fileReader.result, { type: 'binary' });
       const sheetNames = workBook.SheetNames;
       this.excelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]], {
-        header: ['maSanPham', 'maKhachHang', 'tenKhachHang', 'quantity', 'quantityAvailable', 'quantityNotAvailable'],
+        header: ['idSanPham', 'idKhachHang', 'tenKhachHang', 'quantity', 'quantityAvailable', 'quantityNotAvailable', 'id'],
         defval: '',
       });
+      // console.log('sheetNames', workBook.SheetNames)
     };
     setTimeout(() => {
       console.log('check kq', this.excelData);
+      this.listOfXuatKho.chiTietXuatKho = this.excelData;
+      this.listOfXuatKho.chiTietXuatKho = this.listOfXuatKho.chiTietXuatKho.filter((item: any) => item.quantity !== 'Tổng số lượng');
+      console.log('chi tiet 2', this.listOfXuatKho.chiTietXuatKho);
     }, 1000);
   }
 
   createForm(type: string): void {
     this.listOfXuatKho.type = type;
-    this.listOfXuatKho.id = 1;
-    this.listOfXuatKho.numberOfUpdate = 99;
-    this.listOfXuatKho.listOfSanPhamXuatkho = this.chiTietXuatKho;
-    console.log('chi tiet', this.listOfXuatKho.listOfSanPhamXuatkho);
+    if (type === 'update') {
+      this.listOfXuatKho.id = this.danhSachXuatKhoChiTiet.id;
+    }
+    this.listOfXuatKho.numberOfUpdate += 1;
+    this.listOfXuatKho.timeUpdate = this.formatDate(this.currentDate);
+    this.listOfXuatKho.user = this.account.login;
+    this.listOfXuatKho.month = this.month;
+    this.listOfXuatKho.year = this.year;
+    // if (this.listOfXuatKho.month === this.danhSachXuatKhoChiTiet.month &&
+    //   this.listOfXuatKho.year === this.danhSachXuatKhoChiTiet.year) {
+    //   this.isModalOpenConfirmDuplicate = true;
+    //   console.log('thang va nam bi trung')
+    //   return
+    // }
+
+    const isDuplicate = this.danhSachXuatKho.some(item => item.month === this.month && item.year === this.year);
+    if (isDuplicate) {
+      alert('Tháng và năm này đã tồn tại. Vui lòng chọn tháng hoặc năm khác.');
+      return;
+    }
+
+    if (this.yearForm.valid) {
+      console.log('form data is valid', this.yearForm.value);
+    } else {
+      console.log('form data is invalid', this.yearForm.value);
+    }
     setTimeout(() => {
       this.http.post<any>(this.chiTietXuatKhoUrl, this.listOfXuatKho).subscribe(res => {
+        console.log('cac truong thong tin tra ve BE', this.listOfXuatKho);
         if (type === 'insert') {
           console.log('them moi thanh cong', res);
         } else if (type === 'update') {
@@ -314,30 +402,32 @@ export class SanPhamXuatKhoComponent implements OnInit {
   }
 
   getExportExcel(): void {
-    this.dataExcel = [];
+    this.dataExcel = [
+      {
+        idSanPham: '',
+        idKhachHang: '',
+        tenKhachHang: '',
+        quantity: '',
+        quantityAvailable: '',
+        quantityNotAvailable: '',
+      },
+    ];
     const item = {
-      id: 0,
-      month: 0,
-      year: 0,
-      idSanPham: 0,
-      tenSanPham: '',
-      nganh: '',
-      sanPham: '',
-      nhomSanPham: '',
-      chungLoai: '',
-      nhomSanPhamTheoCongSuat: '',
-      maKhachHang: '',
+      idSanPham: '',
+      idKhachHang: '',
       tenKhachHang: '',
-      quantity: 0,
-      quantityAvailable: 0,
-      quantityNotAvailable: 0,
+      quantity: '',
+      quantityAvailable: '',
+      quantityNotAvailable: '',
     };
     this.dataExcel = [item, ...this.dataExcel];
     this.exportExcel();
+    console.log('gia tri', this.dataExcel);
   }
 
   exportExcel(): void {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_json(ws, this.dataExcel, { origin: 'B1', skipHeader: true });
     const mergeRange = [
       { s: { r: 0, c: 0 }, e: { r: 0, c: 0 } },
       { s: { r: 0, c: 1 }, e: { r: 0, c: 1 } },
@@ -345,31 +435,14 @@ export class SanPhamXuatKhoComponent implements OnInit {
       { s: { r: 0, c: 3 }, e: { r: 0, c: 3 } },
       { s: { r: 0, c: 4 }, e: { r: 0, c: 4 } },
       { s: { r: 0, c: 5 }, e: { r: 0, c: 5 } },
-      { s: { r: 0, c: 6 }, e: { r: 0, c: 6 } },
-      { s: { r: 0, c: 7 }, e: { r: 0, c: 7 } },
-      { s: { r: 0, c: 8 }, e: { r: 0, c: 8 } },
-      { s: { r: 0, c: 9 }, e: { r: 0, c: 9 } },
-      { s: { r: 0, c: 10 }, e: { r: 0, c: 10 } },
-      { s: { r: 0, c: 11 }, e: { r: 0, c: 11 } },
-      { s: { r: 0, c: 12 }, e: { r: 0, c: 12 } },
-      { s: { r: 0, c: 13 }, e: { r: 0, c: 13 } },
     ];
     ws['!merges'] = mergeRange;
-    ws['A1'] = { t: 's', v: 'STT' };
-    ws['B1'] = { t: 's', v: 'Tháng' };
-    ws['C1'] = { t: 's', v: 'Năm' };
-    ws['D1'] = { t: 's', v: 'Mã hoá hoá' };
-    ws['E1'] = { t: 's', v: 'Tên hàng hoá' };
-    ws['F1'] = { t: 's', v: 'Ngành' };
-    ws['G1'] = { t: 's', v: 'Sản phẩm' };
-    ws['H1'] = { t: 's', v: 'Nhóm sản phẩm' };
-    ws['I1'] = { t: 's', v: 'Chủng loại' };
-    ws['J1'] = { t: 's', v: 'Nhóm SP theo công suất' };
-    ws['K1'] = { t: 's', v: 'Mã khách hàng' };
-    ws['L1'] = { t: 's', v: 'Tên khách hàng' };
-    ws['M1'] = { t: 's', v: 'Tổng số lượng' };
-    ws['N1'] = { t: 's', v: 'Số lượng đã lên HĐ + Trả hàng' };
-    ws['O1'] = { t: 's', v: 'SL chưa lên' };
+    ws['A1'] = { t: 's', v: 'Mã hàng hoá' };
+    ws['B1'] = { t: 's', v: 'Mã khách hàng' };
+    ws['C1'] = { t: 's', v: 'Tên khách hàng' };
+    ws['D1'] = { t: 's', v: 'Tổng số lượng' };
+    ws['E1'] = { t: 's', v: 'Số lượng đã lên HĐ + Trả hàng' };
+    ws['F1'] = { t: 's', v: 'SL chưa lên' };
 
     const headerStyle = {
       font: { bold: true },
@@ -377,12 +450,66 @@ export class SanPhamXuatKhoComponent implements OnInit {
     };
     console.log('merge', mergeRange);
 
-    const headers = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1'];
+    const headers = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1'];
     headers.forEach(header => {
       ws[header].s = headerStyle;
     });
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Mẫu báo cáo tổng hợp xuất kho');
     XLSX.writeFile(wb, 'Mẫu báo cáo tổng hợp xuất kho.xlsx');
+  }
+
+  getExportExcelData(): void {
+    this.dataExcelData = [];
+
+    setTimeout(() => {
+      for (let i = 0; i < this.chiTietXuatKho.length; i++) {
+        const dataArrange = {
+          idSanPham: this.chiTietXuatKho[i].idSanPham,
+          idKhachHang: this.chiTietXuatKho[i].idKhachHang,
+          tenKhachHang: this.chiTietXuatKho[i].tenKhachHang,
+          quantity: this.chiTietXuatKho[i].quantity,
+          quantityAvailable: this.chiTietXuatKho[i].quantityAvailable,
+          quantityNotAvailable: this.chiTietXuatKho[i].quantityNotAvailable,
+        };
+        this.dataExcelData.push(dataArrange);
+        console.log('check', this.dataExcelData);
+      }
+      this.exportExcelData();
+    }, 1000);
+  }
+
+  exportExcelData(): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_json(ws, this.dataExcelData, { origin: 'A2', skipHeader: true });
+    const mergeRange = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 0 } },
+      { s: { r: 0, c: 1 }, e: { r: 0, c: 1 } },
+      { s: { r: 0, c: 2 }, e: { r: 0, c: 2 } },
+      { s: { r: 0, c: 3 }, e: { r: 0, c: 3 } },
+      { s: { r: 0, c: 4 }, e: { r: 0, c: 4 } },
+      { s: { r: 0, c: 5 }, e: { r: 0, c: 5 } },
+    ];
+    ws['!merges'] = mergeRange;
+    ws['A1'] = { t: 's', v: 'Mã hàng hoá' };
+    ws['B1'] = { t: 's', v: 'Mã khách hàng' };
+    ws['C1'] = { t: 's', v: 'Tên khách hàng' };
+    ws['D1'] = { t: 's', v: 'Tổng số lượng' };
+    ws['E1'] = { t: 's', v: 'Số lượng đã lên HĐ + Trả hàng' };
+    ws['F1'] = { t: 's', v: 'SL chưa lên' };
+
+    const headerStyle = {
+      font: { bold: true },
+      aligment: { horizontal: 'center', vertical: 'center' },
+    };
+    console.log('merge', mergeRange);
+
+    const headers = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1'];
+    headers.forEach(header => {
+      ws[header].s = headerStyle;
+    });
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Tổng hợp xuất kho theo tháng');
+    XLSX.writeFile(wb, 'Tổng hợp xuất kho theo tháng.xlsx');
   }
 }

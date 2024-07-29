@@ -28,11 +28,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 import { NgxPrintModule } from 'ngx-print';
-import Sortable from 'sortablejs';
 import { QRCodeModule } from 'angularx-qrcode';
-import { SanPhamXuatKhoComponent } from './entities/san-pham-xuat-kho/san-pham-xuat-kho.component';
-import { BaoCaoSanPhamXuatKhoComponent } from './entities/bao-cao-san-pham-xuat-kho/bao-cao-san-pham-xuat-kho.component';
-import { GiaThanhCongXuongComponent } from './entities/gia-thanh-cong-xuong/gia-thanh-cong-xuong.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   imports: [
     BrowserModule,
@@ -49,7 +46,7 @@ import { GiaThanhCongXuongComponent } from './entities/gia-thanh-cong-xuong/gia-
     NgxPrintModule,
     NgxPaginationModule,
     QRCodeModule,
-    // Sortable
+    NgMultiSelectDropDownModule,
   ],
   providers: [
     Title,

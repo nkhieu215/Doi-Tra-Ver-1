@@ -27,28 +27,25 @@
         />
       </div>
       <!-- <input type="submit" (click)="changeDate()" /> -->
-      <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="changeDate()">Apply</button>
-      <div>
-        <label for="">Tháng</label>
-        <select name="" id="">
-          <option value="1">Tháng 1</option>
-          <option value="2">Tháng 2</option>
-          <option value="3">Tháng 3</option>
-          <option value="4">Tháng 4</option>
-          <option value="5">Tháng 5</option>
-          <option value="6">Tháng 6</option>
-          <option value="7">Tháng 7</option>
-          <option value="8">Tháng 8</option>
-          <option value="9">Tháng 9</option>
-          <option value="10">Tháng 10</option>
-          <option value="11">Tháng 11</option>
-          <option value="12">Tháng12</option>
-        </select>
+      <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="changeDate()">Tìm kiếm</button>
+
+      <div style="width: 20rem" class="search-inp">
+        <label for="month" class="form-label">Tháng</label>
+        <ng-multiselect-dropdown
+          [settings]="dropdownSettings"
+          [data]="listMonth"
+          [(ngModel)]="selectedItems"
+          [ngModelOptions]="{ standalone: true }"
+          (onDeSelect)="onDeSelect($event)"
+          (onSelect)="onItemSelect($event)"
+          (onSelectAll)="onSelectAll($event)"
+        ></ng-multiselect-dropdown>
       </div>
-      <div>
-        <label for="">Năm</label>
-        <input type="text" />
+      <div style="width: 20rem" class="search-inp">
+        <label for="year" class="form-label">Năm</label>
+        <input id="yearInput" type="text" />
       </div>
+      <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="changeDate2()">Tìm kiếm</button>
     </form>
     <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem">Xuất báo cáo</button>
   </div>

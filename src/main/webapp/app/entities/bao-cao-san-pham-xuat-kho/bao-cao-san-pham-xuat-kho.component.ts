@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AngularGridInstance, Column, FieldType, Filters, Formatters, GridOption } from 'angular-slickgrid';
@@ -24,6 +24,27 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
   isLoading = false;
   isModalOpenConfirmLost = false;
   chiTietXuatKho: any[] = [];
+
+  dropdownSettings = {};
+  listMonth: any[] = [
+    { id: 1, name: 'Tháng 1' },
+    { id: 2, name: 'Tháng 2' },
+    { id: 3, name: 'Tháng 3' },
+    { id: 4, name: 'Tháng 4' },
+    { id: 5, name: 'Tháng 5' },
+    { id: 6, name: 'Tháng 6' },
+    { id: 7, name: 'Tháng 7' },
+    { id: 8, name: 'Tháng 8' },
+    { id: 9, name: 'Tháng 9' },
+    { id: 10, name: 'Tháng 10' },
+    { id: 11, name: 'Tháng 11' },
+    { id: 12, name: 'Tháng 12' },
+  ];
+  selectedItems: any[] = [];
+  onSelectItemRequest: string[] = [];
+  selectedMonths = [];
+  selectedYear!: number;
+
   constructor(
     protected activatedRoute: ActivatedRoute,
     protected modalService: NgbModal,
@@ -63,6 +84,27 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
 
     this.loadAll();
     this.dataShow();
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Chọn tất cả',
+      unSelectAllText: 'Bỏ chọn tất cả',
+      itemsShowLimit: 6,
+      allowSearchFilter: true,
+    };
+  }
+  onItemSelect(item: any): void {
+    console.log('Chọn tháng', item);
+  }
+
+  public onDeSelect(item: any): void {
+    console.log('On item deselected', item);
+  }
+
+  onSelectAll(items: any): void {
+    console.log('All item selected', items);
   }
 
   dataShow(): void {
@@ -419,6 +461,23 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
     //     this.chiTietSanPhamTiepNhan = this.chiTietSanPhamTiepNhanGoc;
     //   });
     // }, 100);
+  }
+
+  changeDate2(): void {
+    const yearInput = (document.getElementById('yearInput') as HTMLInputElement).value;
+    const year = parseInt(yearInput, 10);
+
+    if (isNaN(year)) {
+      console.error('Invalid year input');
+      return;
+    }
+
+    const formattedData = this.selectedItems.map(item => ({
+      month: item.id,
+      year: year,
+    }));
+
+    console.log('Data to send:', formattedData);
   }
 
   onSearchChange(e: any): void {

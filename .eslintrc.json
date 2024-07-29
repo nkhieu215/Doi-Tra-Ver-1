@@ -46,12 +46,7 @@
         }
       }
     ],
-    "@typescript-eslint/explicit-function-return-type": [
-      "error",
-      {
-        "allowExpressions": true
-      }
-    ],
+    "@typescript-eslint/explicit-function-return-type": ["off"],
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/member-ordering": [
       "error",
@@ -111,13 +106,14 @@
     "no-var": "off",
     "no-new-wrappers": "error",
     "object-shorthand": [
-      "error",
-      "always",
-      {
-        "avoidExplicitReturnArrows": true
-      }
+      "off"
+      // "error",
+      // "always",
+      // {
+      //   "avoidExplicitReturnArrows": true
+      // }
     ],
     "radix": "error",
-    "spaced-comment": ["warn", "always"]
+    "spaced-comment": "off"
   }
 }

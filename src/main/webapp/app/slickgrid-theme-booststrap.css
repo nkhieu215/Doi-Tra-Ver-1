@@ -4502,3 +4502,18 @@ input[type='text']:focus {
   outline: none;
   box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
 }
+
+.form-header-container {
+  margin-bottom: 1rem;
+}
+
+input.ng-invalid.ng-dirty,
+input.ng-invalid.ng-touched {
+  border-color: #f44336;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

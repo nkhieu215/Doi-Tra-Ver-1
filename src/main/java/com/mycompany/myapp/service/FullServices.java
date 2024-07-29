@@ -525,7 +525,16 @@ public class FullServices {
     // ☺ insert/ update
     public void updateChiTietXuatKho(ChiTietXuatKhoDTO request) {
         if (request.getType().equals("insert")) {
+            DanhSachXuatKho item = new DanhSachXuatKho();
+            item.setMonth(request.getMonth());
+            item.setYear(request.getYear());
+            item.setUser(request.getUser());
+            item.setTimeCreate(request.getTimeUpdate());
+            item.setTimeUpdate(request.getTimeUpdate());
+            item.setNumberOfUpdate(request.getNumberOfUpdate());
+            this.danhSachXuatKhoRepository.save(item);
             for (ChiTietXuatKho chiTietXuatKho : request.getChiTietXuatKho()) {
+                chiTietXuatKho.setDanhSachXuatKhoId(item.getId());
                 this.chiTietXuatKhoRepository.save(chiTietXuatKho);
             }
         } else if (request.getType().equals("update")) {
@@ -536,6 +545,7 @@ public class FullServices {
             response.setNumberOfUpdate(request.getNumberOfUpdate());
             this.danhSachXuatKhoRepository.save(response);
             for (ChiTietXuatKho chiTietXuatKho : request.getChiTietXuatKho()) {
+                chiTietXuatKho.setDanhSachXuatKhoId(response.getId());
                 this.chiTietXuatKhoRepository.save(chiTietXuatKho);
             }
         }

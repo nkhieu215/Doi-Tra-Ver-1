@@ -22,14 +22,16 @@
       <span class="close-btn" (click)="closePopupThemMoi()">&times;</span>
     </div>
     <div class="form-header-btn">
-      <button class="btn btn-success" type="button" style="margin-right: 15px" (click)="getExportExcel()">Tải form mẫu</button>
+      <button class="btn btn-warning" type="button" style="margin-right: 15px" (click)="getExportExcel()">
+        <fa-icon [icon]="faDownload"></fa-icon> Tải form mẫu
+      </button>
       <input type="file" class="btn btn-success btn-import" (change)="readExcel($event)" />
     </div>
     <div class="popup-content">
-      <form class="form-header">
+      <form class="form-header" [formGroup]="yearForm">
         <div class="form-header-container">
           <label for="">Tháng</label>
-          <select name="" id="">
+          <select [(ngModel)]="month" [ngModelOptions]="{ standalone: true }">
             <option value="1">Tháng 1</option>
             <option value="2">Tháng 2</option>
             <option value="3">Tháng 3</option>
@@ -45,12 +47,23 @@
           </select>
         </div>
         <div class="form-header-container">
-          <label for="">Năm</label>
-          <input type="text" />
+          <label for="year">Năm</label>
+          <input type="text" id="year" formControlName="year" />
+          <div *ngIf="yearControl?.invalid && (yearControl?.dirty || yearControl?.touched)">
+            <div *ngIf="yearControl?.errors?.required" class="error-message">Năm là bắt buộc.</div>
+            <div *ngIf="yearControl?.errors?.pattern" class="error-message">Năm phải có 4 chữ số.</div>
+          </div>
         </div>
       </form>
       <div class="form-header-btn">
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-danger btn-option" style="margin: 15px">
+        <button
+          type="button"
+          id="cancel-save"
+          data-cy="entityCreateCancelButton"
+          class="btn btn-danger btn-option"
+          style="margin: 15px"
+          (click)="closePopupThemMoi()"
+        >
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Huỷ bỏ</span>
         </button>
 
@@ -69,6 +82,7 @@
   </div>
 </div>
 
+<!-- Popup Update -->
 <div class="table-responsive popup-background" style="z-index: 30" role="dialog" *ngIf="popupEdit === true">
   <div class="popup-container-btn">
     <div class="popup-header-btn">
@@ -78,13 +92,13 @@
     </div>
     <div class="form-header-btn">
       <button class="btn btn-success" type="button" style="margin-right: 15px" (click)="getExportExcel()">Tải form mẫu</button>
-      <input type="file" class="btn btn-success btn-import" />
+      <input type="file" class="btn btn-success btn-import" (change)="readExcel($event)" />
     </div>
     <div class="popup-content">
-      <form class="form-header">
+      <form class="form-header" [formGroup]="yearForm">
         <div class="form-header-container">
-          <label for="">Tháng</label>
-          <select name="" id="">
+          <label for="month">Tháng</label>
+          <select [(ngModel)]="month" [ngModelOptions]="{ standalone: true }">
             <option value="1">Tháng 1</option>
             <option value="2">Tháng 2</option>
             <option value="3">Tháng 3</option>
@@ -100,8 +114,12 @@
           </select>
         </div>
         <div class="form-header-container">
-          <label for="">Năm</label>
-          <input type="text" />
+          <label for="year">Năm</label>
+          <input type="text" id="year" formControlName="year" />
+          <div *ngIf="yearForm.controls['year'].invalid && (yearForm.controls['year'].dirty || yearForm.controls['year'].touched)">
+            <div *ngIf="yearForm.controls['year'].errors?.required" class="error-message">Năm là bắt buộc</div>
+            <div *ngIf="yearForm.controls['year'].errors?.pattern" class="error-message">Năm phải có 4 chữ số</div>
+          </div>
         </div>
       </form>
       <div class="form-header-btn">
@@ -174,7 +192,9 @@
           <button class="btn btn-primary btn-custom" type="button" (click)="openPopupEdit()">
             <fa-icon [icon]="faArrowRotateForward"></fa-icon> Cập nhật
           </button>
-          <button type="button" class="btn btn-danger btn-custom"><fa-icon icon="ban"></fa-icon>&nbsp;<span>Xoá</span></button>
+          <button type="button" class="btn btn-success btn-custom" style="margin-right: 15px" (click)="getExportExcelData()">
+            <fa-icon [icon]="faDownload"></fa-icon>&nbsp;<span>Export</span>
+          </button>
         </div>
 
         <h2>Sản phẩm</h2>
@@ -224,9 +244,9 @@
 <div class="modal-confirm" [ngClass]="{ active: isModalOpenConfirmDuplicate }">
   <div class="modal-content-confirm">
     <!-- <span class="close-modal-confirm" (click)="closeModalConfirmDuplicate()">&times;</span> -->
-    <h3>Thông tin tải lên đã có trên hệ thống, bạn có muốn tiếp tục?</h3>
-    <button class="btn btn-danger" (click)="confirmDuplicate()">Xóa</button>
-    <button class="btn btn-primary" (click)="closeModalConfirmDuplicate()">Hủy</button>
+    <h3>Thông tin tải lên đã tồn tại trên hệ thống</h3>
+    <!-- <button class="btn btn-danger" (click)="confirmDuplicate()">OK</button> -->
+    <button class="btn btn-primary" (click)="closeModalConfirmDuplicate()">OK</button>
   </div>
 </div>
 
