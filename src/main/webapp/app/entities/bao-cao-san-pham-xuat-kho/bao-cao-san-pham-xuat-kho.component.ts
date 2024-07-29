@@ -456,6 +456,10 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
             for (let j = Number(startMonth); j <= 12; j++) {
               result.push(`0${j}-${i}`);
             }
+          } else if (Number(startYear) < i && i < Number(endYear)) {
+            for (let j = 1; j <= 12; j++) {
+              result.push(`0${j}-${i}`);
+            }
           } else {
             for (let j = 1; j <= Number(endMonth); j++) {
               result.push(`0${j}-${i}`);
