@@ -27,7 +27,8 @@
         />
       </div>
       <!-- <input type="submit" (click)="changeDate()" /> -->
-      <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="changeDate()">Tìm kiếm</button>
+      <!-- <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem"
+        (click)="changeDate()">Tìm kiếm</button> -->
 
       <div style="width: 20rem" class="search-inp">
         <label for="month" class="form-label">Tháng</label>
@@ -41,14 +42,15 @@
           (onSelectAll)="onSelectAll($event)"
         ></ng-multiselect-dropdown>
       </div>
-      <div style="width: 20rem" class="search-inp">
+      <!-- <div style="width: 20rem" class="search-inp">
         <label for="year" class="form-label">Năm</label>
         <input id="yearInput" type="text" />
-      </div>
+      </div> -->
       <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="changeDate2()">Tìm kiếm</button>
     </form>
     <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem">Xuất báo cáo</button>
   </div>
+
   <angular-slickgrid
     gridId="bao-cao-san-pham-xuat-kho"
     [columnDefinitions]="columnDefinitions"

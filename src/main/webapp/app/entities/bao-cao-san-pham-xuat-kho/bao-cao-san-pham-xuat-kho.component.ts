@@ -26,20 +26,7 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
   chiTietXuatKho: any[] = [];
 
   dropdownSettings = {};
-  listMonth: any[] = [
-    { id: 1, name: 'Tháng 1' },
-    { id: 2, name: 'Tháng 2' },
-    { id: 3, name: 'Tháng 3' },
-    { id: 4, name: 'Tháng 4' },
-    { id: 5, name: 'Tháng 5' },
-    { id: 6, name: 'Tháng 6' },
-    { id: 7, name: 'Tháng 7' },
-    { id: 8, name: 'Tháng 8' },
-    { id: 9, name: 'Tháng 9' },
-    { id: 10, name: 'Tháng 10' },
-    { id: 11, name: 'Tháng 11' },
-    { id: 12, name: 'Tháng 12' },
-  ];
+  listMonth: any[] = [];
   selectedItems: any[] = [];
   onSelectItemRequest: string[] = [];
   selectedMonths = [];
@@ -91,7 +78,7 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
       textField: 'name',
       selectAllText: 'Chọn tất cả',
       unSelectAllText: 'Bỏ chọn tất cả',
-      itemsShowLimit: 6,
+      itemsShowLimit: 3,
       allowSearchFilter: true,
     };
   }
@@ -452,39 +439,35 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         }
       } else {
         for (let i = Number(startYear); i <= Number(endYear); i++) {
-          if (i < Number(endYear)) {
+          if (i === Number(startYear)) {
             for (let j = Number(startMonth); j <= 12; j++) {
-              result.push(`0${j}-${i}`);
+              result.push(`${j}-${i}`);
             }
           } else if (Number(startYear) < i && i < Number(endYear)) {
             for (let j = 1; j <= 12; j++) {
-              result.push(`0${j}-${i}`);
+              result.push(`${j}-${i}`);
             }
-          } else {
+          } else if (i === Number(endYear)) {
             for (let j = 1; j <= Number(endMonth); j++) {
-              result.push(`0${j}-${i}`);
+              result.push(`${j}-${i}`);
             }
           }
         }
       }
       console.log('Date:', result);
+      // this.selectedItems.push(result);
+      this.selectedItems = result;
+      this.listMonth = result;
+
+      console.log('bien chua kq tim kiem', this.selectedItems);
     }, 200);
   }
 
   changeDate2(): void {
-    const yearInput = (document.getElementById('yearInput') as HTMLInputElement).value;
-    const year = parseInt(yearInput, 10);
-
-    if (isNaN(year)) {
-      console.error('Invalid year input');
-      return;
-    }
-
-    const formattedData = this.selectedItems.map(item => ({
-      month: item.id,
-      year: year,
-    }));
-
+    const formattedData = this.selectedItems.map(item => {
+      const [month, year] = item.split('-').map(Number);
+      return { month, year };
+    });
     console.log('Data to send:', formattedData);
   }
 
