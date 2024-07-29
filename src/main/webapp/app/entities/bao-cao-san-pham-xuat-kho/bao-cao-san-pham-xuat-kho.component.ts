@@ -439,28 +439,32 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
       const endDate = endDateInp.value;
       dateTimeSearchKey = { startDate: startDateInp.value, endDate: endDateInp.value };
     });
-    // setTimeout(() => {
-    //   console.log('startDate:', dateTimeSearchKey);
-    //   this.dateTimeSearchKey = dateTimeSearchKey;
-    //   this.http.post<any>(this.tongHopUrl, dateTimeSearchKey).subscribe(res => {
-    //     // console.log('check ressult search:', res);
-    //     this.chiTietSanPhamTiepNhanCTLGoc = res;
-    //     for (let i = 0; i < this.chiTietSanPhamTiepNhanCTLGoc.length; ++i) {
-    //       this.chiTietSanPhamTiepNhanCTLGoc[i].id = i + 1;
-    //     }
-    //     this.dataCTL = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
-    //     this.chiTietSanPhamTiepNhanCTL = this.chiTietSanPhamTiepNhanCTLGoc;
-    //   });
-
-    //   this.http.post<any>(this.tongHopCaculateUrl, dateTimeSearchKey).subscribe(resCaculate => {
-    //     this.chiTietSanPhamTiepNhanGoc = resCaculate;
-    //     for (let i = 0; i < this.chiTietSanPhamTiepNhanGoc.length; ++i) {
-    //       this.chiTietSanPhamTiepNhanGoc[i].id = i + 1;
-    //     }
-    //     this.data = resCaculate.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
-    //     this.chiTietSanPhamTiepNhan = this.chiTietSanPhamTiepNhanGoc;
-    //   });
-    // }, 100);
+    setTimeout(() => {
+      const result = [];
+      this.dateTimeSearchKey = dateTimeSearchKey;
+      const startMonth = this.startDates.split('-')[1];
+      const startYear = this.startDates.split('-')[0];
+      const endMonth = this.endDates.split('-')[1];
+      const endYear = this.endDates.split('-')[0];
+      if (Number(startYear) === Number(endYear)) {
+        for (let i = Number(startMonth); i <= Number(endMonth); i++) {
+          result.push(`0${i}-${startYear}`);
+        }
+      } else {
+        for (let i = Number(startYear); i <= Number(endYear); i++) {
+          if (i < Number(endYear)) {
+            for (let j = Number(startMonth); j <= 12; j++) {
+              result.push(`0${j}-${i}`);
+            }
+          } else {
+            for (let j = 1; j <= Number(endMonth); j++) {
+              result.push(`0${j}-${i}`);
+            }
+          }
+        }
+      }
+      console.log('Date:', result);
+    }, 200);
   }
 
   changeDate2(): void {
