@@ -4,6 +4,7 @@ import com.mycompany.myapp.domain.*;
 import com.mycompany.myapp.service.FullServices;
 import com.mycompany.myapp.service.dto.ChiTietXuatKhoDTO;
 import com.mycompany.myapp.service.dto.DateTimeSearchDTO;
+import com.mycompany.myapp.service.dto.MonthYearDTO;
 import java.time.LocalDate;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -319,5 +320,19 @@ public class Controller {
     @PostMapping("chi-tiet-xuat-khos")
     public void updateChiTietXuatKho(@RequestBody ChiTietXuatKhoDTO request) {
         this.fullServices.updateChiTietXuatKho(request);
+    }
+
+    //☺ Lấy danh sách sản phẩm gốc
+    @GetMapping("san-pham/get-all")
+    public List<TongHopNewResponse> getListSanPhamOrigin() {
+        List<TongHopNewResponse> list = this.fullServices.getListSanPhamOrigin();
+        return list;
+    }
+
+    //☺ Lấy danh sách xuất kho theo tháng năm
+    @PostMapping("chi-tiet-xuat-khos/tong-hop")
+    public List<TongHopNewResponse> getXuatKhoList(@RequestBody MonthYearDTO requests) {
+        List<TongHopNewResponse> list = this.fullServices.getXuatKhoList(requests);
+        return list;
     }
 }

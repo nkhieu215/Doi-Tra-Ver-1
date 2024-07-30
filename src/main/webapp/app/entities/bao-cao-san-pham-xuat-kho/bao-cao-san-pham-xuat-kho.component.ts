@@ -13,6 +13,8 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
   chiTietXuatKhoUrl = this.applicationConfigService.getEndpointFor('api/chi-tiet-xuat-khos');
   tongHopUrl = this.applicationConfigService.getEndpointFor('api/tong-hop');
+  tongHopUrl2 = this.applicationConfigService.getEndpointFor('api/chi-tiet-xuat-khos/tong-hop');
+  tongHopUrl3 = this.applicationConfigService.getEndpointFor('api/san-pham/get-all');
   startDates = '';
   endDates = '';
   dateTimeSearchKey: { startDate: string; endDate: string } = { startDate: '', endDate: '' };
@@ -24,7 +26,7 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
   isLoading = false;
   isModalOpenConfirmLost = false;
   chiTietXuatKho: any[] = [];
-
+  chiTietXuatKhoSum: any[] = [];
   dropdownSettings = {};
   listMonth: any[] = [];
   selectedItems: any[] = [];
@@ -464,11 +466,44 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
   }
 
   changeDate2(): void {
+    this.chiTietXuatKhoSum = [];
     const formattedData = this.selectedItems.map(item => {
       const [month, year] = item.split('-').map(Number);
       return { month, year };
     });
     console.log('Data to send:', formattedData);
+    this.http.get(this.tongHopUrl3).subscribe(res => {
+      console.log('ds sp goc: ', res);
+    });
+    for (let i = 0; i < formattedData.length; i++) {
+      this.http.post<any>(this.tongHopUrl2, formattedData[i]).subscribe(res => {
+        if (this.chiTietXuatKhoSum.length === 0) {
+          this.chiTietXuatKhoSum = res;
+        } else {
+          setTimeout(() => {
+            for (let k = 0; k < this.chiTietXuatKhoSum.length; k++) {
+              let check = true;
+              for (let j = 0; j < this.chiTietXuatKhoSum.length; j++) {
+                if (this.chiTietXuatKhoSum[j].maSanPham === res[k].maSanPham) {
+                  this.chiTietXuatKhoSum[j].soLuongXuatKho += res[k].soLuongXuatKho;
+                  check = false;
+                }
+              }
+              if (check === true) {
+                this.chiTietXuatKhoSum.push(res[k]);
+              }
+            }
+          }, 200);
+        }
+      });
+    }
+    setTimeout(() => {
+      let sum = 0;
+      for (let i = 0; i < this.chiTietXuatKhoSum.length; i++) {
+        sum += this.chiTietXuatKhoSum[i].soLuongXuatKho;
+      }
+      console.log('ds xuat kho: ', sum);
+    }, 2000);
   }
 
   onSearchChange(e: any): void {

@@ -124,6 +124,7 @@ public interface PhanTichLoiRepository extends JpaRepository<PhanTichLoi, Long> 
     @Query(
         value = "SELECT \n" +
         "sp.id as spId,\n" +
+        "sp.sap_code as maSanPham,\n" +
         "sp.name as tenSanPham,\n" +
         "nganh.ten_nganh as nganh,\n" +
         "sp.ten_chung_loai as sanpham,\n" +
