@@ -4517,3 +4517,39 @@ input.ng-invalid.ng-touched {
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
+
+.status-waiting {
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.waiting-analyzsis {
+  background-color: orangered;
+  color: white;
+  padding: 5px;
+  border-radius: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.status-analyzing {
+  background-color: yellow;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.status-completed {
+  background-color: green;
+  color: white;
+  padding: 5px;
+  border-radius: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}

@@ -8,6 +8,7 @@ import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { MainComponent } from '../main/main.component';
+import { faBoxArchive, faDolly, faFileLines, faMoneyBill, faUserTie } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-navbar',
@@ -22,6 +23,11 @@ export class NavbarComponent implements OnInit {
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
   showLogo = 'false';
+  faFileLines = faFileLines;
+  faMoneyBills = faMoneyBill;
+  faDolly = faDolly;
+  faBoxArchive = faBoxArchive;
+  faUserTie = faUserTie;
 
   constructor(
     private loginService: LoginService,

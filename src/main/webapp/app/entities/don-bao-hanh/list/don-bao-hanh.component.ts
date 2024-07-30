@@ -23,7 +23,7 @@ import {
   Formatter,
   SlickEventData,
 } from './../../../../../../../node_modules/angular-slickgrid';
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -31,19 +31,15 @@ import { IDonBaoHanh } from '../don-bao-hanh.model';
 import { DonBaoHanhService } from '../service/don-bao-hanh.service';
 import { RowDetailViewComponent } from './rowdetail-view.component';
 import * as XLSX from 'xlsx';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
-import { count } from 'console';
 import { DanhSachTinhTrangService } from 'app/entities/danh-sach-tinh-trang/service/danh-sach-tinh-trang.service';
 import { SanPhamService } from 'app/entities/san-pham/service/san-pham.service';
-import { stringify } from 'querystring';
 import dayjs from 'dayjs/esm';
 import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 @Component({
   selector: 'jhi-don-bao-hanh',
   templateUrl: './don-bao-hanh.component.html',
-  // styleUrls: ['../../../slickgrid-theme-booststrap.css'],
 })
 export class DonBaoHanhComponent implements OnInit {
   phanLoaiChiTietTiepNhanUrl = this.applicationConfigService.getEndpointFor('api/phan-loai-chi-tiet-tiep-nhans');
@@ -582,6 +578,27 @@ export class DonBaoHanhComponent implements OnInit {
             col: 42,
             rows: 5,
           } as LongTextEditorOption,
+        },
+        formatter: (row: number, cell: number, value: string, columnDef: any, dataContext: any) => {
+          let cssClass = '';
+          switch (value) {
+            case 'Chờ phân loại':
+              cssClass = 'status-waiting';
+              break;
+            case 'Chờ phân tích':
+              cssClass = 'waiting-analyzsis';
+              break;
+            case 'Đang phân tích':
+              cssClass = 'status-analyzing';
+              break;
+            case 'Hoàn thành phân tích':
+              cssClass = 'status-completed';
+              break;
+            default:
+              cssClass = '';
+              break;
+          }
+          return `<div class="${cssClass}">${value}</div>`;
         },
       },
       // {
