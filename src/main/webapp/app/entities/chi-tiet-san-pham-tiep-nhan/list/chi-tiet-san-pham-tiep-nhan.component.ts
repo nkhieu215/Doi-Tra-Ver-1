@@ -9,7 +9,6 @@ import { AngularGridInstance, Column, ExternalResource, FieldType, Filters, Form
 import { ExcelExportService } from '@slickgrid-universal/excel-export';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import * as XLSX from 'xlsx';
-import { start } from 'repl';
 
 @Component({
   selector: 'jhi-chi-tiet-san-pham-tiep-nhan',
@@ -796,7 +795,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       }
       this.data = resTongHop.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
       this.chiTietSanPhamTiepNhan = this.chiTietSanPhamTiepNhanGoc;
-      // console.log('caculate', resTongHop);
+      console.log('caculate', resTongHop);
+      console.log('data total', this.chiTietSanPhamTiepNhan);
     });
   }
 
@@ -1088,9 +1088,11 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   }
 
   getExportExcel(): void {
+    console.log('time', this.dateTimeSearchKey);
     this.dataExcel = [];
     this.http.post<any>(this.tongHopNewUrl, this.dateTimeSearchKey).subscribe(res => {
-      // console.log('check kết quả tổng hợp mới', res);
+      console.log('check kết quả tổng hợp mới', res);
+
       const item = {
         tenSanPham: '',
         nganh: '',

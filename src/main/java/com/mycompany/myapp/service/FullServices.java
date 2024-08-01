@@ -4,7 +4,9 @@ import com.mycompany.myapp.domain.*;
 import com.mycompany.myapp.repository.*;
 import com.mycompany.myapp.service.dto.ChiTietXuatKhoDTO;
 import com.mycompany.myapp.service.dto.DateTimeSearchDTO;
+import com.mycompany.myapp.service.dto.MonthYearDTO;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -549,5 +551,20 @@ public class FullServices {
                 this.chiTietXuatKhoRepository.save(chiTietXuatKho);
             }
         }
+    }
+
+    //☺ Lấy danh sách sản phẩm gốc
+    public List<TongHopNewResponse> getListSanPhamOrigin() {
+        List<TongHopNewResponse> list = this.sanPhamRepository.getDataInfo();
+        return list;
+    }
+
+    //☺ Lấy danh sách xuất kho theo tháng năm
+    public List<TongHopNewResponse> getXuatKhoList(MonthYearDTO request) {
+        List<TongHopNewResponse> list = new ArrayList<>();
+
+        list = this.chiTietXuatKhoRepository.getDataInfo(request.getMonth(), request.getYear());
+
+        return list;
     }
 }

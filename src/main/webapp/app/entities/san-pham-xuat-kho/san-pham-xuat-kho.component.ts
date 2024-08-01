@@ -145,9 +145,10 @@ export class SanPhamXuatKhoComponent implements OnInit {
     if (!this.month) {
       const currentMonth = new Date().getMonth() + 1;
       this.month = currentMonth;
+      console.log('month', this.month);
     }
     this.year = new Date().getFullYear();
-
+    console.log('year', this.year);
     this.columnDefinitions = [
       {
         id: 'id',

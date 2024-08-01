@@ -124,14 +124,15 @@ public interface PhanTichLoiRepository extends JpaRepository<PhanTichLoi, Long> 
     @Query(
         value = "SELECT \n" +
         "sp.id as spId,\n" +
+        "sp.sap_code as maSanPham,\n" +
         "sp.name as tenSanPham,\n" +
         "nganh.ten_nganh as nganh,\n" +
         "sp.ten_chung_loai as sanpham,\n" +
         "nsp.name as nhomSanPham ,\n" +
         "cl.ten_chung_loai as chungLoai,\n" +
         "sp.nhom_sp_theo_cong_suat as nhomSanPhamTheoCongSuat," +
-        " 0 as tongXuatKho,\n" +
-        "(select case when sp.id = sp1.id and plctsp1.danh_sach_tinh_trang_id = 1 and plctsp1.so_luong > 0 then sum(plctsp1.so_luong) else 0 FROM baohanh2.phan_loai_chi_tiet_tiep_nhan as plctsp1 \n" +
+        " 0 as soLuongXuatKho,\n" +
+        "(select case when sp.id = sp1.id and plctsp1.danh_sach_tinh_trang_id = 1 and plctsp1.so_luong > 0 then sum(plctsp1.so_luong) else 0 end FROM baohanh2.phan_loai_chi_tiet_tiep_nhan as plctsp1 \n" +
         "inner join baohanh2.chi_tiet_san_pham_tiep_nhan as ctsptn on ctsptn.id = plctsp1.chi_tiet_san_pham_tiep_nhan_id\n" +
         "inner join baohanh2.san_pham as sp1 on sp1.id = ctsptn.san_pham_id\n" +
         "inner join baohanh2.don_bao_hanh as dbh on dbh.id = ctsptn.don_bao_hanh_id\n" +

@@ -5,6 +5,7 @@ public interface TongHopNewResponse {
     String getTenSanPham();
     String getNganh();
     String getSanPham();
+    String getMaSanPham();
     String getNhomSanPham();
     String getChungLoai();
     String getNhomSanPhamTheoCongSuat();

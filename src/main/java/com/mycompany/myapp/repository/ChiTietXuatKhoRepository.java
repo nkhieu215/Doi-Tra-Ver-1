@@ -2,6 +2,7 @@ package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.ChiTietXuatKho;
 import com.mycompany.myapp.domain.ChiTietXuatKhoResponse;
+import com.mycompany.myapp.domain.TongHopNewResponse;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +37,16 @@ public interface ChiTietXuatKhoRepository extends JpaRepository<ChiTietXuatKho, 
 
     List<ChiTietXuatKho> findAllByDanhSachXuatKhoId(Long id);
     void deleteByDanhSachXuatKhoId(Long id);
+
+    @Query(
+        value = "SELECT\n" +
+        "replace(a.ma_hang_hoa, 'LED','') as maSanPham,\n" +
+        "sum(a.so_luong) as soLuongXuatKho\n" +
+        "FROM baohanh2.chi_tiet_xuat_kho as a\n" +
+        "inner join baohanh2.danh_sach_xuat_kho as b on b.id = a.danh_sach_xuat_kho_id\n" +
+        "where b.month = ?1 and b.year = ?2 " +
+        "group by a.ma_hang_hoa",
+        nativeQuery = true
+    )
+    public List<TongHopNewResponse> getDataInfo(Integer month, Integer year);
 }

@@ -10,7 +10,7 @@
           id="startDate"
           [(ngModel)]="startDates"
           [ngModelOptions]="{ standalone: true }"
-          (change)="changeDate()"
+          (ngModelChange)="changeDate()"
           style="width: 15rem"
         />
       </div>
@@ -22,13 +22,10 @@
           id="endDate"
           [(ngModel)]="endDates"
           [ngModelOptions]="{ standalone: true }"
-          (change)="changeDate()"
+          (ngModelChange)="changeDate()"
           style="width: 15rem"
         />
       </div>
-      <!-- <input type="submit" (click)="changeDate()" /> -->
-      <!-- <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem"
-        (click)="changeDate()">Tìm kiếm</button> -->
 
       <div style="width: 20rem" class="search-inp">
         <label for="month" class="form-label">Tháng</label>
@@ -42,20 +39,19 @@
           (onSelectAll)="onSelectAll($event)"
         ></ng-multiselect-dropdown>
       </div>
-      <!-- <div style="width: 20rem" class="search-inp">
-        <label for="year" class="form-label">Năm</label>
-        <input id="yearInput" type="text" />
-      </div> -->
+
       <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="changeDate2()">Tìm kiếm</button>
     </form>
-    <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem">Xuất báo cáo</button>
+    <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="getExportExcel()">
+      Xuất báo cáo
+    </button>
   </div>
 
   <angular-slickgrid
     gridId="bao-cao-san-pham-xuat-kho"
     [columnDefinitions]="columnDefinitions"
     [gridOptions]="gridOptions"
-    [dataset]="chiTietXuatKho"
+    [dataset]="chiTietXuatKhoSum"
     (onBeforeSearchChange)="onSearchChange($event)"
     (onAngularGridCreated)="angularGridReady($event)"
   ></angular-slickgrid>
@@ -63,7 +59,6 @@
 
 <div class="modal-confirm" [ngClass]="{ active: isModalOpenConfirmLost }">
   <div class="modal-content-confirm">
-    <!-- <span class="close-modal-confirm" (click)="closeModalConfirmDuplicate()">&times;</span> -->
     <h3>Dữ liệu của tháng...năm...bị thiếu, có muốn tiêp tục xuất báo cáo không?</h3>
     <button class="btn btn-danger" (click)="confirmLost()">Xóa</button>
     <button class="btn btn-primary" (click)="closeModalConfirmLost()">Hủy</button>
