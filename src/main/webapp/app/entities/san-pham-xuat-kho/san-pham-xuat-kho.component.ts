@@ -138,10 +138,6 @@ export class SanPhamXuatKhoComponent implements OnInit {
       this.account = account;
       // console.log('acc', this.account);
     });
-    this.http.get<any>(this.danhSachXuatKhoUrl).subscribe(res => {
-      this.danhSachXuatKho = res;
-      console.log(res);
-    });
     if (!this.month) {
       const currentMonth = new Date().getMonth() + 1;
       this.month = currentMonth;
@@ -149,6 +145,10 @@ export class SanPhamXuatKhoComponent implements OnInit {
     }
     this.year = new Date().getFullYear();
     console.log('year', this.year);
+    this.http.get<any>(this.danhSachXuatKhoUrl).subscribe(res => {
+      this.danhSachXuatKho = res;
+      console.log(res);
+    });
     this.columnDefinitions = [
       {
         id: 'id',

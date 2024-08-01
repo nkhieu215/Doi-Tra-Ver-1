@@ -38,6 +38,7 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long> {
 
     @Query(
         value = "select \n" +
+        "sp.id as spId,\n" +
         "sp.sap_code as maSanPham,\n" +
         "sp.name as tenSanPham,\n" +
         "nganh.ten_nganh as nganh,\n" +

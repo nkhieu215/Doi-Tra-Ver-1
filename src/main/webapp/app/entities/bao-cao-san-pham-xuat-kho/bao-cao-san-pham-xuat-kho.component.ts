@@ -232,12 +232,15 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
 
   dataShow(): void {
     this.http.get<any>(this.tongHopUrl3).subscribe(res => {
+      res.forEach((item: any) => {
+        item.id = item.spId;
+      });
       this.chiTietXuatKhoSum = res;
     });
     this.columnDefinitions = [
       {
-        id: 'spId',
-        field: 'spId',
+        id: 'id',
+        field: 'id',
         name: 'STT',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
@@ -432,7 +435,7 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
       },
       presets: {
         columns: [
-          { columnId: 'spId' },
+          { columnId: 'id' },
           { columnId: 'maSanPham' },
           { columnId: 'tenSanPham' },
           { columnId: 'nganh' },
@@ -615,77 +618,6 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         });
       }, 15000);
     }, 2000);
-  }
-
-  onSearchChange(e: any): void {
-    // detail is the args data payload
-    const args = e.detail;
-    // if (args.columnId === 'maTiepNhan') {
-    //   if (args.searchTerms === undefined) {
-    //     this.dataSearch.maTiepNhan = '';
-    //   } else {
-    //     this.dataSearch.maTiepNhan = args.searchTerms[0];
-    //   }
-    // }
-    // if (args.columnId === 'nhanVienGiaoHang') {
-    //   if (args.searchTerms === undefined) {
-    //     this.dataSearch.nhanVienGiaoHang = '';
-    //   } else {
-    //     this.dataSearch.nhanVienGiaoHang = args.searchTerms[0];
-    //   }
-    // }
-    // if (args.columnId === 'tenKhachHang') {
-    //   if (args.searchTerms === undefined) {
-    //     this.dataSearch.tenKhachHang = '';
-    //   } else {
-    //     this.dataSearch.tenKhachHang = args.searchTerms[0];
-    //   }
-    // }
-    // if (args.columnId === 'nhomKhachHang') {
-    //   if (args.searchTerms === undefined) {
-    //     this.dataSearch.nhomKhachHang = '';
-    //   } else {
-    //     this.dataSearch.nhomKhachHang = args.searchTerms[0];
-    //   }
-    // }
-    // if (args.columnId === 'tinhThanh') {
-    //   if (args.searchTerms === undefined) {
-    //     this.dataSearch.tinhThanh = '';
-    //   } else {
-    //     this.dataSearch.tinhThanh = args.searchTerms[0];
-    //   }
-    // }
-    // if (args.columnId === 'tenSanPham') {
-    //   if (args.searchTerms === undefined) {
-    //     this.dataSearch.tenSanPham = '';
-    //   } else {
-    //     this.dataSearch.tenSanPham = args.searchTerms[0];
-    //   }
-    // }
-    // if (args.columnId === 'tenNganh') {
-    //   if (args.searchTerms === undefined) {
-    //     this.dataSearch.tenNganh = '';
-    //   } else {
-    //     this.dataSearch.tenNganh = args.searchTerms[0];
-    //   }
-    // }
-    // if (args.columnId === 'tenChungLoai') {
-    //   if (args.searchTerms === undefined) {
-    //     this.dataSearch.tenChungLoai = '';
-    //   } else {
-    //     this.dataSearch.tenChungLoai = args.searchTerms[0];
-    //   }
-    // }
-    // if (args.columnId === 'tenNhomSanPham') {
-    //   if (args.searchTerms === undefined) {
-    //     this.dataSearch.tenNhomSanPham = '';
-    //   } else {
-    //     this.dataSearch.tenNhomSanPham = args.searchTerms[0];
-    //   }
-    // }
-    // this.handleSearchCTL();
-    // console.log('header search body', this.dataSearch);
-    // this.handleSearchCTL();
   }
 
   angularGridReady(angularGrid: any): void {
