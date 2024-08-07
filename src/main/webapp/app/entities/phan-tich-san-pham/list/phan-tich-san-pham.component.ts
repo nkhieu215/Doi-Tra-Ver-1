@@ -155,6 +155,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   saveLOT = '';
   saveYear = '';
   saveTheLoai = '';
+  saveSanPham = '';
   //Biến lưu thông tin 1 phần tử của phân loại chi tiết sản phẩm
   itemOfPhanLoaiChiTietSanPham: any;
   // biến dùng để check all
@@ -1286,7 +1287,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   scanLotEvent(): void {
     this.saveTheLoai = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Lot';
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber = this.saveLOT;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
+    this.saveSanPham = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
     this.saveYear = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.saveLOT.substr(0, 2)}`;
   }
@@ -1295,7 +1296,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.saveTheLoai = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Serial';
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail = this.saveSerial;
     this.saveLOT = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber = this.saveSerial.substr(0, 13);
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
+    this.saveSanPham = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
     this.saveYear = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.saveLOT.substr(0, 2)}`;
   }
@@ -1399,7 +1400,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       }
     }
     // Lọc danh sách
-    this.listOfPhanTichSanPhamByPLCTTN = this.listOfPhanTichSanPhamByPLCTTN.filter(item => item.tenSanPham !== '');
+    // this.listOfPhanTichSanPhamByPLCTTN = this.listOfPhanTichSanPhamByPLCTTN.filter(item => item.tenSanPham !== '');
     // console.log(this.listOfPhanTichSanPhamByPLCTTN);
     if (this.donBaoHanh.tienDo > 0) {
       // console.log('Đang phân tích');
@@ -1436,7 +1437,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.catchChangeOfListKhaiBaoLoi = [];
     const item = {
       soThuTu: this.indexOfChiTietPhanTichSanPham + 1,
-      tenSanPham: '',
+      tenSanPham: this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham,
       tenNhanVienPhanTich: `${this.account?.firstName as string} ${this.account?.lastName as string}`,
       theLoaiPhanTich: this.saveTheLoai,
       lotNumber: this.saveLOT,
