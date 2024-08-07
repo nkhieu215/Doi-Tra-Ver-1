@@ -35,10 +35,10 @@
                 <th scope="col" jhiSortBy="id" style="width: 5rem">
                   <span class="span-table-phantich">Khách hàng</span>
                 </th>
-                <th scope="col" jhiSortBy="id" style="width: 5rem">
+                <th scope="col" jhiSortBy="id" style="width: 11rem">
                   <span class="span-table-phantich">Số lượng phân tích</span>
                 </th>
-                <th scope="col" jhiSortBy="id" style="width: 5rem">
+                <th scope="col" jhiSortBy="id" style="width: 9rem">
                   <span class="span-table-phantich">Đã phân tích</span>
                 </th>
                 <th scope="col" jhiSortBy="id" style="width: 5rem">
@@ -58,7 +58,7 @@
                   <input
                     type="text"
                     class="inp-ptich-sp"
-                    style="background-color: #f2f2f2; width: 7rem"
+                    style="background-color: #f2f2f2; width: 9rem; border: none"
                     value="{{ donBaoHanh.maTiepNhan }}"
                     disabled
                   />
@@ -67,7 +67,7 @@
                   <input
                     type="text"
                     class="inp-ptich-sp"
-                    style="background-color: #f2f2f2; width: 30rem"
+                    style="background-color: #f2f2f2; width: 30rem; border: none"
                     value="{{ donBaoHanh.khachHang?.tenKhachHang }}"
                     disabled
                   />
@@ -76,7 +76,7 @@
                   <input
                     type="text"
                     class="inp-ptich-sp"
-                    style="background-color: #f2f2f2"
+                    style="background-color: #f2f2f2; border: none"
                     value="{{ donBaoHanh.slCanPhanTich }}"
                     disabled
                   />
@@ -85,7 +85,7 @@
                   <input
                     type="text"
                     class="inp-ptich-sp"
-                    style="background-color: #f2f2f2"
+                    style="background-color: #f2f2f2; border: none"
                     value="{{ donBaoHanh.slDaPhanTich }}"
                     disabled
                   />
@@ -94,14 +94,20 @@
                   <input
                     type="range"
                     class="inp-ptich-sp"
-                    style="background-color: #f2f2f2"
+                    style="background-color: #f2f2f2; border: none"
                     value="{{ donBaoHanh.tienDo.toFixed(2) }}"
                     id="donBaoHanh"
                   />{{ donBaoHanh.tienDo.toFixed(2) }}%
                 </td>
                 <td>{{ donBaoHanh.ngayTiepNhan | date: 'YYYY-MM-dd hh:mm:ss ' }}</td>
                 <td>
-                  <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.trangThai }}" disabled />
+                  <input
+                    type="text"
+                    class="inp-ptich-sp"
+                    style="background-color: #f2f2f2; border: none"
+                    value="{{ donBaoHanh.trangThai }}"
+                    disabled
+                  />
                 </td>
               </tr>
             </tbody>
@@ -124,15 +130,15 @@
             <table class="table tablel-striped" aria-describedby="page-heading">
               <thead style="background-color: #006699">
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
-                  <th scope="col" jhiSortBy="id">
+                  <th scope="col" jhiSortBy="id" class="header-table-custom" style="width: 3rem">
                     <span class="span-table-phantich">Option</span>
-                    <input class="inp-hidden" style="height: 35px; width: 3rem" disabled />
+                    <input class="inp-hidden" style="height: 42px; width: 3rem" disabled />
                   </th>
-                  <th scope="col" jhiSortBy="id">
+                  <th scope="col" jhiSortBy="id" style="width: 3rem">
                     <span class="span-table-phantich">STT</span>
-                    <input class="inp-hidden" style="height: 35px; width: 11rem" disabled />
+                    <input class="inp-hidden" style="height: 42px; width: 3rem" disabled />
                   </th>
-                  <th scope="col" jhiSortBy="id" style="width: 24rem">
+                  <th scope="col" jhiSortBy="id" style="width: 45rem">
                     <span class="span-table-phantich">Tên sản phẩm</span>
                     <input
                       type="text"
@@ -147,8 +153,10 @@
                       <option *ngFor="let item of danhSachSanPhams">{{ item.name }}</option>
                     </datalist>
                   </th>
-                  <th scope="col" jhiSortBy="id">
+                  <th scope="col" jhiSortBy="id" class="header-table-custom" style="width: 8rem">
                     <span class="span-table-phantich">Tình trạng</span>
+                    <input class="inp-hidden" style="height: 42px; width: 8rem" disabled />
+
                     <!-- <input
                       type="text"
                       placeholder="Tìm kiếm"
@@ -162,8 +170,10 @@
                       <option *ngFor="let item of trangThais">{{ item.key }}</option>
                     </datalist> -->
                   </th>
-                  <th scope="col" jhiSortBy="id">
+                  <th scope="col" jhiSortBy="id" class="header-table-custom" style="width: 9rem">
                     <span class="span-table-phantich">Số lượng nhận</span>
+                    <input class="inp-hidden" style="height: 42px; width: 9rem" disabled />
+
                     <!-- <input
                       type="text"
                       placeholder="Tìm kiếm"
@@ -173,8 +183,10 @@
                       [ngModelOptions]="{ standalone: true }"
                     /> -->
                   </th>
-                  <th scope="col" jhiSortBy="id">
+                  <th scope="col" jhiSortBy="id" class="header-table-custom" style="width: 12rem">
                     <span class="span-table-phantich">Số lượng đã phân tích</span>
+                    <input class="inp-hidden" style="height: 42px; width: 12rem" disabled />
+
                     <!-- <input
                       type="text"
                       placeholder="Tìm kiếm"
@@ -184,8 +196,10 @@
                       [ngModelOptions]="{ standalone: true }"
                     /> -->
                   </th>
-                  <th scope="col" jhiSortBy="id">
+                  <th scope="col" jhiSortBy="id" class="header-table-custom" style="width: 12rem">
                     <span class="span-table-phantich">Số lượng còn lại</span>
+                    <input class="inp-hidden" style="height: 42px; width: 12rem" disabled />
+
                     <!-- <input
                       type="text"
                       placeholder="Tìm kiếm"
@@ -195,8 +209,10 @@
                       [ngModelOptions]="{ standalone: true }"
                     /> -->
                   </th>
-                  <th scope="col" jhiSortBy="id">
+                  <th scope="col" jhiSortBy="id" class="header-table-custom" style="width: 8rem">
                     <span class="span-table-phantich">Tiến độ (%)</span>
+                    <input class="inp-hidden" style="height: 42px; width: 8rem" disabled />
+
                     <!-- <input
                       type="text"
                       placeholder="Tìm kiếm"
@@ -206,7 +222,7 @@
                       [ngModelOptions]="{ standalone: true }"
                     /> -->
                   </th>
-                  <th scope="col" jhiSortBy="id">
+                  <th scope="col" jhiSortBy="id" class="header-table-custom">
                     <span class="span-table-phantich">Checked</span>
                     <input type="checkbox" class="ui-checkbox" [checked]="checkedAll" (change)="checkAll()" />
                   </th>
@@ -220,7 +236,7 @@
                     </button>
                   </td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ i + 1 }}" disabled /></td>
-                  <td><input type="text" class="inp-ptich-sp" value="{{ data.tenSanPham }}" style="width: 24rem" disabled /></td>
+                  <td><input type="text" class="inp-ptich-sp" value="{{ data.tenSanPham }}" style="width: 45rem" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.tinhTrang }}" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slTiepNhan }}" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slDaPhanTich }}" disabled /></td>
@@ -311,7 +327,7 @@
       </form>
 
       <div class="group-btn-scan">
-        <div class="popup-footer">
+        <!-- <div class="popup-footer">
           <button class="btn btn-danger btn-option" (click)="closePopup()"><fa-icon icon="ban"></fa-icon>Huỷ</button>
           <button class="btn btn-primary btn-option" *ngIf="fixKhaiBaoLoi === true" (click)="saveKhaiBaoLoi()">
             <fa-icon icon="save"></fa-icon>&nbsp;Lưu
@@ -319,7 +335,7 @@
           <button class="btn btn-success btn-option" (click)="postChiTietPhanTichSanPham()">
             <fa-icon icon="check"></fa-icon>&nbsp;Xác nhận
           </button>
-        </div>
+        </div> -->
 
         <div class="group-scan">
           <div class="group-scan-child">
@@ -327,32 +343,32 @@
               <button class="btn btn-primary btn-scan" (click)="buttonScanLot()" *ngIf="scanLot">Scan LOT</button>
               <button class="btn btn-primary btn-scan" (click)="buttonScanSerial()" *ngIf="scanSerial">Scan Serial</button>
               <div class="container-serial">
-                <div>
+                <div style="width: 35%">
                   <label class="form-label" style="margin-bottom: 0.5rem">Serrial</label>
                   <input
                     type="text"
                     class="form-control inp-err-nsx container-lot-serial"
                     id="serial"
                     [disabled]="!scanSerial"
-                    [(ngModel)]="listOfPhanTichSanPhamByPLCTTN[indexOfChiTietPhanTichSanPham].detail"
+                    [(ngModel)]="saveSerial"
                     [ngModelOptions]="{ standalone: true }"
                     (change)="scanSerialEvent()"
                   />
                 </div>
 
-                <div>
+                <div style="width: 35%">
                   <label class="form-label" style="margin-bottom: 0.5rem">LOT</label>
                   <input
                     type="text"
                     class="form-control inp-err-nsx container-lot-serial"
                     id="lot"
-                    [(ngModel)]="listOfPhanTichSanPhamByPLCTTN[indexOfChiTietPhanTichSanPham].lotNumber"
+                    [(ngModel)]="saveLOT"
                     [ngModelOptions]="{ standalone: true }"
                     (change)="scanLotEvent()"
                   />
                 </div>
 
-                <div>
+                <div style="width: 10%">
                   <label for="field_namSanXuat" class="form-label" style="margin-bottom: 0.5rem">Năm sản xuất</label>
                   <input
                     type="text"
@@ -360,8 +376,8 @@
                     name="namSanXuat"
                     id="field_namSanXuat"
                     data-cy="namSanXuat"
-                    style="width: 20rem"
-                    [(ngModel)]="listOfPhanTichSanPhamByPLCTTN[indexOfChiTietPhanTichSanPham].namSanXuat"
+                    style="width: 15rem"
+                    [(ngModel)]="saveYear"
                     [ngModelOptions]="{ standalone: true }"
                   />
                 </div>
@@ -644,40 +660,13 @@
 
     <div id="hiddenToolbar" class="group-btn-inBBPT">
       <div>
-        <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="showGroupOptionsTN()">Biên bản tiếp nhận</button>
-        <div class="group-btn-options" *ngIf="groupOptionsTN === true">
-          <table class="table table-striped">
-            <tbody>
-              <td class="inventory-name">
-                <tr *ngFor="let data of danhSachLienBienBanTiepNhan; let i = index" style="border: none">
-                  <button class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupBBTN(i)">
-                    {{ data.name }} {{ data.value }}
-                  </button>
-                </tr>
-              </td>
-            </tbody>
-          </table>
-        </div>
+        <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="openPopupBBTN()">Biên bản tiếp nhận</button>
       </div>
-      <!-- <div>
-        <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="showGroupOptionsTN()">Biên bản tiếp nhận</button>
-        <div class="group-btn-options" *ngIf="groupOptionsTN === true">
-          <button type="button" class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTN1()">Liên 1 (Tổ đổi)</button>
-          <button type="button" class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTN2()">Liên 2 (Khách hàng)</button>
-          <button type="button" class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTN3()">Liên 3 (P.KHTT)</button>
-          <button type="button" class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTN4()">Liên 4 (P.BH 1)</button>
-        </div>
-      </div> -->
+
       <div>
         <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="showGroupOptionsKN()">
           Biên bản kiểm nghiệm
         </button>
-
-        <div class="alert" id="no-result" *ngIf="resultOfSanPhamTheoKho?.length === 0">
-          <div class="loader">
-            <div class="justify-content-center jimu-primary-loading"></div>
-          </div>
-        </div>
 
         <div class="group-btn-options" *ngIf="groupOptionsKN === true">
           <table class="table table-striped">
@@ -692,6 +681,18 @@
             </tbody>
           </table>
         </div>
+        <!-- <div class="alert" id="no-result" *ngIf="resultOfSanPhamTheoKho?.length === 0">
+          <div class="dot-spinner2">
+            <div class="dot-spinner__dot2"></div>
+            <div class="dot-spinner__dot2"></div>
+            <div class="dot-spinner__dot2"></div>
+            <div class="dot-spinner__dot2"></div>
+            <div class="dot-spinner__dot2"></div>
+            <div class="dot-spinner__dot2"></div>
+            <div class="dot-spinner__dot2"></div>
+            <div class="dot-spinner__dot2"></div>
+          </div>
+        </div> -->
       </div>
       <div>
         <button type="button" class="btn btn-primary btn-options-in btn-popup-in-2" (click)="showGroupOptionsTL()">
@@ -931,19 +932,13 @@
   </div>
 
   <!-- In biên bản tiếp nhận -->
-  <div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN === true">
+  <!-- <div class="table-responive popup-background-bienban" role="dialog" *ngIf="popupInBBTN === true">
     <div class="popup-container popup-in">
       <div class="popup-header-in">
         <span class="close-btn" style="float: right" (click)="closePopupBBTN()">&times;</span>
         <div id="hiddenToolbar">
-          <button
-            type="button"
-            class="btn btn-primary"
-            printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
-            (click)="xacNhanInBienBan()"
-            printSectionId="BBTN"
-            ngxPrint
-          >
+          <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+            (click)="xacNhanInBienBan()" printSectionId="BBTN" style="position:relative; z-index:5" ngxPrint>
             In
           </button>
           <button type="button" class="btn btn-success" style="float: right" (click)="addRow()">Thêm dòng</button>
@@ -953,12 +948,8 @@
             <header>
               <div class="row">
                 <div class="col-6" align="left" style="height: 0px">
-                  <img
-                    src="../../../../content/images/logoRD.png"
-                    alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                    width="150"
-                    style="margin-top: -30px; margin-left: 30px"
-                  />
+                  <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                    width="150" style="margin-top: -30px; margin-left: 30px" />
                 </div>
                 <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
               </div>
@@ -976,7 +967,7 @@
               <div>
                 <p>
                   Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
-                    donBaoHanh.maTiepNhan.substr(7, 2)
+                  donBaoHanh.maTiepNhan.substr(7, 2)
                   }}
                   Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
                 </p>
@@ -986,10 +977,12 @@
               </div>
               <div>
                 <div align="right" style="margin-right: 106px">
-                  <qrcode [qrdata]="donBaoHanh.maTiepNhan" [width]="10" [errorCorrectionLevel]="'M'" [elementType]="'img'"></qrcode>
+                  <qrcode [qrdata]="donBaoHanh.maTiepNhan" [width]="10" [errorCorrectionLevel]="'M'"
+                    [elementType]="'img'"></qrcode>
                 </div>
                 <br />
-                <div align="right" style="margin-right: 112px; font-size: 12px; margin-top: -30px">{{ donBaoHanh.maTiepNhan }}</div>
+                <div align="right" style="margin-right: 112px; font-size: 12px; margin-top: -30px">{{
+                  donBaoHanh.maTiepNhan }}</div>
               </div>
             </div>
             <div>
@@ -1004,62 +997,39 @@
                     <th style="width: 3rem; border: 0.2px solid black">SL SP đổi mới</th>
                     <th style="width: 3.5rem; border: 0.2px solid black">SL SP sửa chữa</th>
                     <th style="width: 4rem; border: 0.2px solid black">SL SP không được bảo hành</th>
-                    <th style="width: 10rem; border: 0.2px solid black">Lý do không bảo hành</th>
-                    <th style="width: 10rem; border: 0.2px solid black">Lý do sửa chữa</th>
+                    <th style="width: 5rem; border: 0.2px solid black">Lý do không bảo hành</th>
+                    <th style="width: 5rem; border: 0.2px solid black">Lý do sửa chữa</th>
                   </tr>
                 </thead>
                 <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
                   <td style="border: 0.2px solid black">{{ i + 1 }}</td>
                   <td style="border: 0.2px solid black">
-                    <input
-                      style="width: 30rem; border: none"
-                      type="text"
-                      [(ngModel)]="data.tenSanPham"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
+                    <input style="width: 30rem; border: none" type="text" [(ngModel)]="data.tenSanPham"
+                      [ngModelOptions]="{ standalone: true }" />
                   </td>
                   <td style="border: 0.2px solid black">
-                    <input style="width: 3rem; border: none" type="text" [(ngModel)]="data.donVi" [ngModelOptions]="{ standalone: true }" />
+                    <input style="width: 3rem; border: none" type="text" [(ngModel)]="data.donVi"
+                      [ngModelOptions]="{ standalone: true }" />
                   </td>
                   <td style="border: 0.2px solid black">
-                    <input
-                      style="width: 4rem; border: none"
-                      type="text"
-                      [(ngModel)]="data.slKhachGiao"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
+                    <input style="width: 4rem; border: none" type="text" [(ngModel)]="data.slKhachGiao"
+                      [ngModelOptions]="{ standalone: true }" />
                   </td>
                   <td style="border: 0.2px solid black">
-                    <input
-                      style="width: 4rem; border: none"
-                      type="text"
-                      [(ngModel)]="data.slTiepNhan"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
+                    <input style="width: 4rem; border: none" type="text" [(ngModel)]="data.slTiepNhan"
+                      [ngModelOptions]="{ standalone: true }" />
                   </td>
                   <td style="border: 0.2px solid black">
-                    <input
-                      style="width: 3rem; border: none"
-                      type="text"
-                      [(ngModel)]="data.slDoiMoi"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
+                    <input style="width: 3rem; border: none" type="text" [(ngModel)]="data.slDoiMoi"
+                      [ngModelOptions]="{ standalone: true }" />
                   </td>
                   <td style="border: 0.2px solid black">
-                    <input
-                      style="width: 3.5rem; border: none"
-                      type="text"
-                      [(ngModel)]="data.slSuaChua"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
+                    <input style="width: 3.5rem; border: none" type="text" [(ngModel)]="data.slSuaChua"
+                      [ngModelOptions]="{ standalone: true }" />
                   </td>
                   <td style="border: 0.2px solid black">
-                    <input
-                      style="width: 4rem; border: none"
-                      type="text"
-                      [(ngModel)]="data.slKhongBaoHanh"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
+                    <input style="width: 4rem; border: none" type="text" [(ngModel)]="data.slKhongBaoHanh"
+                      [ngModelOptions]="{ standalone: true }" />
                   </td>
                   <td style="border: 0.2px solid black"><input style="width: 10rem; border: none" type="text" /></td>
                   <td style="border: 0.2px solid black"><input style="width: 10rem; border: none" type="text" /></td>
@@ -1068,8 +1038,10 @@
             </div>
             <div class="notes">
               <p>
-                Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-                liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
+                Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng,
+                liên 3 giao P. Kh,
+                liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu
+                chi nhánh, liên 2
                 giao khách hàng
               </p>
               <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
@@ -1080,9 +1052,10 @@
                 <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
                 <div class="col" style="text-align: center">
                   <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                  <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
+                  <a [href]="selectedValue"
+                    style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
                     selectedValue
-                  }}</a>
+                    }}</a>
                 </div>
               </div>
             </footer>
@@ -1099,10 +1072,10 @@
       </div>
     </div>
     <p style="page-break-after: always"></p>
-  </div>
+  </div> -->
 
   <!-- In biên bản kiểm nghiệm -->
-  <div class="table-responsive popup-background" role="dialog" *ngIf="popupInBBKN === true">
+  <div class="table-responsive popup-background-bienban" role="dialog" *ngIf="popupInBBKN === true">
     <div class="popup-container popup-in">
       <div class="popup-header-in">
         <span class="close-btn" style="float: right" (click)="closePopupBBKN()">&times;</span>
@@ -1113,9 +1086,10 @@
             printTitle="BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH"
             (click)="xacNhanInBienBan()"
             printSectionId="BBkhoA"
+            style="position: relative; z-index: 5"
             ngxPrint
           >
-            In
+            <fa-icon [icon]="faPrint" style="padding-right: 5px"></fa-icon> In
           </button>
         </div>
 
@@ -1143,8 +1117,8 @@
             <div>
               <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) {{ donBaoHanh.khachHang.tenKhachHang }}</p>
               <p class="description">
-                Căn cứ biên bản giao nhận sản phẩm số {{ bienBanTiepNhan.maBienBan }} ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng
-                {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{ donBaoHanh.maTiepNhan.substr(7, 2) }}
+                Căn cứ biên bản giao nhận sản phẩm số {{ bienBanTiepNhan.maBienBan }} ngày {{ maBienBan.substr(4, 2) }} tháng
+                {{ maBienBan.substr(6, 2) }} năm 20{{ maBienBan.substr(8, 2) }}
               </p>
             </div>
             <div>
@@ -1177,14 +1151,14 @@
             </thead>
             <tbody id="body-tableA">
               <tr *ngFor="let item of danhSachBienBanSanPhamTheoKho; let i = index">
-                <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                <td style="border: 0.5px solid black">{{ item.tenSanPham }}</td>
-                <td style="border: 0.5px solid black">{{ item.sanPham!.donVi }}</td>
-                <td style="border: 0.5px solid black">{{ item.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">{{ item.loiLinhDong }}</td>
-                <td style="border: 0.5px solid black">{{ item.loiKyThuat }}</td>
-                <td style="border: 0.5px solid black">{{ item.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">0</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ i + 1 }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ item.tenSanPham }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ item.sanPham!.donVi }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ item.slTiepNhan }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ item.loiLinhDong }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ item.loiKyThuat }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ item.slTiepNhan }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">0</td>
                 <!-- <td>{{}}</td> -->
                 <!-- <td>{{}}</td> -->
                 <!-- <td>{{}}</td> -->
@@ -1228,7 +1202,7 @@
   </div>
 
   <!-- In biên bản thanh lý -->
-  <div class="table-responsive popup-background" role="dialog" *ngIf="popupInBBTL === true">
+  <div class="table-responsive popup-background-bienban" role="dialog" *ngIf="popupInBBTL === true">
     <div class="popup-container popup-in">
       <div class="popup-header-in">
         <span class="close-btn" style="float: right" (click)="closePopupBBTL()">&times;</span>
@@ -1239,9 +1213,10 @@
             printTitle="BIÊN BẢN THANH LÝ SẢN PHẨM MẤT PHẨM CHẤT"
             (click)="xacNhanInBienBan()"
             printSectionId="BBTL"
+            style="position: relative; z-index: 5"
             ngxPrint
           >
-            In
+            <fa-icon [icon]="faPrint" style="padding-right: 5px"></fa-icon>In
           </button>
         </div>
         <div id="BBTL">
@@ -1280,10 +1255,8 @@
                 <div style="text-indent: 2rem">
                   <p class="description">
                     Căn cứ Biên bản kiểm nghiệm sản phẩm kém chất lượng số {{ bienBanKiemNghiem.maBienBan }} đối với lô hàng đổi của khách
-                    hàng tại Biên bản giao nhận sản phẩm đổi số {{ bienBanTiepNhan.maBienBan }} ngày ngày
-                    {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
-                      donBaoHanh.maTiepNhan.substr(7, 2)
-                    }}
+                    hàng tại Biên bản giao nhận sản phẩm đổi số {{ bienBanTiepNhan.maBienBan }} ngày {{ maBienBan.substr(4, 2) }} tháng
+                    {{ maBienBan.substr(6, 2) }} năm 20{{ maBienBan.substr(8, 2) }}
                   </p>
 
                   <p>Chúng tôi thống nhất thanh lý số sản phẩm mất phẩm chất như sau :</p>
@@ -1298,7 +1271,7 @@
               </div>
             </div>
 
-            <table id="tableA" class="table-TN" style="min-width: 98vw; border-spacing: 0px">
+            <table id="tableA" class="table-TN" style="min-width: 81vw; border-spacing: 0px">
               <thead>
                 <tr>
                   <th style="width: 1rem; border: 0.5px solid black">STT</th>
@@ -1310,11 +1283,11 @@
               </thead>
               <tbody id="body-table">
                 <tr *ngFor="let item of danhSachBienBanSanPhamTheoKho; let i = index">
-                  <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                  <td style="border: 0.5px solid black">{{ item.tenSanPham }}</td>
-                  <td style="border: 0.5px solid black">{{ item.sanPham!.donVi }}</td>
-                  <td style="border: 0.5px solid black">{{ item.slTiepNhan }}</td>
-                  <td style="border: 0.5px solid black">Sản phẩm tháo dỡ thanh lý giao cho công ty</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ i + 1 }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ item.tenSanPham }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ item.sanPham!.donVi }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ item.slTiepNhan }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">Sản phẩm tháo dỡ thanh lý giao cho công ty</td>
                 </tr>
               </tbody>
             </table>
@@ -1335,136 +1308,136 @@
               </div>
             </footer>
           </div>
+          <select style="float: right; margin-right: 7em" (change)="onSelectChanged($event)">
+            <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
+            <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
+            <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
+            <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
+            <option value="Lê Huy Sang">Lê Huy Sang</option>
+            <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
+          </select>
         </div>
-        <select style="float: right; margin-right: 7em" (change)="onSelectChanged($event)">
-          <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
-          <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
-          <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
-          <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
-          <option value="Lê Huy Sang">Lê Huy Sang</option>
-          <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
-        </select>
       </div>
     </div>
   </div>
-</div>
 
-<div class="popup-overlay" id="popupNoti" [ngClass]="{ active: isPopupVisible }">
-  <div class="popup">
-    <h3>{{ popupMessage }}</h3>
-    <button (click)="closePopupNoti()">Close</button>
+  <div class="popup-overlay" id="popupNoti" [ngClass]="{ active: isPopupVisible }">
+    <div class="popup">
+      <h3>{{ popupMessage }}</h3>
+      <button (click)="closePopupNoti()">Close</button>
+    </div>
   </div>
-</div>
 
-<!-- biên bản tiếp nhận test -->
-<div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTNtest === true">
-  <div class="popup-container popup-in">
-    <div class="popup-header-in">
-      <span class="close-btn" style="float: right" (click)="closePopupBBTN()">&times;</span>
-      <div id="hiddenToolbar">
-        <button
-          type="button"
-          class="btn btn-primary"
-          printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
-          (click)="xacNhanInBienBan()"
-          printSectionId="BBTN"
-          ngxPrint
-        >
-          In
-        </button>
-        <button type="button" class="btn btn-success" style="float: right" (click)="addRow()">Thêm dòng</button>
-      </div>
-      <div id="BBTN">
-        <div id="lien1">
-          <header>
-            <div class="row">
-              <div class="col-6" align="left" style="height: 0px">
-                <img
-                  src="../../../../content/images/logoRD.png"
-                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                  width="150"
-                  style="margin-top: -30px; margin-left: 30px"
-                />
+  <!-- biên bản tiếp nhận test -->
+  <div class="table-responive popup-background-bienban" role="dialog" *ngIf="popupInBBTN === true">
+    <div class="popup-container popup-in">
+      <div class="popup-header-in">
+        <span class="close-btn" style="float: right" (click)="closePopupBBTN()">&times;</span>
+        <div id="hiddenToolbar">
+          <button
+            type="button"
+            class="btn btn-primary"
+            printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+            (click)="xacNhanInBienBan()"
+            printSectionId="BBTN"
+            style="position: relative; z-index: 5"
+            ngxPrint
+          >
+            <fa-icon [icon]="faPrint" style="padding-right: 5px"></fa-icon>In
+          </button>
+          <button type="button" class="btn btn-success" style="float: right" (click)="addRow()">Thêm dòng</button>
+        </div>
+        <div id="BBTN">
+          <div id="lien1">
+            <header>
+              <div class="row">
+                <div class="col-6" align="left" style="height: 0px">
+                  <img
+                    src="../../../../content/images/logoRD.png"
+                    alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                    width="150"
+                    style="margin-top: -30px; margin-left: 30px"
+                  />
+                </div>
+                <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
               </div>
-              <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
+            </header>
+            <div align="center">
+              <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
+              <p style="text-align: center">Liên 1: Lưu tổ phục vụ đổi sản phẩm</p>
             </div>
-          </header>
-          <div align="center">
-            <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
-            <p style="text-align: center">Liên 1: Lưu tổ phục vụ đổi sản phẩm</p>
-          </div>
-          <div align="right" style="margin-right: 80px; font-size: 14px; margin-top: -30px">Số: {{ maBienBan }}</div>
-          <br />
-          <div style="display: flex; justify-content: space-between">
+            <div align="right" style="margin-right: 80px; font-size: 14px; margin-top: -30px">Số: {{ maBienBan }}</div>
+            <br />
+            <div style="display: flex; justify-content: space-between">
+              <div>
+                <p>
+                  Ngày {{ maBienBan.substr(2, 2) }} tháng {{ maBienBan.substr(4, 2) }} năm 20{{ maBienBan.substr(6, 2) }}
+                  Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
+                </p>
+                <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+                <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
+                <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ... tháng ... năm 20...</div>
+              </div>
+              <div>
+                <div align="right" style="margin-right: 92px">
+                  <qrcode [qrdata]="donBaoHanh.maTiepNhan" [width]="10" [errorCorrectionLevel]="'M'" [elementType]="'img'"></qrcode>
+                </div>
+                <br />
+                <div align="right" style="margin-right: 94px; font-size: 14px; margin-top: -30px">{{ donBaoHanh.maTiepNhan }}</div>
+              </div>
+            </div>
             <div>
+              <table id="table" class="table-TN" style="min-width: 81vw; border-spacing: 0px">
+                <thead>
+                  <tr>
+                    <th style="width: 1rem; border: 0.5px solid black">STT</th>
+                    <th style="width: 15rem; border: 0.5px solid black">Tên sản phẩm</th>
+                    <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
+                    <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
+                    <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
+                    <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
+                    <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
+                    <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
+                    <th style="width: 5rem; border: 0.5px solid black">Lý do không bảo hành</th>
+                    <th style="width: 5rem; border: 0.5px solid black">Lý do sửa chữa</th>
+                  </tr>
+                </thead>
+                <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
+                  <td style="height: 2rem; border: 0.5px solid black">{{ i + 1 }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ data.tenSanPham }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ data.donVi }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ data.slKhachGiao }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ data.slTiepNhan }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ data.slDoiMoi }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ data.slSuaChua }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
+                  <td style="height: 2rem; border: 0.5px solid black"></td>
+                  <td style="height: 2rem; border: 0.5px solid black"></td>
+                </tbody>
+              </table>
+            </div>
+            <div class="notes">
               <p>
-                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
-                  donBaoHanh.maTiepNhan.substr(7, 2)
-                }}
-                Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
+                Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
+                liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
+                giao khách hàng
               </p>
-              <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
-              <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
-              <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ... tháng ... năm 20...</div>
+              <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
             </div>
-            <div>
-              <div align="right" style="margin-right: 92px">
-                <qrcode [qrdata]="donBaoHanh.maTiepNhan" [width]="10" [errorCorrectionLevel]="'M'" [elementType]="'img'"></qrcode>
+            <footer>
+              <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
+                <div class="col" style="text-align: center"><strong>ĐẠI DIỆN KHÁCH HÀNG</strong></div>
+                <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
+                <div class="col" style="text-align: center">
+                  <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
+                  <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
+                    selectedValue
+                  }}</a>
+                </div>
               </div>
-              <br />
-              <div align="right" style="margin-right: 94px; font-size: 14px; margin-top: -30px">{{ donBaoHanh.maTiepNhan }}</div>
-            </div>
+            </footer>
           </div>
-          <div>
-            <table id="table" class="table-TN" style="min-width: 98vw; border-spacing: 0px">
-              <thead>
-                <tr>
-                  <th style="width: 1rem; border: 0.5px solid black">STT</th>
-                  <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
-                  <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
-                  <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
-                  <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do không bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do sửa chữa</th>
-                </tr>
-              </thead>
-              <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
-                <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                <td style="border: 0.5px solid black">{{ data.tenSanPham }}</td>
-                <td style="border: 0.5px solid black">{{ data.donVi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhachGiao }}</td>
-                <td style="border: 0.5px solid black">{{ data.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">{{ data.slDoiMoi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slSuaChua }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
-                <td style="border: 0.5px solid black"></td>
-                <td style="border: 0.5px solid black"></td>
-              </tbody>
-            </table>
-          </div>
-          <div class="notes">
-            <p>
-              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
-              giao khách hàng
-            </p>
-            <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
-          </div>
-          <footer>
-            <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
-              <div class="col" style="text-align: center"><strong>ĐẠI DIỆN KHÁCH HÀNG</strong></div>
-              <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
-              <div class="col" style="text-align: center">
-                <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                <a [href]="selectedValue" style="display: block; margin-top: 6rem; text-decoration: none; color: black">{{
-                  selectedValue
-                }}</a>
-              </div>
-            </div>
-          </footer>
+
           <p style="page-break-after: always"></p>
           <br />
           <br />
@@ -1491,13 +1464,11 @@
           <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>
               <p>
-                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
-                  donBaoHanh.maTiepNhan.substr(7, 2)
-                }}
+                Ngày {{ maBienBan.substr(2, 2) }} tháng {{ maBienBan.substr(4, 2) }} năm 20{{ maBienBan.substr(6, 2) }}
                 Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
               </p>
-              <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
-              <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
+              <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+              <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
               <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ... tháng ... năm 20...</div>
             </div>
             <div>
@@ -1509,32 +1480,32 @@
             </div>
           </div>
           <div>
-            <table id="table" class="table-TN" style="min-width: 98vw; border-spacing: 0px">
+            <table id="table" class="table-TN" style="min-width: 81vw; border-spacing: 0px">
               <thead>
                 <tr>
                   <th style="width: 1rem; border: 0.5px solid black">STT</th>
-                  <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
+                  <th style="width: 15rem; border: 0.5px solid black">Tên sản phẩm</th>
                   <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
                   <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
                   <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
                   <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
                   <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
                   <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do không bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do sửa chữa</th>
+                  <th style="width: 5rem; border: 0.5px solid black">Lý do không bảo hành</th>
+                  <th style="width: 5rem; border: 0.5px solid black">Lý do sửa chữa</th>
                 </tr>
               </thead>
               <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
-                <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                <td style="border: 0.5px solid black">{{ data.tenSanPham }}</td>
-                <td style="border: 0.5px solid black">{{ data.donVi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhachGiao }}</td>
-                <td style="border: 0.5px solid black">{{ data.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">{{ data.slDoiMoi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slSuaChua }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
-                <td style="border: 0.5px solid black"></td>
-                <td style="border: 0.5px solid black"></td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ i + 1 }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.tenSanPham }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.donVi }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slKhachGiao }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slTiepNhan }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slDoiMoi }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slSuaChua }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
+                <td style="height: 2rem; border: 0.5px solid black"></td>
+                <td style="height: 2rem; border: 0.5px solid black"></td>
               </tbody>
             </table>
           </div>
@@ -1584,13 +1555,11 @@
           <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>
               <p>
-                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
-                  donBaoHanh.maTiepNhan.substr(7, 2)
-                }}
+                Ngày {{ maBienBan.substr(2, 2) }} tháng {{ maBienBan.substr(4, 2) }} năm 20{{ maBienBan.substr(6, 2) }}
                 Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
               </p>
-              <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
-              <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
+              <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+              <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
               <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ... tháng ... năm 20...</div>
             </div>
             <div>
@@ -1602,32 +1571,32 @@
             </div>
           </div>
           <div>
-            <table id="table" class="table-TN" style="min-width: 98vw; border-spacing: 0px">
+            <table id="table" class="table-TN" style="min-width: 81vw; border-spacing: 0px">
               <thead>
                 <tr>
                   <th style="width: 1rem; border: 0.5px solid black">STT</th>
-                  <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
+                  <th style="width: 15rem; border: 0.5px solid black">Tên sản phẩm</th>
                   <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
                   <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
                   <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
                   <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
                   <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
                   <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do không bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do sửa chữa</th>
+                  <th style="width: 5rem; border: 0.5px solid black">Lý do không bảo hành</th>
+                  <th style="width: 5rem; border: 0.5px solid black">Lý do sửa chữa</th>
                 </tr>
               </thead>
               <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
-                <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                <td style="border: 0.5px solid black">{{ data.tenSanPham }}</td>
-                <td style="border: 0.5px solid black">{{ data.donVi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhachGiao }}</td>
-                <td style="border: 0.5px solid black">{{ data.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">{{ data.slDoiMoi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slSuaChua }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
-                <td style="border: 0.5px solid black"></td>
-                <td style="border: 0.5px solid black"></td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ i + 1 }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.tenSanPham }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.donVi }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slKhachGiao }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slTiepNhan }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slDoiMoi }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slSuaChua }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
+                <td style="height: 2rem; border: 0.5px solid black"></td>
+                <td style="height: 2rem; border: 0.5px solid black"></td>
               </tbody>
             </table>
           </div>
@@ -1677,13 +1646,11 @@
           <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>
               <p>
-                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
-                  donBaoHanh.maTiepNhan.substr(7, 2)
-                }}
+                Ngày {{ maBienBan.substr(2, 2) }} tháng {{ maBienBan.substr(4, 2) }} năm 20{{ maBienBan.substr(6, 2) }}
                 Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
               </p>
-              <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
-              <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
+              <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+              <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
               <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ... tháng ... năm 20...</div>
             </div>
             <div>
@@ -1695,32 +1662,32 @@
             </div>
           </div>
           <div>
-            <table id="table" class="table-TN" style="min-width: 98vw; border-spacing: 0px">
+            <table id="table" class="table-TN" style="min-width: 81vw; border-spacing: 0px">
               <thead>
                 <tr>
                   <th style="width: 1rem; border: 0.5px solid black">STT</th>
-                  <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
+                  <th style="width: 15rem; border: 0.5px solid black">Tên sản phẩm</th>
                   <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
                   <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
                   <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
                   <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
                   <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
                   <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do không bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do sửa chữa</th>
+                  <th style="width: 5rem; border: 0.5px solid black">Lý do không bảo hành</th>
+                  <th style="width: 5rem; border: 0.5px solid black">Lý do sửa chữa</th>
                 </tr>
               </thead>
               <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
-                <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                <td style="border: 0.5px solid black">{{ data.tenSanPham }}</td>
-                <td style="border: 0.5px solid black">{{ data.donVi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhachGiao }}</td>
-                <td style="border: 0.5px solid black">{{ data.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">{{ data.slDoiMoi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slSuaChua }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
-                <td style="border: 0.5px solid black"></td>
-                <td style="border: 0.5px solid black"></td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ i + 1 }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.tenSanPham }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.donVi }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slKhachGiao }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slTiepNhan }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slDoiMoi }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slSuaChua }}</td>
+                <td style="height: 2rem; border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
+                <td style="height: 2rem; border: 0.5px solid black"></td>
+                <td style="height: 2rem; border: 0.5px solid black"></td>
               </tbody>
             </table>
           </div>
@@ -1745,15 +1712,15 @@
             </div>
           </footer>
         </div>
+        <select style="float: right; margin-right: 7em" (change)="onSelectChanged($event)">
+          <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
+          <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
+          <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
+          <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
+          <option value="Lê Huy Sang">Lê Huy Sang</option>
+          <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
+        </select>
       </div>
-      <select style="float: right; margin-right: 7em" (change)="onSelectChanged($event)">
-        <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
-        <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
-        <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
-        <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
-        <option value="Lê Huy Sang">Lê Huy Sang</option>
-        <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
-      </select>
     </div>
   </div>
 </div>

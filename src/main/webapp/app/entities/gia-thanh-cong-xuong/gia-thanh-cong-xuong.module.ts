@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 import { SharedModule } from 'app/shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxPrintModule } from 'ngx-print';
 import { GiaThanhCongXuongComponent } from './gia-thanh-cong-xuong.component';
 
 const giaThanhCongXuongRoute: Routes = [
@@ -13,7 +14,7 @@ const giaThanhCongXuongRoute: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(giaThanhCongXuongRoute), NgxPaginationModule, AngularSlickgridModule],
+  imports: [SharedModule, RouterModule.forChild(giaThanhCongXuongRoute), NgxPaginationModule, AngularSlickgridModule, NgxPrintModule],
   declarations: [GiaThanhCongXuongComponent],
   exports: [GiaThanhCongXuongComponent],
 })

@@ -6,6 +6,7 @@ import { AngularGridInstance, Column, FieldType, Filters, Formatters, GridOption
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { ITongHop } from '../chi-tiet-san-pham-tiep-nhan/list/chi-tiet-san-pham-tiep-nhan.component';
 import * as XLSX from 'xlsx';
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-bao-cao-san-pham-xuat-kho',
@@ -62,6 +63,7 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
   onSelectItemRequest: string[] = [];
   selectedMonths = [];
   selectedYear!: number;
+  loading = false;
 
   fileName = 'bao-cao-doi-tra';
   fileNameCT = 'thong-tin-phan-tich-don-bao-hanh';
@@ -167,6 +169,8 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
     loi39: number;
   }[] = [];
 
+  faFileExcel = faFileExcel;
+
   constructor(
     protected activatedRoute: ActivatedRoute,
     protected modalService: NgbModal,
@@ -197,46 +201,51 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
     this.dateTimeSearchKey.endDate = this.endDate(today);
     this.startDates = this.startDate(today);
     this.endDates = this.endDate(today);
-    console.log('date time', this.dateTimeSearchKey);
-    console.log('check time', this.dateTimeSearchKey);
+    // console.log('date time', this.dateTimeSearchKey);
+    // console.log('check time', this.dateTimeSearchKey);
     this.dataShow();
     this.dropdownSettings = {
       singleSelection: false,
-      idField: 'id',
-      textField: 'name',
       selectAllText: 'Chọn tất cả',
       unSelectAllText: 'Bỏ chọn tất cả',
-      itemsShowLimit: 3,
+      itemsShowLimit: 2,
       allowSearchFilter: true,
     };
   }
 
   onItemSelect(item: any): void {
-    console.log('Chọn tháng', item);
+    // console.log('Chọn tháng', item);
   }
 
   onDeSelect(item: any): void {
-    console.log('Bỏ chọn', item);
+    // console.log('Bỏ chọn', item);
     const index = this.listMonth.indexOf(item);
     if (index > -1) {
       this.listMonth.splice(index, 1);
     }
     this.selectedItems = [...this.listMonth];
     // this.changeDate()
-    console.log('update month and year', this.listMonth);
+    // console.log('update month and year', this.listMonth);
   }
 
   onSelectAll(items: any): void {
-    console.log('Chọn tất cả', items);
+    // console.log('Chọn tất cả', items);
   }
 
   dataShow(): void {
-    this.http.get<any>(this.tongHopUrl3).subscribe(res => {
-      res.forEach((item: any) => {
-        item.id = item.spId;
-      });
-      this.chiTietXuatKhoSum = res;
-    });
+    this.loading = true;
+    this.http.get<any>(this.tongHopUrl3).subscribe(
+      res => {
+        res.forEach((item: any) => {
+          item.id = item.spId;
+        });
+        this.chiTietXuatKhoSum = res;
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+      }
+    );
     this.columnDefinitions = [
       {
         id: 'id',
@@ -248,6 +257,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         sortable: true,
         minWidth: 40,
         maxWidth: 50,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
       },
       {
         id: 'maSanPham',
@@ -258,6 +270,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 360,
         minWidth: 70,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -275,6 +290,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 360,
         minWidth: 150,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -292,6 +310,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 200,
         minWidth: 100,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -309,6 +330,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 200,
         minWidth: 100,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -326,6 +350,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 200,
         minWidth: 50,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -343,6 +370,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 200,
         minWidth: 50,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -360,6 +390,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 200,
         minWidth: 50,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -378,6 +411,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 200,
         minWidth: 100,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -396,6 +432,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 80,
         minWidth: 50,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
       },
       {
         id: 'tongLoiKyThuat',
@@ -407,6 +446,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 80,
         minWidth: 50,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
       },
       {
         id: 'tongLoiLinhDong',
@@ -418,6 +460,9 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 80,
         minWidth: 50,
+        params: {
+          // isDataFetching: this.isDataFetching,
+        },
       },
     ];
 
@@ -497,7 +542,7 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
           }
         }
       }
-      console.log('Date:', result);
+      // console.log('Date:', result);
       this.selectedItems.push(result);
       this.selectedItems = [...result];
       this.listMonth = [...result];
@@ -537,10 +582,10 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         const [month, year] = item.split('-').map(Number);
         return { month, year };
       });
-      console.log('Month:', formattedData);
+      // console.log('Month:', formattedData);
       for (let i = 0; i < formattedData.length; i++) {
         this.http.post<any>(this.tongHopUrl2, formattedData[i]).subscribe(res => {
-          console.log('Data to send:', res);
+          // console.log('Data to send:', res);
           res.forEach((item: any) => {
             const existingItem = this.chiTietXuatKhoSum.find(x => x.maSanPham === item.maSanPham);
             if (existingItem) {
@@ -556,13 +601,13 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         for (let i = 0; i < this.chiTietXuatKhoSum.length; i++) {
           sum += this.chiTietXuatKhoSum[i].soLuongXuatKho;
         }
-        console.log('ds xuat kho: ', sum);
+        // console.log('ds xuat kho: ', sum);
       }, 20000);
-      console.log('combined data', this.chiTietXuatKhoSum);
-      console.log('date time:', this.dateTimeSearchKey);
+      // console.log('combined data', this.chiTietXuatKhoSum);
+      // console.log('date time:', this.dateTimeSearchKey);
       setTimeout(() => {
         this.http.post<any>(this.tongHopNewUrl, this.dateTimeSearchKey).subscribe(res => {
-          console.log('phan tich loi:', res);
+          // console.log('phan tich loi:', res);
           res.forEach((item: any) => {
             const existingItem = this.chiTietXuatKhoSum.find(x => x.maSanPham === item.maSanPham);
             if (existingItem) {
@@ -656,14 +701,14 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
     this.chiTietXuatKhoSum = [];
     this.http.get<any>(this.chiTietXuatKhoUrl).subscribe(res => {
       this.chiTietXuatKho = res;
-      console.log('chi tiet 1', this.chiTietXuatKho);
+      // console.log('chi tiet 1', this.chiTietXuatKho);
     });
-    console.log('danh sach sp xuat kho', this.danhSachXuatKho);
-    console.log('danh sach sp phan tich', this.chiTietSanPhamTiepNhan);
+    // console.log('danh sach sp xuat kho', this.danhSachXuatKho);
+    // console.log('danh sach sp phan tich', this.chiTietSanPhamTiepNhan);
 
     setTimeout(() => {
       const combineData = [...this.chiTietXuatKho, ...this.chiTietSanPhamTiepNhan];
-      console.log('combined data 3', combineData);
+      // console.log('combined data 3', combineData);
 
       for (let i = 0; i < this.combineData.length; i++) {
         combineData.forEach(item => {
@@ -682,10 +727,10 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
         });
       }
 
-      console.log('combined data 2', this.chiTietXuatKhoSum);
+      // console.log('combined data 2', this.chiTietXuatKhoSum);
       setTimeout(() => {
         this.http.post<any>(this.tongHopNewUrl, this.dateTimeSearchKey).subscribe(res => {
-          console.log('phan tich loi:', res);
+          // console.log('phan tich loi:', res);
           res.forEach((item: any) => {
             const existingItem = this.chiTietXuatKhoSum.find(x => x.maSanPham === item.maSanPham);
             if (existingItem) {
@@ -702,7 +747,7 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
   getExportExcel(): void {
     this.dataExcel = [];
 
-    console.log('thời gian', this.dateTimeSearchKey);
+    // console.log('thời gian', this.dateTimeSearchKey);
     const item = {
       tenSanPham: '',
       nganh: '',
@@ -957,7 +1002,7 @@ export class BaoCaoSanPhamXuatKhoComponent implements OnInit {
       item.tiLeDoiTra = (item.tongLoi / item.soLuongXuatKho) * 100;
       this.dataExcel = [item, ...this.dataExcel];
       this.exportExcel();
-      console.log('res data tong hop', this.dataExcel);
+      // console.log('res data tong hop', this.dataExcel);
     }, 1000);
   }
 

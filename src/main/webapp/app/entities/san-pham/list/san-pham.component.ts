@@ -128,13 +128,13 @@ export class SanPhamComponent implements OnInit {
         minWidth: 60,
         maxWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
+          // console.log(args);
           const items = args.dataContext;
           // this.alertWarning = `Editing: ${args.dataContext.title}`
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
           this.http.post<any>(`${this.resourceUrl}/${items.id as number}`, items).subscribe(() => {
-            console.log('aaaa', items);
+            // console.log('aaaa', items);
           });
         },
       },
@@ -388,7 +388,7 @@ export class SanPhamComponent implements OnInit {
   }
 
   addItem(): void {
-    console.log(this.sanPhams.length + 1);
+    // console.log(this.sanPhams.length + 1);
     this.sanPhams = [
       ...this.sanPhams,
       {
@@ -417,7 +417,7 @@ export class SanPhamComponent implements OnInit {
   openPopupEditSP(id: number, items: any): void {
     this.popupChinhSuaThongTin = true;
     this.http.post<any>(`${this.resourceUrl}/${items.id as number}`, items).subscribe(() => {
-      console.log('aaaa', items);
+      // console.log('aaaa', items);
     });
   }
 }

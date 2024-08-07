@@ -211,9 +211,9 @@
             class="form-control"
             list="field_khachHang"
             data-cy="khachHang"
-            [(ngModel)]="thongTinDonBaoHanh.khachHang!.tenKhachHang"
+            [(ngModel)]="thongTinDonBaoHanh.tenKhachHang"
             [ngModelOptions]="{ standalone: true }"
-            (change)="capNhatThongTinKhachHang(thongTinDonBaoHanh.khachHang!.tenKhachHang)"
+            (change)="capNhatThongTinKhachHang(thongTinDonBaoHanh.tenKhachHang)"
           />
           <datalist id="field_khachHang">
             <option *ngFor="let item of khachHangs" value="{{ item.tenKhachHang }}"></option>
@@ -255,7 +255,7 @@
             data-cy="trangThai"
             [(ngModel)]="thongTinDonBaoHanh.trangThai"
             [ngModelOptions]="{ standalone: true }"
-            (change)="capNhatThongTinKhachHang(thongTinDonBaoHanh.khachHang!.tenKhachHang)"
+            (change)="capNhatThongTinKhachHang(thongTinDonBaoHanh.tenKhachHang)"
           />
         </div>
       </form>
@@ -1097,6 +1097,16 @@
 </div>
 
 <!-- In 4 liên của biên bản tiếp nhận -->
+<div *ngIf="loading" class="loading-spinner">
+  <div class="spinner">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</div>
+
 <div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTNtest === true">
   <div class="popup-container popup-in">
     <div class="popup-header-in">
@@ -1108,11 +1118,12 @@
           printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
           (click)="xacNhanInBienBan()"
           printSectionId="BBTN"
+          style="position: relative; z-index: 5"
           ngxPrint
         >
-          In
+          <fa-icon [icon]="faPrint" style="padding-right: 5px"></fa-icon> In
         </button>
-        <button type="button" class="btn btn-success" style="float: right" (click)="addRow()">Thêm dòng</button>
+        <!-- <button type="button" class="btn btn-success" style="float: right" (click)="addRow()">Thêm dòng</button> -->
       </div>
       <div id="BBTN">
         <div id="lien1">
@@ -1202,14 +1213,6 @@
                 }}</a>
               </div>
             </div>
-            <select style="float: right; margin-right: 12em" (change)="onSelectChanged($event)">
-              <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
-              <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
-              <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
-              <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
-              <option value="Lê Huy Sang">Lê Huy Sang</option>
-              <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
-            </select>
           </footer>
           <p style="page-break-after: always"></p>
           <br />
@@ -1237,9 +1240,7 @@
           <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>
               <p>
-                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
-                  donBaoHanh.maTiepNhan.substr(7, 2)
-                }}
+                Ngày {{ maBienBan.substr(2, 2) }} tháng {{ maBienBan.substr(4, 2) }} năm 20{{ maBienBan.substr(6, 2) }}
                 Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
               </p>
               <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
@@ -1330,9 +1331,7 @@
           <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>
               <p>
-                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
-                  donBaoHanh.maTiepNhan.substr(7, 2)
-                }}
+                Ngày {{ maBienBan.substr(2, 2) }} tháng {{ maBienBan.substr(4, 2) }} năm 20{{ maBienBan.substr(6, 2) }}
                 Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
               </p>
               <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
@@ -1423,9 +1422,7 @@
           <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>
               <p>
-                Ngày {{ donBaoHanh.maTiepNhan.substr(3, 2) }} tháng {{ donBaoHanh.maTiepNhan.substr(5, 2) }} năm 20{{
-                  donBaoHanh.maTiepNhan.substr(7, 2)
-                }}
+                Ngày {{ maBienBan.substr(2, 2) }} tháng {{ maBienBan.substr(4, 2) }} năm 20{{ maBienBan.substr(6, 2) }}
                 Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của
               </p>
               <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
@@ -1492,6 +1489,14 @@
           </footer>
         </div>
       </div>
+      <select style="float: right; margin-right: 12em" (change)="onSelectChanged($event)">
+        <option value="Đỗ Văn Việt">Đỗ Văn Việt</option>
+        <option value="Phạm Văn Mạnh">Phạm Văn Mạnh</option>
+        <option value="Trần Thạc Nguyên">Trần Thạc Nguyên</option>
+        <option value="Nguyễn Văn Tiến">Nguyễn Văn Tiến</option>
+        <option value="Lê Huy Sang">Lê Huy Sang</option>
+        <option value="Phan Đăng Tỵ">Phan Đăng Tỵ</option>
+      </select>
     </div>
   </div>
 </div>

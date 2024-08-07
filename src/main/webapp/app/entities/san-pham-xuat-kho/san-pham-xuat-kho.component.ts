@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { faArrowRotateForward, faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRotateForward, faDownload, faFileExport, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AngularGridInstance, Column, FieldType, Filters, Formatter, GridOption, OnEventArgs } from 'angular-slickgrid';
 import { AccountService } from 'app/core/auth/account.service';
@@ -21,6 +21,7 @@ export class SanPhamXuatKhoComponent implements OnInit {
   faUpload = faUpload;
   faArrowRotateForward = faArrowRotateForward;
   faDownload = faDownload;
+  faFileExport = faFileExport;
 
   predicate!: string;
   ascending!: boolean;
@@ -117,7 +118,7 @@ export class SanPhamXuatKhoComponent implements OnInit {
     this.isLoading = true;
     this.http.get<any>(this.danhSachXuatKhoUrl).subscribe(res => {
       this.danhSachXuatKho = res;
-      console.log(res);
+      // console.log(res);
     });
   }
 
@@ -141,13 +142,13 @@ export class SanPhamXuatKhoComponent implements OnInit {
     if (!this.month) {
       const currentMonth = new Date().getMonth() + 1;
       this.month = currentMonth;
-      console.log('month', this.month);
+      // console.log('month', this.month);
     }
     this.year = new Date().getFullYear();
-    console.log('year', this.year);
+    // console.log('year', this.year);
     this.http.get<any>(this.danhSachXuatKhoUrl).subscribe(res => {
       this.danhSachXuatKho = res;
-      console.log(res);
+      // console.log(res);
     });
     this.columnDefinitions = [
       {
@@ -237,7 +238,7 @@ export class SanPhamXuatKhoComponent implements OnInit {
           this.openPopupChiTiet();
           this.showData(args.dataContext.id);
           this.danhSachXuatKhoChiTiet = args.dataContext;
-          console.log('check', this.danhSachXuatKhoChiTiet);
+          // console.log('check', this.danhSachXuatKhoChiTiet);
         },
       },
     ];
@@ -336,12 +337,13 @@ export class SanPhamXuatKhoComponent implements OnInit {
     // this.listOfChiTietDanhSachXuatKho = [];
     this.http.get<any>(`${this.chiTietXuatKhoUrl}/${id as number}`).subscribe(res => {
       this.chiTietXuatKho = res;
-      console.log('chi tiet 1', this.chiTietXuatKho);
+      // console.log('chi tiet 1', this.chiTietXuatKho);
     });
   }
 
   readExcel(event: any): void {
     this.excelData = [];
+    this.isLoading = true;
     const file = event.target.files[0];
     const fileReader = new FileReader();
     fileReader.readAsBinaryString(file);
@@ -355,10 +357,10 @@ export class SanPhamXuatKhoComponent implements OnInit {
       // console.log('sheetNames', workBook.SheetNames)
     };
     setTimeout(() => {
-      console.log('check kq', this.excelData);
+      // console.log('check kq', this.excelData);
       this.listOfXuatKho.chiTietXuatKho = this.excelData;
       this.listOfXuatKho.chiTietXuatKho = this.listOfXuatKho.chiTietXuatKho.filter((item: any) => item.quantity !== 'Tổng số lượng');
-      console.log('chi tiet 2', this.listOfXuatKho.chiTietXuatKho);
+      // console.log('chi tiet 2', this.listOfXuatKho.chiTietXuatKho);
     }, 1000);
   }
 
@@ -386,20 +388,40 @@ export class SanPhamXuatKhoComponent implements OnInit {
     }
 
     if (this.yearForm.valid) {
-      console.log('form data is valid', this.yearForm.value);
+      // console.log('form data is valid', this.yearForm.value);
     } else {
-      console.log('form data is invalid', this.yearForm.value);
+      // console.log('form data is invalid', this.yearForm.value);
     }
     setTimeout(() => {
       this.http.post<any>(this.chiTietXuatKhoUrl, this.listOfXuatKho).subscribe(res => {
-        console.log('cac truong thong tin tra ve BE', this.listOfXuatKho);
+        // console.log('cac truong thong tin tra ve BE', this.listOfXuatKho);
         if (type === 'insert') {
-          console.log('them moi thanh cong', res);
+          // console.log('them moi thanh cong', res);
         } else if (type === 'update') {
-          console.log('update thanh cong', res);
+          // console.log('update thanh cong', res);
         }
       });
     }, 2000);
+  }
+
+  checkDuplicateTime(): void {
+    const selectedMonth = this.month.toString();
+    const selectedYear = this.yearForm.get('year')?.value.toString();
+    let duplicate = false;
+    for (let i = 0; i < this.danhSachXuatKho.length; i++) {
+      if (this.danhSachXuatKho[i].month === selectedMonth && this.danhSachXuatKho[i].year === selectedYear) {
+        duplicate = true;
+      }
+    }
+
+    setTimeout(() => {
+      if (duplicate) {
+        this.isModalOpenConfirmDuplicate = true;
+      } else {
+        this.isModalOpenConfirmDuplicate = false;
+      }
+      // console.log('duplicate month and year', duplicate)
+    }, 50);
   }
 
   getExportExcel(): void {
@@ -423,7 +445,7 @@ export class SanPhamXuatKhoComponent implements OnInit {
     };
     this.dataExcel = [item, ...this.dataExcel];
     this.exportExcel();
-    console.log('gia tri', this.dataExcel);
+    // console.log('gia tri', this.dataExcel);
   }
 
   exportExcel(): void {
@@ -449,7 +471,7 @@ export class SanPhamXuatKhoComponent implements OnInit {
       font: { bold: true },
       aligment: { horizontal: 'center', vertical: 'center' },
     };
-    console.log('merge', mergeRange);
+    // console.log('merge', mergeRange);
 
     const headers = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1'];
     headers.forEach(header => {
@@ -474,7 +496,7 @@ export class SanPhamXuatKhoComponent implements OnInit {
           quantityNotAvailable: this.chiTietXuatKho[i].quantityNotAvailable,
         };
         this.dataExcelData.push(dataArrange);
-        console.log('check', this.dataExcelData);
+        // console.log('check', this.dataExcelData);
       }
       this.exportExcelData();
     }, 1000);
@@ -503,7 +525,7 @@ export class SanPhamXuatKhoComponent implements OnInit {
       font: { bold: true },
       aligment: { horizontal: 'center', vertical: 'center' },
     };
-    console.log('merge', mergeRange);
+    // console.log('merge', mergeRange);
 
     const headers = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1'];
     headers.forEach(header => {

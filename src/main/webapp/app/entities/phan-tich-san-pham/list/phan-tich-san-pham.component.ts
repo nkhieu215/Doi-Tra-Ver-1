@@ -33,7 +33,7 @@ import { Account } from 'app/core/auth/account.model';
 import dayjs from 'dayjs/esm';
 import { IKho } from 'app/entities/kho/kho.model';
 import { KhoService } from 'app/entities/kho/service/kho.service';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import { faBarcode, faL, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @Component({
@@ -151,6 +151,10 @@ export class PhanTichSanPhamComponent implements OnInit {
   //Biến lưu key tìm kiếm
   @Input() tinhTrang = '';
   @Input() tenSanPham = '';
+  saveSerial = '';
+  saveLOT = '';
+  saveYear = '';
+  saveTheLoai = '';
   //Biến lưu thông tin 1 phần tử của phân loại chi tiết sản phẩm
   itemOfPhanLoaiChiTietSanPham: any;
   // biến dùng để check all
@@ -182,6 +186,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   isChanged = false;
   idAddRow = 0;
   selectedValue = '';
+  faPrint = faPrint;
+  faBarcode = faBarcode;
 
   constructor(
     protected phanTichSanPhamService: PhanTichSanPhamService,
@@ -247,6 +253,8 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.openPopupBtn();
           this.donBaoHanh = args.dataContext;
           // console.log(args);
+          // console.log('info don bao hanh: ', this.donBaoHanh);
+
           this.idBBTN = args.dataContext.id;
           this.showData(args.dataContext.id);
           setTimeout(() => {
@@ -259,8 +267,8 @@ export class PhanTichSanPhamComponent implements OnInit {
             //   this.updateDanhSachBienBanTheoKho();
             // }, 15000);
           }, 3000);
-          this.angularGrid?.gridService.highlightRow(args.row, 1500);
-          this.angularGrid?.gridService.setSelectedRow(args.row);
+          // this.angularGrid?.gridService.highlightRow(args.row, 1500);
+          // this.angularGrid?.gridService.setSelectedRow(args.row);
         },
       },
 
@@ -279,16 +287,16 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.donBaoHanh = args.dataContext;
           // khởi tạo giá trị để lưu vào trong session
           sessionStorage.setItem('DonBaoHanh', JSON.stringify(args.dataContext));
-          console.log('don bao hanh: ', this.donBaoHanh);
+          // console.log('don bao hanh: ', this.donBaoHanh);
           this.showData(args.dataContext.id);
-          // setTimeout(() => {
-          //   // console.log('chi tiet san pham phan tich: ', this.listOfChiTietSanPhamPhanTich);
-          //   //Loại bỏ sản phẩm có số lượng tiếp nhận = 0
-          //   this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTich.filter(item => item.slTiepNhan !== 0);
-          //   for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
-          //     this.updateTienDoSanPhamPhanTich(this.listOfChiTietSanPhamPhanTich[i].id, i);
-          //   }
-          // }, 3000);
+          setTimeout(() => {
+            // console.log('chi tiet san pham phan tich: ', this.listOfChiTietSanPhamPhanTich);
+            //Loại bỏ sản phẩm có số lượng tiếp nhận = 0
+            this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTich.filter(item => item.slTiepNhan !== 0);
+            for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
+              this.updateTienDoSanPhamPhanTich(this.listOfChiTietSanPhamPhanTich[i].id, i);
+            }
+          }, 3000);
         },
       },
 
@@ -459,7 +467,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         },
       },
     ];
-    console.log('danh sách kho: ', this.danhSachKho);
+    // console.log('danh sách kho: ', this.danhSachKho);
     // },3000)
     this.gridOptions1 = {
       enableAutoResize: true,
@@ -636,7 +644,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.resultOfSanPhamTheoKho = this.resultOfSanPhamTheoKho.filter(item => item.key !== '');
           this.resultOfSanPhamTheoKhoTL = this.resultOfSanPhamTheoKhoTL.filter(item => item.key !== '');
           this.updateDanhSachBienBanTheoKho();
-          console.log('Danh sách phân tách sản phẩm theo kho: ', this.listOfChiTietSanPhamPhanTich);
+          // console.log('Danh sách phân tách sản phẩm theo kho: ', this.listOfChiTietSanPhamPhanTich);
           this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTich.filter(item => item.slTiepNhan !== 0);
           for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
             this.updateTienDoSanPhamPhanTich(this.listOfChiTietSanPhamPhanTich[i].id, i);
@@ -800,13 +808,21 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.navBarComponent.toggleSidebar2();
 
     this.popupSelectButton = true;
-    console.log('popup chọn');
+    // console.log('popup chọn');
   }
 
   openPopupPTMTN(): void {
     this.navBarComponent.toggleSidebar2();
 
     this.popupPTMTN = true;
+    setTimeout(() => {
+      // console.log('chi tiet san pham phan tich: ', this.listOfChiTietSanPhamPhanTich);
+      //Loại bỏ sản phẩm có số lượng tiếp nhận = 0
+      this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTich.filter(item => item.slTiepNhan !== 0);
+      for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
+        this.updateTienDoSanPhamPhanTich(this.listOfChiTietSanPhamPhanTich[i].id, i);
+      }
+    }, 3000);
   }
 
   // đóng popup chọn loại biên bản
@@ -815,9 +831,9 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
 
   // mở popup biên bản tiếp nhận
-  openPopupBBTN(index: any): void {
+  openPopupBBTN(): void {
     this.popupInBBTN = true;
-    this.indexOfdanhSachLienBienBanTiepNhan = index;
+    // this.indexOfdanhSachLienBienBanTiepNhan = index;
     // console.log('index', this.indexOfdanhSachLienBienBanTiepNhan);
     const result = sessionStorage.getItem(`TiepNhan ${this.idBBTN.toString()}`);
     // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
@@ -960,7 +976,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     }
   }
   openPopupInBBKN(index: any): void {
-    console.log('biên bản kiểm nghiệm');
+    // console.log('biên bản kiểm nghiệm');
     this.maBienBan = '';
     this.loaiBienBan = 'Kiểm nghiệm';
     this.caculateErrors(index);
@@ -977,7 +993,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       //Lấy thông tin biên bản tiếp nhận theo đơn bảo hành
       this.http.get<any>(`api/danh-sach-bien-ban/tiep-nhan/${this.donBaoHanh.id as number}`).subscribe(res => {
         this.bienBanTiepNhan = res;
-        // console.log('Biên bản tiếp nhận', this.bienBanTiepNhan);
+        console.log('Biên bản tiếp nhận', this.bienBanTiepNhan);
       });
       setTimeout(() => {
         if (this.bienBanTiepNhan === null) {
@@ -1059,7 +1075,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     //Lấy thông tin biên bản tiếp nhận theo đơn bảo hành
     this.http.get<any>(`api/danh-sach-bien-ban/tiep-nhan/${this.donBaoHanh.id as number}`).subscribe(res => {
       this.bienBanTiepNhan = res;
-      // console.log('Biên bản tiếp nhận', this.bienBanTiepNhan);
+      console.log('Biên bản tiếp nhận', this.bienBanTiepNhan);
     });
     //Lấy thông tin biên bản kiểm nghiệm theo đơn bảo hành
     this.http.get<any>(`api/danh-sach-bien-ban/kiem-nghiem/${this.donBaoHanh.id as number}`).subscribe(res => {
@@ -1068,7 +1084,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.bienBanKiemNghiem = res[i];
         }
       }
-      // console.log('Biên bản kiểm nghiệm', res);
+      console.log('Biên bản kiểm nghiệm', res);
     });
     setTimeout(() => {
       if (this.bienBanKiemNghiem === null || this.bienBanTiepNhan === null) {
@@ -1155,7 +1171,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   xacNhanInBienBan(): void {
     this.themMoiBienBan.soLanIn++;
     this.http.post<any>(this.postMaBienBanUrl, this.themMoiBienBan).subscribe(res => {
-      console.log('thành công:', res);
+      // console.log('thành công:', res);
       this.getDanhSachBienBan();
       // window.location.reload();
       this.popupInBBTL = false;
@@ -1268,27 +1284,24 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
   // Bắt sự kiện scan LOT
   scanLotEvent(): void {
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Lot';
+    this.saveTheLoai = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Lot';
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber = this.saveLOT;
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string
-    }`;
+    this.saveYear = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.saveLOT.substr(0, 2)}`;
   }
   //Bắt sự kiện scan serial
   scanSerialEvent(): void {
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Serial';
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber = this.listOfPhanTichSanPhamByPLCTTN[
-      this.indexOfChiTietPhanTichSanPham
-    ].detail.substr(0, 13);
+    this.saveTheLoai = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Serial';
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail = this.saveSerial;
+    this.saveLOT = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber = this.saveSerial.substr(0, 13);
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(0, 2) as string
-    }`;
+    this.saveYear = this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.saveLOT.substr(0, 2)}`;
   }
   //Cập nhật thông tin sau khi khai báo lỗi
   updatePhanTichSanPham(): void {
+    this.listOfKhaiBaoLoi = [];
     if (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo === 100) {
       this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo, 'chiTietDonBaoHanh');
       this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo, this.indexOfPhanTichSanPham);
@@ -1307,12 +1320,16 @@ export class PhanTichSanPhamComponent implements OnInit {
       }
       if (
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' ||
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0 ||
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === undefined ||
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0
       ) {
         let check = false;
         if (
-          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0 &&
-          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber !== ''
+          (this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0 &&
+            this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber !== '') ||
+          (this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0 &&
+            this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber !== undefined)
         ) {
           this.openPopupNoti('Vui lòng khai báo lỗi');
           check = true;
@@ -1325,9 +1342,8 @@ export class PhanTichSanPhamComponent implements OnInit {
         }
       } else {
         //Gán vào danh sách update khai báo lỗi
-        for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
-          this.listOfKhaiBaoLoi.push(this.catchChangeOfListKhaiBaoLoi[i]);
-        }
+        this.listOfKhaiBaoLoi = this.catchChangeOfListKhaiBaoLoi.filter((item: any) => item.soLuong > 0);
+        console.log('check khai bao loi: ', this.listOfKhaiBaoLoi);
         //cập nhật trạng thái sản phẩm khai báo lỗi
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].trangThai = true;
         //chuyển đến phân tích sản phẩm tiếp theo
@@ -1348,19 +1364,16 @@ export class PhanTichSanPhamComponent implements OnInit {
         if (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo === 100) {
           this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].check = true;
           // this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo,this.indexOfPhanTichSanPham);
-          this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
-            this.listOfPhanTichSanPhamByPLCTTN = res;
-            console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
-          });
-
-          this.listOfKhaiBaoLoi = this.listOfKhaiBaoLoi.filter((item: any) => item.soLuong !== 0);
-          console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
-          this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
-            this.openPopupNoti('Cập nhật thành công');
-            this.closePopup();
-            this.listOfKhaiBaoLoi = [];
-          });
         }
+        const data = [this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham - 1]];
+        this.http.post<any>('api/phan-tich-san-pham', data).subscribe(res => {
+          this.listOfKhaiBaoLoi[0].phanTichSanPham.id = res[0].id;
+          console.log('popup', res);
+          console.log('khai bao loi', this.listOfKhaiBaoLoi);
+          setTimeout(() => {
+            this.postChiTietPhanTichSanPham();
+          }, 200);
+        });
         // cập nhật tiến độ chung của đơn bảo hành
         this.donBaoHanh.slDaPhanTich! += 1;
         this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
@@ -1387,40 +1400,29 @@ export class PhanTichSanPhamComponent implements OnInit {
     }
     // Lọc danh sách
     this.listOfPhanTichSanPhamByPLCTTN = this.listOfPhanTichSanPhamByPLCTTN.filter(item => item.tenSanPham !== '');
-    console.log(this.listOfPhanTichSanPhamByPLCTTN);
+    // console.log(this.listOfPhanTichSanPhamByPLCTTN);
     if (this.donBaoHanh.tienDo > 0) {
-      console.log('Đang phân tích');
+      // console.log('Đang phân tích');
       this.donBaoHanh.trangThai = 'Đang phân tích';
       this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
     }
     if (this.donBaoHanh.tienDo === 100) {
-      console.log('Hoàn thành phân tích');
+      // console.log('Hoàn thành phân tích');
       this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
       this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
     }
-    this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
-      this.listOfPhanTichSanPhamByPLCTTN = res;
-      console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
-      setTimeout(() => {
-        //cập nhật danh sách phân tích lỗi
-        for (let i = 0; i < this.listOfKhaiBaoLoi.length; i++) {
-          for (let j = 0; j < this.listOfPhanTichSanPhamByPLCTTN.length; j++) {
-            if (this.listOfKhaiBaoLoi[i].phanTichSanPham.soThuTu === this.listOfPhanTichSanPhamByPLCTTN[j].soThuTu) {
-              this.listOfKhaiBaoLoi[i].phanTichSanPham.id = this.listOfPhanTichSanPhamByPLCTTN[j].id;
-            }
-          }
-        }
-        //cập nhật DB phân tích lỗi
-        this.listOfKhaiBaoLoi = this.listOfKhaiBaoLoi.filter((item: any) => item.soLuong !== 0);
-        // console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
-        // this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
-        //   this.openPopupNoti('Cập nhật thành công');
-        //   this.closePopup();
-        //   this.listOfKhaiBaoLoi = [];
-        // });
-      }, 200);
-    });
-    console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
+    // console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
+    setTimeout(() => {
+      // console.log('list khai báo lỗi: ', this.listOfKhaiBaoLoi);
+      this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
+        this.listOfKhaiBaoLoi = [];
+        this.openPopupNoti('Cập nhật thành công');
+        this.closePopup();
+        // console.log('khai bao loi', this.listOfKhaiBaoLoi)
+        // console.log('popup', this.openPopupNoti)
+      });
+    }, 200);
+    // console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
     // cập nhật phân tích lỗi
     // cập nhật số lượng đã phân tích ở đơn bảo hành
   }
@@ -1436,13 +1438,13 @@ export class PhanTichSanPhamComponent implements OnInit {
       soThuTu: this.indexOfChiTietPhanTichSanPham + 1,
       tenSanPham: '',
       tenNhanVienPhanTich: `${this.account?.firstName as string} ${this.account?.lastName as string}`,
-      theLoaiPhanTich: '',
-      lotNumber: '',
-      detail: '',
+      theLoaiPhanTich: this.saveTheLoai,
+      lotNumber: this.saveLOT,
+      detail: this.saveSerial,
       soLuong: 0,
       ngayKiemTra: new Date(),
       username: this.account?.login,
-      namSanXuat: '',
+      namSanXuat: this.saveYear,
       trangThai: false,
       loiKyThuat: 0,
       loiLinhDong: 0,
@@ -1464,7 +1466,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       this.catchChangeOfListKhaiBaoLoi.push(khaiBaoLoi);
     }
     // console.log('danh sách khai báo lỗi: ', this.listOfPhanTichSanPhamByPLCTTN);
-    console.log('index before: ', this.indexOfChiTietPhanTichSanPham);
+    // console.log('index before: ', this.indexOfChiTietPhanTichSanPham);
   }
 
   // hàm xử lý check all
@@ -1487,8 +1489,10 @@ export class PhanTichSanPhamComponent implements OnInit {
   catchEventKhaiBaoLois(index: any): void {
     // console.log('kiểm tra mã LOT', this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham]);
     if (
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' &&
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === ''
+      (this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' &&
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === '') ||
+      (this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === undefined &&
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === undefined)
     ) {
       this.openPopupNoti('Chưa có thông tin LOT/SERIAL !!!');
       const input = document.getElementById(this.scanType);
@@ -1516,10 +1520,11 @@ export class PhanTichSanPhamComponent implements OnInit {
   // cập nhật số lượng lỗi trong button
   catchEventKhaiBaoLoi(index: any): void {
     // console.log('kiểm tra mã LOT', this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham]);
-
     if (
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' &&
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === ''
+      (this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' &&
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === '') ||
+      (this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === undefined &&
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === undefined)
     ) {
       this.openPopupNoti('Chưa có thông tin LOT/SERIAL !!!');
       const input = document.getElementById(this.scanType);
@@ -1547,6 +1552,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
           Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
       }
+      this.updatePhanTichSanPham();
     }
   }
   //Hàm cập nhật tiến độ sản phẩm phân tích

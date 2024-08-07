@@ -203,8 +203,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     this.dateTimeSearchKey.endDate = this.endDate(today);
     this.startDates = this.startDate(today);
     this.endDates = this.endDate(today);
-    console.log('date time', this.dateTimeSearchKey);
-    console.log('check time', this.dateTimeSearchKey);
+    // console.log('date time', this.dateTimeSearchKey);
+    // console.log('check time', this.dateTimeSearchKey);
 
     this.loadAll();
     this.dataShow();
@@ -795,8 +795,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       }
       this.data = resTongHop.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
       this.chiTietSanPhamTiepNhan = this.chiTietSanPhamTiepNhanGoc;
-      console.log('caculate', resTongHop);
-      console.log('data total', this.chiTietSanPhamTiepNhan);
+      // console.log('caculate', resTongHop);
+      // console.log('data total', this.chiTietSanPhamTiepNhan);
     });
   }
 
@@ -828,7 +828,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       dateTimeSearchKey = { startDate: startDateInp.value, endDate: endDateInp.value };
     });
     setTimeout(() => {
-      console.log('startDate:', dateTimeSearchKey);
+      // console.log('startDate:', dateTimeSearchKey);
       this.dateTimeSearchKey = dateTimeSearchKey;
       this.http.post<any>(this.tongHopUrl, dateTimeSearchKey).subscribe(res => {
         // console.log('check ressult search:', res);
@@ -1088,10 +1088,10 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   }
 
   getExportExcel(): void {
-    console.log('time', this.dateTimeSearchKey);
+    // console.log('time', this.dateTimeSearchKey);
     this.dataExcel = [];
     this.http.post<any>(this.tongHopNewUrl, this.dateTimeSearchKey).subscribe(res => {
-      console.log('check kết quả tổng hợp mới', res);
+      // console.log('check kết quả tổng hợp mới', res);
 
       const item = {
         tenSanPham: '',

@@ -10,7 +10,7 @@
           id="startDate"
           [(ngModel)]="startDates"
           [ngModelOptions]="{ standalone: true }"
-          (ngModelChange)="changeDate()"
+          (click)="changeDate()"
           style="width: 15rem"
         />
       </div>
@@ -22,7 +22,7 @@
           id="endDate"
           [(ngModel)]="endDates"
           [ngModelOptions]="{ standalone: true }"
-          (ngModelChange)="changeDate()"
+          (click)="changeDate()"
           style="width: 15rem"
         />
       </div>
@@ -40,9 +40,12 @@
         ></ng-multiselect-dropdown>
       </div>
 
-      <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="changeDate2()">Tìm kiếm</button>
+      <button class="btn btn-primary" style="height: 2.5rem; margin-left: 5px" (click)="changeDate2()">
+        <fa-icon icon="search"></fa-icon> Tìm kiếm
+      </button>
     </form>
-    <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="getExportExcel()">
+    <button class="btn btn-success" style="height: 2.5rem; margin-top: 2rem" (click)="getExportExcel()">
+      <fa-icon [icon]="faFileExcel"></fa-icon>
       Xuất báo cáo
     </button>
   </div>
@@ -61,5 +64,15 @@
     <h3>Dữ liệu của tháng...năm...bị thiếu, có muốn tiêp tục xuất báo cáo không?</h3>
     <button class="btn btn-danger" (click)="confirmLost()">Xóa</button>
     <button class="btn btn-primary" (click)="closeModalConfirmLost()">Hủy</button>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading-spinner">
+  <div class="spinner">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
   </div>
 </div>

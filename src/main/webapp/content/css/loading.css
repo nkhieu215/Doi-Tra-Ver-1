@@ -18,11 +18,12 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   height: var(--uib-size);
   width: var(--uib-size);
-  top: 100%;
+  top: 50%;
   left: 50%;
+  margin-top: 49vh;
   transform: translate(100%, 1000%);
 }
 

@@ -3,7 +3,9 @@
     {{ title }}
   </h2>
   <div class="btn-header d-flex justify-content-end">
-    <button class="btn btn-outline-primary btn-option btn-addTN me-2" (click)="openPopupThemMoi()">Thêm mới</button>
+    <button class="btn btn-primary" style="margin-bottom: 2rem" (click)="openPopupThemMoi()">
+      <fa-icon icon="plus"></fa-icon> Thêm mới
+    </button>
   </div>
   <angular-slickgrid
     gridId="danhSachXuatKho"
@@ -31,7 +33,7 @@
       <form class="form-header" [formGroup]="yearForm">
         <div class="form-header-container">
           <label for="">Tháng</label>
-          <select [(ngModel)]="month" [ngModelOptions]="{ standalone: true }">
+          <select [(ngModel)]="month" [ngModelOptions]="{ standalone: true }" (change)="checkDuplicateTime()">
             <option value="1">Tháng 1</option>
             <option value="2">Tháng 2</option>
             <option value="3">Tháng 3</option>
@@ -48,7 +50,7 @@
         </div>
         <div class="form-header-container">
           <label for="year">Năm</label>
-          <input type="text" id="year" formControlName="year" />
+          <input type="text" id="year" formControlName="year" (blur)="checkDuplicateTime()" />
           <div *ngIf="yearControl?.invalid && (yearControl?.dirty || yearControl?.touched)">
             <div *ngIf="yearControl?.errors?.required" class="error-message">Năm là bắt buộc.</div>
             <div *ngIf="yearControl?.errors?.pattern" class="error-message">Năm phải có 4 chữ số.</div>
@@ -98,7 +100,7 @@
       <form class="form-header" [formGroup]="yearForm">
         <div class="form-header-container">
           <label for="month">Tháng</label>
-          <select [(ngModel)]="month" [ngModelOptions]="{ standalone: true }">
+          <select [(ngModel)]="month" [ngModelOptions]="{ standalone: true }" (change)="checkDuplicateTime()">
             <option value="1">Tháng 1</option>
             <option value="2">Tháng 2</option>
             <option value="3">Tháng 3</option>
@@ -115,7 +117,7 @@
         </div>
         <div class="form-header-container">
           <label for="year">Năm</label>
-          <input type="text" id="year" formControlName="year" />
+          <input type="text" id="year" formControlName="year" (blur)="checkDuplicateTime()" />
           <div *ngIf="yearForm.controls['year'].invalid && (yearForm.controls['year'].dirty || yearForm.controls['year'].touched)">
             <div *ngIf="yearForm.controls['year'].errors?.required" class="error-message">Năm là bắt buộc</div>
             <div *ngIf="yearForm.controls['year'].errors?.pattern" class="error-message">Năm phải có 4 chữ số</div>
@@ -192,8 +194,13 @@
           <button class="btn btn-primary btn-custom" type="button" (click)="openPopupEdit()">
             <fa-icon [icon]="faArrowRotateForward"></fa-icon> Cập nhật
           </button>
-          <button type="button" class="btn btn-success btn-custom" style="margin-right: 15px" (click)="getExportExcelData()">
-            <fa-icon [icon]="faDownload"></fa-icon>&nbsp;<span>Export</span>
+          <button
+            type="button"
+            class="btn btn-success btn-custom"
+            style="margin-right: 15px; margin-left: 15px"
+            (click)="getExportExcelData()"
+          >
+            <fa-icon [icon]="faFileExport"></fa-icon>&nbsp;<span>Export</span>
           </button>
         </div>
 
@@ -243,18 +250,7 @@
 
 <div class="modal-confirm" [ngClass]="{ active: isModalOpenConfirmDuplicate }">
   <div class="modal-content-confirm">
-    <!-- <span class="close-modal-confirm" (click)="closeModalConfirmDuplicate()">&times;</span> -->
-    <h3>Thông tin tải lên đã tồn tại trên hệ thống</h3>
-    <!-- <button class="btn btn-danger" (click)="confirmDuplicate()">OK</button> -->
+    <h3>Tháng và năm vừa chọn đã tồn tại trên hệ thống</h3>
     <button class="btn btn-primary" (click)="closeModalConfirmDuplicate()">OK</button>
-  </div>
-</div>
-
-<div class="modal-confirm" id="modal-confirm-add" [ngClass]="{ active: isModalOpenConfirmUploadSuccess }">
-  <div class="modal-content-confirm">
-    <!-- <span class="close-modal-confirm" (click)="closeModalConfirmUploadSuccess()">&times;</span> -->
-    <h3>Bạn chắc chắn muốn xóa thông số này?</h3>
-    <button class="btn btn-danger" (click)="confirmCancelUploadSuccess()">Xóa</button>
-    <button class="btn btn-primary" (click)="closeModalConfirmUploadSuccess()">Hủy</button>
   </div>
 </div>
