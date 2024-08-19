@@ -854,6 +854,7 @@ export class DonBaoHanhComponent implements OnInit {
               list1.push(item); // list đã có dữ liệu
               this.resultChiTietSanPhamTiepNhans.push(item);
             }
+
             //Cập nhật tiến độ
             for (let i1 = 0; i1 < this.resultChiTietSanPhamTiepNhans.length; i1++) {
               if (this.resultChiTietSanPhamTiepNhans[i1].tinhTrangBaoHanh === true) {
@@ -1342,6 +1343,11 @@ export class DonBaoHanhComponent implements OnInit {
     this.popupInBBTNtest = true;
     this.navBarComponent.toggleSidebar2();
     this.loaiBienBan = 'Tiếp nhận';
+    this.resultChiTietSanPhamTiepNhans.sort((a, b) => b.slSuaChua - a.slSuaChua);
+    console.log(
+      'sap xep ',
+      this.resultChiTietSanPhamTiepNhans.sort((a, b) => b.slSuaChua - a.slSuaChua)
+    );
     for (let i = 0; i < this.danhSachBienBan.length; i++) {
       if (this.loaiBienBan === this.danhSachBienBan[i].loaiBienBan && this.idDonBaoHanh === this.danhSachBienBan[i].donBaoHanh.id) {
         this.maBienBan = this.danhSachBienBan[i].maBienBan;
@@ -1383,6 +1389,11 @@ export class DonBaoHanhComponent implements OnInit {
       this.themMoiBienBan = { id: null, maBienBan: this.maBienBan, loaiBienBan: this.loaiBienBan, soLanIn: 0, donBaoHanh: this.donBaoHanh };
       // console.log('them moi bien ban:', this.themMoiBienBan);
     }
+    this.resultChiTietSanPhamTiepNhans.sort((a, b) => b.slSuaChua - a.slSuaChua);
+    console.log(
+      'sap xep ',
+      this.resultChiTietSanPhamTiepNhans.sort((a, b) => b.slSuaChua - a.slSuaChua)
+    );
     // lấy dữ liệu từ sessision
     this.getChiTietPhanLoais(id);
   }
@@ -1786,6 +1797,8 @@ export class DonBaoHanhComponent implements OnInit {
 
   confirmSave(): void {
     document.getElementById('modal-confirm-save')!.style.display = 'none';
+    console.log('update don bao hanh', this.donBaoHanh);
+    this.donBaoHanh.trangThaiIn = 'Chưa in';
     this.http.put<any>(`${this.updateDonBaoHanhUrl}`, this.donBaoHanh).subscribe(() => {
       // cập nhật thông tin chi tiết sản phẩm tiếp nhận
       this.http.put<any>(this.putChiTietSanPhamTiepNhanUrl, this.chiTietDonBaoHanh).subscribe(res => {
@@ -1831,7 +1844,7 @@ export class DonBaoHanhComponent implements OnInit {
             setTimeout(() => {
               // console.log('Chi tiet don bao hanh: ', this.chiTietDonBaoHanh);
               // console.log('Phan loai chi tiet don hang tiep nhan: ', this.themMoiPhanLoaiChiTietTiepNhan);
-              window.location.reload();
+              // window.location.reload();
             }, 500);
           });
         }, 500);

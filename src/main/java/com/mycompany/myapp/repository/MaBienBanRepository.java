@@ -21,9 +21,6 @@ public interface MaBienBanRepository extends JpaRepository<MaBienBan, Long> {
     )
     public List<MaBienBan> getBienBanKiemNghiemByDonBaoHanhId(Long id);
 
-    @Query(
-        value = "select * from danh_sach_bien_ban MaBienBan where" + " ma_bien_ban like '%TL%' and don_bao_hanh_id = ?1 ",
-        nativeQuery = true
-    )
-    public MaBienBan getBienBanThanhLyByDonBaoHanhId(Long id);
+    @Query(value = "select * from danh_sach_bien_ban MaBienBan where" + " don_bao_hanh_id = ?1 ", nativeQuery = true)
+    public List<MaBienBan> getBienBanByDonBaoHanhId(Long id);
 }

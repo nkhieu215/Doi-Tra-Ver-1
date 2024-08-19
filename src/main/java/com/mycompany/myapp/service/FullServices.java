@@ -158,6 +158,7 @@ public class FullServices {
         donBaoHanh.setTrangThai(request.getTrangThai());
         donBaoHanh.setNguoiTaoDon(request.getNguoiTaoDon());
         donBaoHanh.setNgaykhkb(request.getNgaykhkb());
+        donBaoHanh.setTrangThaiIn(request.getTrangThaiIn());
         this.donBaoHanhRepository.save(donBaoHanh);
     }
 
@@ -322,6 +323,15 @@ public class FullServices {
         }
     }
 
+    // ☺ xoa thong tin khai bao loi
+    public void deleteItem(Long id) {
+        this.phanTichLoiRepository.deleteItem(id);
+        PhanTichSanPham phanTichSanPham = this.phanTichSanPhamRepository.findById(id).orElse(null);
+        if (phanTichSanPham != null) {
+            this.phanTichSanPhamRepository.deleteById(id);
+        }
+    }
+
     //☺ Lấy danh sách phân tích lỗi theo phân tích sản phẩm id
     public List<PhanTichLoi> getByPhanTichSanPhamId(Long id) {
         List<PhanTichLoi> phanTichLoiList = this.phanTichLoiRepository.findAllByPhanTichSanPhamId(id);
@@ -341,8 +351,8 @@ public class FullServices {
     }
 
     //☺ lấy biên bản thanh lý theo đơn bảo hành
-    public MaBienBan getBienBanThanhLyByDonBaoHanhId(Long id) {
-        MaBienBan maBienBan = this.maBienBanRepository.getBienBanThanhLyByDonBaoHanhId(id);
+    public List<MaBienBan> getBienBanByDonBaoHanhId(Long id) {
+        List<MaBienBan> maBienBan = this.maBienBanRepository.getBienBanByDonBaoHanhId(id);
         return maBienBan;
     }
 

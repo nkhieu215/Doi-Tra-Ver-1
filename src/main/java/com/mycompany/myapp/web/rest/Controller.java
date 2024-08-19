@@ -200,6 +200,18 @@ public class Controller {
         return maBienBan;
     }
 
+    @GetMapping("danh-sach-bien-ban/{id}")
+    public List<MaBienBan> getBienBanByDonBaoHanhId(@PathVariable Long id) {
+        List<MaBienBan> maBienBan = this.fullServices.getBienBanByDonBaoHanhId(id);
+        return maBienBan;
+    }
+
+    //☺ delete khai bao loi
+    @DeleteMapping("/phan-tich-loi/delete/{id}")
+    public void deleteItem(@PathVariable Long id) {
+        this.fullServices.deleteItem(id);
+    }
+
     // * ============================== quản lý sản phẩm ===========================
     //☺ cập nhật thông tin 1 sản phẩm
     @PostMapping("san-phams/update/{id}")

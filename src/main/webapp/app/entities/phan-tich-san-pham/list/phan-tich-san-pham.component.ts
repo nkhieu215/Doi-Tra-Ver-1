@@ -33,8 +33,9 @@ import { Account } from 'app/core/auth/account.model';
 import dayjs from 'dayjs/esm';
 import { IKho } from 'app/entities/kho/kho.model';
 import { KhoService } from 'app/entities/kho/service/kho.service';
-import { faBarcode, faL, faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faBarcode, faL, faPrint, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
+import { ConstantPool } from '@angular/compiler';
 
 @Component({
   selector: 'jhi-phan-tich-san-pham',
@@ -51,6 +52,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   loiUrl = this.applicationConfigService.getEndpointFor('api/lois');
   updateTrangThaiDonBaoHanhUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanhs/update-trang-thai');
   postMaBienBanUrl = this.applicationConfigService.getEndpointFor('api/ma-bien-ban/post');
+  updateDonBaoHanhUrl = this.applicationConfigService.getEndpointFor('api/update-don-bao-hanh');
+
   // biến chứa danh sách cần dùng
   donBaoHanhs: any[] = [];
   isLoading = false;
@@ -189,6 +192,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   selectedValue = '';
   faPrint = faPrint;
   faBarcode = faBarcode;
+  faTrash = faTrash;
 
   constructor(
     protected phanTichSanPhamService: PhanTichSanPhamService,
@@ -301,19 +305,19 @@ export class PhanTichSanPhamComponent implements OnInit {
         },
       },
 
-      {
-        id: 'popupCTL',
-        field: 'idCTL',
-        excludeFromColumnPicker: true,
-        excludeFromGridMenu: true,
-        excludeFromHeaderMenu: true,
-        formatter: this.buttonCTL,
-        maxWidth: 60,
-        minWidth: 60,
-        onCellClick: (e: Event, args: OnEventArgs) => {
-          this.openPopupShowChiTietLoi();
-        },
-      },
+      // {
+      //   id: 'popupCTL',
+      //   field: 'idCTL',
+      //   excludeFromColumnPicker: true,
+      //   excludeFromGridMenu: true,
+      //   excludeFromHeaderMenu: true,
+      //   formatter: this.buttonCTL,
+      //   maxWidth: 60,
+      //   minWidth: 60,
+      //   onCellClick: (e: Event, args: OnEventArgs) => {
+      //     this.openPopupShowChiTietLoi();
+      //   },
+      // },
       {
         id: 'id',
         name: 'Mã tiếp nhận',
@@ -642,6 +646,7 @@ export class PhanTichSanPhamComponent implements OnInit {
               }
             }
           }
+          console.log('sp theo kho', this.resultOfSanPhamTheoKho);
           this.resultOfSanPhamTheoKho = this.resultOfSanPhamTheoKho.filter(item => item.key !== '');
           this.resultOfSanPhamTheoKhoTL = this.resultOfSanPhamTheoKhoTL.filter(item => item.key !== '');
           this.updateDanhSachBienBanTheoKho();
@@ -921,6 +926,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         // console.log('Cap nhat thong tin bien ban:', this.themMoiBienBan);
       }
     }
+    console.log('thong tin ma bien ban', this.maBienBan);
     if (this.maBienBan === '') {
       const date = new Date();
       this.year = date.getFullYear().toString().slice(-2);
@@ -1169,8 +1175,13 @@ export class PhanTichSanPhamComponent implements OnInit {
   closePopupBBTL(): void {
     this.popupInBBTL = false;
   }
+
   xacNhanInBienBan(): void {
     this.themMoiBienBan.soLanIn++;
+    this.donBaoHanh.trangThaiIn = 'Đã in';
+    this.http.put<any>(`${this.updateDonBaoHanhUrl}`, this.donBaoHanh).subscribe(() => {
+      console.log();
+    });
     this.http.post<any>(this.postMaBienBanUrl, this.themMoiBienBan).subscribe(res => {
       // console.log('thành công:', res);
       this.getDanhSachBienBan();
@@ -1344,7 +1355,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       } else {
         //Gán vào danh sách update khai báo lỗi
         this.listOfKhaiBaoLoi = this.catchChangeOfListKhaiBaoLoi.filter((item: any) => item.soLuong > 0);
-        console.log('check khai bao loi: ', this.listOfKhaiBaoLoi);
+        // console.log('check khai bao loi: ', this.listOfKhaiBaoLoi);
         //cập nhật trạng thái sản phẩm khai báo lỗi
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].trangThai = true;
         //chuyển đến phân tích sản phẩm tiếp theo
@@ -1384,10 +1395,10 @@ export class PhanTichSanPhamComponent implements OnInit {
             this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
           }
         }, 100);
-        console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
-        console.log('check thông tin phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
-        console.log('Check thông tin danh sách update khai báo lỗi: ', this.listOfKhaiBaoLoi);
-        console.log('index after: ', this.indexOfChiTietPhanTichSanPham);
+        // console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
+        // console.log('check thông tin phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
+        // console.log('Check thông tin danh sách update khai báo lỗi: ', this.listOfKhaiBaoLoi);
+        // console.log('index after: ', this.indexOfChiTietPhanTichSanPham);
       }
     }
   }
@@ -1639,6 +1650,17 @@ export class PhanTichSanPhamComponent implements OnInit {
       });
     }
   }
+
+  deleteKhaiBaoLoi(index: any): void {
+    const id: number = this.listOfPhanTichSanPhamByPLCTTN[index]?.id;
+    console.log('id', id);
+    if (id !== undefined) {
+      this.http.delete(`api/phan-tich-loi/delete/${id}`).subscribe();
+    } else {
+      console.log('invalid id');
+    }
+  }
+
   saveKhaiBaoLoi(): void {
     //Gán vào danh sách update khai báo lỗi
     for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
