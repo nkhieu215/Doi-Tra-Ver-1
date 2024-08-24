@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DonBaoHanhRepository extends JpaRepository<DonBaoHanh, Long> {
     @Query(
-        value = "select * from don_bao_hanh DonBaoHanh where" +
+        value = "select * from `don_bao_hanh` where" +
         " trang_thai = N'Chờ phân tích' or trang_thai = N'Đang phân tích' or trang_thai = N'Hoàn thành phân tích'  ",
         nativeQuery = true
     )

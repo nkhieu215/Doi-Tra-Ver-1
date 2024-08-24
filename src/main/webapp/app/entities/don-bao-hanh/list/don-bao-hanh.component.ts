@@ -1608,8 +1608,10 @@ export class DonBaoHanhComponent implements OnInit {
   closePopupBBTN4(): void {
     this.popupInBBTN4 = false;
   }
+
   xacNhanInBienBan(): void {
     this.themMoiBienBan.soLanIn++;
+    this.donBaoHanh.trangThaiIn = 'Đã in';
     this.http.post<any>(this.postMaBienBanUrl, this.themMoiBienBan).subscribe(res => {
       // console.log('thành công:', res);
       // window.location.reload();
@@ -1619,6 +1621,9 @@ export class DonBaoHanhComponent implements OnInit {
       this.popupInBBTN3 = false;
       this.popupInBBTN4 = false;
     });
+
+    this.http.put<any>(this.updateDonBaoHanhUrl, this.donBaoHanh).subscribe();
+    console.log('test', this.donBaoHanh.trangThaiIn);
   }
   //--------------------------------------------------- import file --------------------------------------------------------
   ReadExcel(event: any): void {

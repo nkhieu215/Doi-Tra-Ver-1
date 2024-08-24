@@ -666,14 +666,14 @@
     <div id="hiddenToolbar" class="group-btn-inBBPT">
       <div>
         <div class="group-select-btn-in">
-          <span class="label-btn-select-bb">Trạng thái: </span>
+          <span class="label-btn-select-bb">Trạng thái: {{ trangThaiInTN }} </span>
           <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="openPopupBBTN()">Biên bản tiếp nhận</button>
         </div>
       </div>
 
       <div>
         <div class="group-select-btn-in">
-          <span class="label-btn-select-bb">Trạng thái: </span>
+          <span class="label-btn-select-bb">Trạng thái: {{ trangThaiInKN }} {{ maKhoPrint }}</span>
           <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="showGroupOptionsKN()">
             Biên bản kiểm nghiệm
           </button>
@@ -685,7 +685,7 @@
               <td class="inventory-name">
                 <tr *ngFor="let data of resultOfSanPhamTheoKho; let i = index" style="border: none">
                   <button class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBKN(i)">
-                    {{ data.key }} : {{ data.value.length }} SP
+                    {{ data.key }}: {{ data.value.length }} SP
                   </button>
                 </tr>
               </td>
@@ -707,7 +707,7 @@
       </div>
       <div>
         <div class="group-select-btn-in">
-          <span class="label-btn-select-bb">Trạng thái: </span>
+          <span class="label-btn-select-bb">Trạng thái: {{ trangThaiInTL }} {{ maKhoPrint }}</span>
           <button type="button" class="btn btn-primary btn-options-in btn-popup-in-2" (click)="showGroupOptionsTL()">
             Biên bản thanh lý
           </button>
@@ -718,7 +718,7 @@
               <td class="inventory-name">
                 <tr *ngFor="let data of resultOfSanPhamTheoKhoTL; let i = index" style="border: none">
                   <button class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTL(i, data.key)">
-                    {{ data.key }} : {{ data.value.length }} SP
+                    {{ data.key }}: {{ data.value.length }} SP
                   </button>
                 </tr>
               </td>

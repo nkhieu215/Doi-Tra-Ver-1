@@ -174,7 +174,11 @@ export class PhanTichSanPhamComponent implements OnInit {
   // Biến đóng mở popup thông báo
   isPopupVisible = false;
   popupMessage = '';
-
+  trangThaiIn = '';
+  trangThaiInTN = '';
+  trangThaiInKN = '';
+  trangThaiInTL = '';
+  maKhoPrint = '';
   // Biến giá trị của input range
   inputValues: number[] = [0, 40, 70, 100];
   // rangeColors: { min: number; max: number;  color: string }[] = [
@@ -255,8 +259,8 @@ export class PhanTichSanPhamComponent implements OnInit {
         maxWidth: 60,
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          this.openPopupBtn();
           this.donBaoHanh = args.dataContext;
+          this.openPopupBtn();
           // console.log(args);
           // console.log('info don bao hanh: ', this.donBaoHanh);
 
@@ -812,9 +816,47 @@ export class PhanTichSanPhamComponent implements OnInit {
   // mở popup chọn loại biên bản
   openPopupBtn(): void {
     this.navBarComponent.toggleSidebar2();
-
     this.popupSelectButton = true;
-    // console.log('popup chọn');
+    console.log('id dbh', this.donBaoHanh.id);
+    if (this.donBaoHanh?.id) {
+      this.http.get<any>(`api/danh-sach-bien-ban/${this.donBaoHanh.id as number}`).subscribe(res => {
+        console.log('res', res);
+        const maKhoArr = new Set<string>();
+        let trangThaiInTNUpdate = false;
+        let trangThaiInKNUpdate = false;
+        let trangThaiInTLUpdate = false;
+
+        res.forEach((item: any) => {
+          console.log('dbh id', item.id);
+          console.log('so lan in', item.soLanIn);
+          console.log('bien ban', item.loaiBienBan);
+          if (item.maKho && item.maKho.trim() !== '') {
+            maKhoArr.add(item.maKho);
+          }
+          if (item.loaiBienBan === 'Tiếp nhận') {
+            this.trangThaiInTN = item.soLanIn > 0 || item.soLanIn === null || undefined ? 'Đã in' : 'Chưa in';
+            trangThaiInTNUpdate = true;
+          } else if (item.loaiBienBan === 'Kiểm nghiệm') {
+            this.trangThaiInKN = item.soLanIn > 0 || item.soLanIn === null || undefined ? 'Đã in kho' : 'Chưa in';
+            trangThaiInKNUpdate = true;
+          } else if (item.loaiBienBan === 'Thanh lý') {
+            this.trangThaiInTL = item.soLanIn > 0 || item.soLanIn === null || undefined ? 'Đã in kho' : 'Chưa in';
+            trangThaiInTLUpdate = true;
+          }
+        });
+        if (!trangThaiInTNUpdate) {
+          this.trangThaiInTN = 'Chưa in';
+        }
+        if (!trangThaiInKNUpdate) {
+          this.trangThaiInKN = 'Chưa in';
+        }
+        if (!trangThaiInTLUpdate) {
+          this.trangThaiInTL = 'Chưa in';
+        }
+        this.maKhoPrint = Array.from(maKhoArr).join(', ');
+        console.log('thanh ly', this.trangThaiInTL);
+      });
+    }
   }
 
   openPopupPTMTN(): void {
@@ -1013,6 +1055,7 @@ export class PhanTichSanPhamComponent implements OnInit {
               //lưu thông tin thêm mới biên bản
               this.themMoiBienBan = this.danhSachBienBan[i];
               // console.log('Cap nhat thong tin bien ban:', this.themMoiBienBan);
+              console.log('Cap nhat thong tin bien ban:', this.danhSachBienBan);
             }
           }
           if (this.maBienBan === '') {
@@ -1082,6 +1125,10 @@ export class PhanTichSanPhamComponent implements OnInit {
     //Lấy thông tin biên bản tiếp nhận theo đơn bảo hành
     this.http.get<any>(`api/danh-sach-bien-ban/tiep-nhan/${this.donBaoHanh.id as number}`).subscribe(res => {
       this.bienBanTiepNhan = res;
+      if (this.bienBanTiepNhan.soLanIn > 1) {
+        this.trangThaiIn = 'Đã in';
+      }
+      console.log('in', this.bienBanTiepNhan.soLanIn);
       console.log('Biên bản tiếp nhận', this.bienBanTiepNhan);
     });
     //Lấy thông tin biên bản kiểm nghiệm theo đơn bảo hành
@@ -1185,7 +1232,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.http.post<any>(this.postMaBienBanUrl, this.themMoiBienBan).subscribe(res => {
       // console.log('thành công:', res);
       this.getDanhSachBienBan();
-      // window.location.reload();
+      window.location.reload();
       this.popupInBBTL = false;
       this.popupInBBTN = false;
       this.popupInBBKN = false;

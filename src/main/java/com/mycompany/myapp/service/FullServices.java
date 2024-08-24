@@ -296,7 +296,9 @@ public class FullServices {
         for (DonBaoHanh donBaoHanh : donBaoHanhList) {
             Integer slPhanTich = 0;
             List<Long> list = this.chiTietSanPhamTiepNhanRepository.getListOfId(donBaoHanh.getId());
-            slPhanTich = this.phanLoaiChiTietTiepNhanRepository.getSum(list.get(0), list.get(list.size() - 1));
+            if (list.size() > 0) {
+                slPhanTich = this.phanLoaiChiTietTiepNhanRepository.getSum(list.get(0), list.get(list.size() - 1));
+            }
             donBaoHanh.setSlPhanTich(slPhanTich);
         }
         return donBaoHanhList;
