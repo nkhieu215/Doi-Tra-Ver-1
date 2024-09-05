@@ -3984,6 +3984,11 @@ body .slickgrid-container .slick-header-columns .slick-header-column.ui-state-de
   transition: border 150ms cubic-bezier(0.4, 0.9, 0.2, 1);
 }
 
+.form-label-header {
+  font-weight: 700;
+  padding-bottom: 6px;
+}
+
 .form-label {
   position: absolute;
   left: 15px;
@@ -4911,25 +4916,24 @@ input.ng-invalid.ng-touched {
 } */
 
 @media print {
-  /* Đặt kích thước khung chứa cho nội dung in */
+  #signatureSelect {
+    display: none !important;
+  }
+
   .print-container {
     width: 40mm;
     height: 110mm;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    /* Đảm bảo nội dung không bị tràn ra ngoài */
   }
 
   .form-tem-in {
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #000;
-    /* Đặt viền nếu cần */
     padding: 5mm;
-    /* Thêm khoảng cách nếu cần */
     page-break-after: always;
-    /* Chia trang nếu có nhiều nội dung */
   }
 
   header .logo img {

@@ -101,6 +101,10 @@ export class PhanTichSanPhamComponent implements OnInit {
   loaiBienBan = '';
   maKho = '';
   tenKho = '';
+
+  yearTN = 0;
+  monthTN = 0;
+  dateTN = 0;
   bienBanTiepNhan: any;
   bienBanKiemNghiem: any;
   //--------------------------------------------------------------------------------------------------------
@@ -244,6 +248,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       for (let i = 0; i < this.donBaoHanhs.length; i++) {
         this.donBaoHanhs[i].tienDo = (this.donBaoHanhs[i].slDaPhanTich / this.donBaoHanhs[i].slPhanTich) * 100;
       }
+      console.log('ds ptich sp', res);
     });
     // setTimeout(()=>{
     this.columnDefinitions = [];
@@ -262,7 +267,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.donBaoHanh = args.dataContext;
           this.openPopupBtn();
           // console.log(args);
-          // console.log('info don bao hanh: ', this.donBaoHanh);
+          console.log('info don bao hanh: ', this.donBaoHanh);
 
           this.idBBTN = args.dataContext.id;
           this.showData(args.dataContext.id);
@@ -540,7 +545,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   //lấy danh sách biên bản
   getDanhSachBienBan(): void {
     this.http.get<any>('api/ma-bien-bans').subscribe(res => {
-      // console.log('danh sach bien ban: ', res);
+      console.log('danh sach bien ban: ', res);
       this.danhSachBienBan = res;
     });
   }
@@ -884,6 +889,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     // this.indexOfdanhSachLienBienBanTiepNhan = index;
     // console.log('index', this.indexOfdanhSachLienBienBanTiepNhan);
     const result = sessionStorage.getItem(`TiepNhan ${this.idBBTN.toString()}`);
+    console.log('result', result);
     // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
     if (result === null) {
       var list1: any[] = [];
@@ -953,10 +959,29 @@ export class PhanTichSanPhamComponent implements OnInit {
         list1 = JSON.parse(resultBBTN as string);
         // console.log('hien trang', JSON.parse(resultBBTN as string));
         this.resultChiTietSanPhamTiepNhans = JSON.parse(resultBBTN as string);
+        this.yearTN = this.donBaoHanh.ngayTiepNhan.substr(2, 2);
+        this.monthTN = this.donBaoHanh.ngayTiepNhan.substr(5, 2);
+        this.dateTN = this.donBaoHanh.ngayTiepNhan.substr(8, 2);
+        console.log('year1', this.year);
+        console.log('month1', this.month);
+        console.log('date1', this.date);
       }, 1000);
     } else {
       this.resultChiTietSanPhamTiepNhans = JSON.parse(result);
-      // console.log('trường hợp 2');
+      console.log('trường hợp 2');
+
+      this.yearTN = this.donBaoHanh.ngayTiepNhan.substr(2, 2);
+      this.monthTN = this.donBaoHanh.ngayTiepNhan.substr(5, 2);
+      this.dateTN = this.donBaoHanh.ngayTiepNhan.substr(8, 2);
+      // this.yearTN = date.getFullYear() % 100;
+      // this.monthTN = date.getMonth() + 1;
+      // this.dateTN = date.getDate();
+
+      // console.log('dateeee', new Date(ngayTiepNhan))
+
+      console.log('year2', this.yearTN);
+      console.log('month2', this.monthTN);
+      console.log('date2', this.dateTN);
     }
     this.maBienBan = '';
     this.loaiBienBan = 'Tiếp nhận';
@@ -998,9 +1023,24 @@ export class PhanTichSanPhamComponent implements OnInit {
       } else {
         this.seconds = date.getSeconds().toString();
       }
-      this.maBienBan = `TN${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
-      this.themMoiBienBan = { id: null, maBienBan: this.maBienBan, loaiBienBan: this.loaiBienBan, soLanIn: 0, donBaoHanh: this.donBaoHanh };
-      // console.log('them moi bien ban:', this.themMoiBienBan);
+      if (this.maBienBan === '') {
+        this.yearTN = this.donBaoHanh.ngayTiepNhan.substr(2, 2);
+        this.monthTN = this.donBaoHanh.ngayTiepNhan.substr(5, 2);
+        this.dateTN = this.donBaoHanh.ngayTiepNhan.substr(8, 2);
+
+        this.maBienBan = `TN${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
+        this.themMoiBienBan = {
+          id: null,
+          maBienBan: this.maBienBan,
+          loaiBienBan: this.loaiBienBan,
+          soLanIn: 0,
+          donBaoHanh: this.donBaoHanh,
+        };
+        // console.log('them moi bien ban:', this.themMoiBienBan);
+      }
+      console.log('year3', this.year);
+      console.log('month3', this.month);
+      console.log('date3', this.date);
     }
   }
 
@@ -1039,6 +1079,8 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.maKho = this.danhSachKho[i].maKho as string;
         }
       }
+      console.log('ten kho', this.tenKho);
+      console.log('ma kho', this.maKho);
       //Lấy thông tin biên bản tiếp nhận theo đơn bảo hành
       this.http.get<any>(`api/danh-sach-bien-ban/tiep-nhan/${this.donBaoHanh.id as number}`).subscribe(res => {
         this.bienBanTiepNhan = res;
@@ -1047,6 +1089,9 @@ export class PhanTichSanPhamComponent implements OnInit {
       setTimeout(() => {
         if (this.bienBanTiepNhan === null) {
           this.openPopupNoti('Vui lòng in biên bản tiếp nhận trước');
+          this.yearTN = this.donBaoHanh.ngayTiepNhan.substr(2, 2);
+          this.monthTN = this.donBaoHanh.ngayTiepNhan.substr(5, 2);
+          this.dateTN = this.donBaoHanh.ngayTiepNhan.substr(8, 2);
         } else {
           this.popupInBBKN = true;
           for (let i = 0; i < this.danhSachBienBan.length; i++) {
@@ -1057,6 +1102,9 @@ export class PhanTichSanPhamComponent implements OnInit {
               // console.log('Cap nhat thong tin bien ban:', this.themMoiBienBan);
               console.log('Cap nhat thong tin bien ban:', this.danhSachBienBan);
             }
+            this.yearTN = this.donBaoHanh.ngayTiepNhan.substr(2, 2);
+            this.monthTN = this.donBaoHanh.ngayTiepNhan.substr(5, 2);
+            this.dateTN = this.donBaoHanh.ngayTiepNhan.substr(8, 2);
           }
           if (this.maBienBan === '') {
             const date = new Date();
@@ -1087,6 +1135,11 @@ export class PhanTichSanPhamComponent implements OnInit {
             } else {
               this.seconds = date.getSeconds().toString();
             }
+
+            this.yearTN = this.donBaoHanh.ngayTiepNhan.substr(2, 2);
+            this.monthTN = this.donBaoHanh.ngayTiepNhan.substr(5, 2);
+            this.dateTN = this.donBaoHanh.ngayTiepNhan.substr(8, 2);
+
             this.maBienBan = `KN${this.maKho}${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
             this.themMoiBienBan = {
               id: null,
@@ -1096,6 +1149,7 @@ export class PhanTichSanPhamComponent implements OnInit {
               donBaoHanh: this.donBaoHanh,
               maKho: this.maKho,
             };
+            console.log('ma kho', this.maKho);
             // console.log('them moi bien ban kiểm nghiệm:', this.themMoiBienBan);
           }
         }
@@ -1164,6 +1218,9 @@ export class PhanTichSanPhamComponent implements OnInit {
             // console.log('Cap nhat thong tin bien ban:', this.themMoiBienBan);
           }
         }
+        this.yearTN = this.donBaoHanh.ngayTiepNhan.substr(2, 2);
+        this.monthTN = this.donBaoHanh.ngayTiepNhan.substr(5, 2);
+        this.dateTN = this.donBaoHanh.ngayTiepNhan.substr(8, 2);
         if (this.maBienBan === '') {
           const date = new Date();
           this.year = date.getFullYear().toString().slice(-2);
@@ -1227,12 +1284,12 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.themMoiBienBan.soLanIn++;
     this.donBaoHanh.trangThaiIn = 'Đã in';
     this.http.put<any>(`${this.updateDonBaoHanhUrl}`, this.donBaoHanh).subscribe(() => {
-      console.log();
+      console.log(this.donBaoHanh);
     });
     this.http.post<any>(this.postMaBienBanUrl, this.themMoiBienBan).subscribe(res => {
-      // console.log('thành công:', res);
+      console.log('thành công:', res);
       this.getDanhSachBienBan();
-      window.location.reload();
+      // window.location.reload();
       this.popupInBBTL = false;
       this.popupInBBTN = false;
       this.popupInBBKN = false;
