@@ -957,6 +957,16 @@ export class PhanTichSanPhamComponent implements OnInit {
         var resultBBTN = sessionStorage.getItem(`TiepNhan ${this.idBBTN}`);
         // dữ liệu lưu trong sessison(dạng string) -> chuyển về dạng JSON (giống arr,obj)
         list1 = JSON.parse(resultBBTN as string);
+        list1.sort((a, b) => {
+          if (a.slSuaChua > 0 && b.slSuaChua === 0) {
+            return 1;
+          }
+          if (a.slSuaChua === 0 && b.slSuaChua > 0) {
+            return -1;
+          }
+          return 0;
+        });
+        this.resultChiTietSanPhamTiepNhans = list1;
         // console.log('hien trang', JSON.parse(resultBBTN as string));
         this.resultChiTietSanPhamTiepNhans = JSON.parse(resultBBTN as string);
         this.yearTN = this.donBaoHanh.ngayTiepNhan.substr(2, 2);
@@ -968,6 +978,15 @@ export class PhanTichSanPhamComponent implements OnInit {
       }, 1000);
     } else {
       this.resultChiTietSanPhamTiepNhans = JSON.parse(result);
+      this.resultChiTietSanPhamTiepNhans.sort((a, b) => {
+        if (a.slSuaChua > 0 && b.slSuaChua === 0) {
+          return 1;
+        }
+        if (a.slSuaChua === 0 && b.slSuaChua > 0) {
+          return -1;
+        }
+        return 0;
+      });
       console.log('trường hợp 2');
 
       this.yearTN = this.donBaoHanh.ngayTiepNhan.substr(2, 2);
@@ -1368,8 +1387,6 @@ export class PhanTichSanPhamComponent implements OnInit {
             this.donBaoHanh.slDaPhanTich! += 1;
             this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
             this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
-
-            // console.log('Cập nhật tiến độ khi khai báo lỗi', this.indexOfChiTietPhanTichSanPham);
           }
           this.listOfPhanTichSanPhamByPLCTTN[i].loiKyThuat = 0;
           this.listOfPhanTichSanPhamByPLCTTN[i].loiLinhDong = 0;
@@ -1622,10 +1639,15 @@ export class PhanTichSanPhamComponent implements OnInit {
       //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
       for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
         if (this.catchChangeOfListKhaiBaoLoi[i].loi.chiChu === 'Lỗi kỹ thuật') {
-          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
+          // console.log('test');
+          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat =
+            Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
+            Number(this.catchChangeOfListKhaiBaoLoi[i].soLuong);
         }
         if (this.catchChangeOfListKhaiBaoLoi[i].loi.chiChu === 'Lỗi linh động') {
-          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
+          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong =
+            Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong) +
+            Number(this.catchChangeOfListKhaiBaoLoi[i].soLuong);
         }
       }
       this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
@@ -1652,11 +1674,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       // console.log(index);
       //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
       if (this.catchChangeOfListKhaiBaoLoi[index].loi.chiChu === 'Lỗi kỹ thuật') {
-        // console.log({
-        //   tenLoi: this.indexOfChiTietPhanTichSanPham,
-        //   nLoi: this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi,
-        //   sl: this.catchChangeOfListKhaiBaoLoi[index].soLuong,
-        // });
+        // console.log('test');
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat++;
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
           Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
