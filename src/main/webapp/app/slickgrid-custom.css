@@ -1,0 +1,110 @@
+/* Tùy chỉnh style cho Slickgrid */
+
+/* Style cho container */
+.angular-slickgrid {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  height: calc(100vh - 200px);
+}
+
+/* Style cho header */
+.slick-header-columns {
+  background: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.slick-header-column {
+  color: #495057;
+  font-weight: 600;
+  padding: 8px;
+}
+
+/* Style cho các ô trong grid */
+.slick-cell {
+  padding: 8px;
+  border-color: #dee2e6;
+  color: #212529;
+}
+
+.slick-cell:hover {
+  background-color: #f8f9fa;
+}
+
+/* Style cho hàng được chọn */
+.slick-row.selected {
+  background-color: #e9ecef;
+}
+
+/* Style cho loading indicator */
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.jimu-primary-loading {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Style cho phân trang */
+.slick-pager {
+  background: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  padding: 8px;
+}
+
+.slick-pager .slick-pager-status {
+  color: #6c757d;
+}
+
+/* Style cho các nút trong grid */
+.grid-button {
+  padding: 4px 8px;
+  margin: 0 2px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.grid-button.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.grid-button.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.grid-button.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .angular-slickgrid {
+    height: calc(100vh - 150px);
+  }
+
+  .slick-cell {
+    padding: 6px;
+    font-size: 14px;
+  }
+}

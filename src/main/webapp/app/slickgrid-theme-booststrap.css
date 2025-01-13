@@ -3113,6 +3113,7 @@ body .slickgrid-container .slick-header-columns .slick-header-column.ui-state-de
 
 .slickgrid-container .slick-header-columns .slick-header-column .slick-column-name {
   margin-right: var(--slick-header-column-name-margin-right, 5px);
+  transition: background-color 0.3s;
 }
 
 .slickgrid-container .slick-header-columns .slick-header-column a,
@@ -3122,6 +3123,7 @@ body .slickgrid-container .slick-header-columns .slick-header-column.ui-state-de
 
 .slickgrid-container .slick-header-columns .slick-header-column a:hover {
   color: var(--slick-hoverHeaderColor, var(--slick-text-color, #333));
+  background-color: #e9ecef;
 }
 
 .slickgrid-container .slick-header-columns .slick-header-column.ui-state-default {
@@ -4473,6 +4475,31 @@ table {
 
 .active {
   display: block;
+}
+
+#no-result .loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.jimu-primary-loading {
+  border: 4px solid #007bff;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /*
